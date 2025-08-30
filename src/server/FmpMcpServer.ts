@@ -22,7 +22,7 @@ export interface ServerOptions {
 
 // Zod schema for session configuration - matches the JSON schema in McpServerFactory
 const SessionConfigSchema = z.object({
-  FMP_ACCESS_TOKEN: z.string().describe("Financial Modeling Prep API access token"),
+  FMP_ACCESS_TOKEN: z.string().optional().describe("Financial Modeling Prep API access token"),
   FMP_TOOL_SETS: z.string().optional().describe("Comma-separated list of tool sets to load (e.g., 'search,company,quotes'). If not specified, all tools will be loaded."),
   DYNAMIC_TOOL_DISCOVERY: z.string().optional().describe("Enable dynamic toolset management. Set to 'true' to use meta-tools for runtime toolset loading. Default is 'false'.")
 });

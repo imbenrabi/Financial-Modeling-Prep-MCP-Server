@@ -443,6 +443,80 @@ describe("FmpMcpServer", () => {
     });
   });
 
+  describe("FMP_ACCESS_TOKEN 422 Bug Fix", () => {
+    let mockClientStorage: any;
+    let mockServerFactory: any;
+
+    beforeEach(() => {
+      // Each test gets its own fresh server instance
+    });
+
+    it("should accept requests without FMP_ACCESS_TOKEN when server has token", () => {
+      // This test validates the fix for the 422 error bug
+      // Server has token but session config doesn't include FMP_ACCESS_TOKEN
+      const mockFmpMcpServer = { name: "test-server" };
+      const serverWithToken = new FmpMcpServer({ accessToken: "server-level-token" });
+      
+      // Access the mocks through the server instance
+      mockClientStorage = (serverWithToken as any).cache;
+      mockServerFactory = (serverWithToken as any).serverFactory;
+      
+      mockClientStorage.get.mockReturnValue(null);
+      mockServerFactory.createServer.mockReturnValue({
+        mode: "ALL_TOOLS",
+        mcpServer: mockFmpMcpServer,
+        toolManager: undefined,
+      });
+
+      // Request config WITHOUT FMP_ACCESS_TOKEN - this would cause 422 before fix
+      const params = {
+        config: {
+          // No FMP_ACCESS_TOKEN here - relying on server-level token
+          FMP_TOOL_SETS: "search,company",
+          DYNAMIC_TOOL_DISCOVERY: "false"
+        },
+      };
+
+      // This should not throw and should work correctly
+      expect(() => (serverWithToken as any)._getSessionResources(params)).not.toThrow();
+      
+      const result = (serverWithToken as any)._getSessionResources(params);
+      expect(result).toBe(mockFmpMcpServer);
+      
+      // Verify that the server factory was called with correct parameters
+      expect(mockServerFactory.createServer).toHaveBeenCalledWith({
+        config: params.config,
+        serverAccessToken: "server-level-token",
+      });
+    });
+
+    it("should work with empty session config when server has token", () => {
+      const mockFmpMcpServer = { name: "test-server" };
+      const serverWithToken = new FmpMcpServer({ accessToken: "env-token" });
+      
+      // Access the mocks through the server instance  
+      mockClientStorage = (serverWithToken as any).cache;
+      mockServerFactory = (serverWithToken as any).serverFactory;
+      
+      mockClientStorage.get.mockReturnValue(null);
+      mockServerFactory.createServer.mockReturnValue({
+        mode: "ALL_TOOLS",
+        mcpServer: mockFmpMcpServer,
+        toolManager: undefined,
+      });
+
+      // Completely empty config - should still work with server token
+      const params = {
+        config: {}
+      };
+
+      expect(() => (serverWithToken as any)._getSessionResources(params)).not.toThrow();
+      
+      const result = (serverWithToken as any)._getSessionResources(params);
+      expect(result).toBe(mockFmpMcpServer);
+    });
+  });
+
   describe("Session-config-aware caching", () => {
     beforeEach(() => {
       server = new FmpMcpServer({ accessToken: "test-token" });
