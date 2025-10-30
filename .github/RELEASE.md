@@ -6,9 +6,10 @@ This document is intended for repo admins and maintainers.
 
 We create GitHub Releases automatically when pushing a tag that starts with `v`.
 
-- No build or publish is performed in this workflow.
-- CI builds already run on `main` for pushes and PRs.
-- The job only creates a GitHub Release.
+- The automated workflow publishes to NPM, the MCP Registry, and GHCR before creating the GitHub Release.
+- CI builds already run on `main` for pushes and PRs, but the release workflow also performs targeted verification before publishing.
+
+> **Heads-up:** The reusable `Publish GHCR Image` workflow must be run manually once (Actions → Publish GHCR Image → Run workflow) to seed the repository on GHCR. After that, tagged releases trigger the same workflow automatically.
 
 ### Release notes generation
 
@@ -45,7 +46,7 @@ npm version minor -m "release: v%s"
 # or
 npm version major -m "release: v%s"
 
-# 4) Push commit and tags to trigger the Release and NPM Publish workflow
+# 4) Push commit and tags to trigger the automated publishing workflow
 git push && git push --tags
 
 # Alternative (manual tag with a custom message):
@@ -55,10 +56,12 @@ git push && git push --tags
 
 ### What Happens After Pushing a Tag
 
-1. **GitHub Actions workflow triggers** (`Create Release and Publish to NPM`)
+1. **GitHub Actions workflow triggers** (`Automated Publishing Pipeline`)
 2. **Package verification** ensures NPM readiness (includes build)
 3. **NPM publication** publishes to the public registry
-4. **GitHub Release** is created with auto-generated notes
+4. **MCP registry submission** runs via the `mcp-publisher` CLI
+5. **GHCR image** (linux/amd64 + linux/arm64) is built and pushed to `ghcr.io/imbenrabi/financial-modeling-prep-mcp-server`
+6. **GitHub Release** is created with auto-generated notes
 
 **Note**: Tests are not run since tags are created from main where CI already validates the code.
 
@@ -84,7 +87,9 @@ When a tag starting with `v` is pushed, the workflow:
 
 1. **Verifies NPM readiness** using our custom verification script (includes build)
 2. **Publishes to NPM** using the `NPM_TOKEN` secret
-3. **Creates a GitHub Release** with auto-generated notes
+3. **Submits to the MCP Registry** via the `mcp-publisher` CLI
+4. **Invokes the reusable GHCR workflow** to build and push the Docker image
+5. **Creates a GitHub Release** with auto-generated notes
 
 **Note**: Tests are not run in the release workflow since tags are created from main where CI already runs tests.
 
@@ -104,7 +109,6 @@ The workflow requires an `NPM_TOKEN` secret to be configured in the repository.
 
 The workflow includes several verification steps:
 
-- Runs all tests (`npm run test:run`)
 - Verifies package configuration (`npm run verify:npm-ready`)
 - Ensures build succeeds before publishing
 - Publishes with `--access public` for scoped packages
@@ -147,3 +151,25 @@ npm publish --access public
 
 - Ensure NPM account has publish permissions for the package
 - For first-time publishing, package name must be available
+
+## Docker Image Publish (GHCR)
+
+- Image: `ghcr.io/imbenrabi/financial-modeling-prep-mcp-server`
+- Platforms: `linux/amd64`, `linux/arm64`
+- Tags generated:
+  - `latest`
+  - Version tag (e.g., `v1.2.3`) when provided via Git ref or manual input
+
+### Manual First Publish
+
+1. Open **Actions → Publish GHCR Image**.
+2. Click **Run workflow** (optionally provide a version tag, otherwise only `latest` is pushed).
+3. Verify the image exists at `https://github.com/orgs/imbenrabi/packages?repo=Financial-Modeling-Prep-MCP-Server`.
+
+After this initial seed, the release workflow invokes the same reusable workflow automatically for every tagged release (skipped when `dry_run` is enabled).
+
+### Troubleshooting
+
+- **Authentication:** Confirm `GHCR_PAT` is configured with `write:packages` scope for the repository owner.
+- **Tag collision:** Delete or retag the conflicting image in GHCR, then re-run the workflow.
+- **Platform failure:** Inspect the `docker/build-push-action` logs for the failing architecture. To reproduce locally: `docker buildx build --platform <platform> --push .`
