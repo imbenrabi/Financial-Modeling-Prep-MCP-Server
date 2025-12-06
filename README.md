@@ -1,6 +1,6 @@
 # Financial Modeling Prep MCP (Model Context Protocol) Server
 
-[![smithery badge](https://smithery.ai/badge/@imbenrabi/financial-modeling-prep-mcp-server)](https://smithery.ai/server/@imbenrabi/financial-modeling-prep-mcp-server)
+<a href="https://smithery.ai/server/@imbenrabi/financial-modeling-prep-mcp-server"><img alt="Smithery Badge" src="https://smithery.ai/badge/@imbenrabi/financial-modeling-prep-mcp-server"></a>
 [![npm version](https://img.shields.io/npm/v/financial-modeling-prep-mcp-server.svg)](https://www.npmjs.com/package/financial-modeling-prep-mcp-server)
 
 A Model Context Protocol (MCP) implementation for Financial Modeling Prep, enabling AI assistants to access and analyze financial data, stock information, company fundamentals, and market insights.
@@ -667,7 +667,7 @@ curl -X POST http://localhost:8080/mcp \
 
 #### Smithery.ai
 
-[![smithery badge](https://smithery.ai/badge/@imbenrabi/financial-modeling-prep-mcp-server)](https://smithery.ai/server/@imbenrabi/financial-modeling-prep-mcp-server)
+<a href="https://smithery.ai/server/@imbenrabi/financial-modeling-prep-mcp-server"><img alt="Smithery Badge" src="https://smithery.ai/badge/@imbenrabi/financial-modeling-prep-mcp-server"></a>
 
 **[🚀 View on Smithery.ai](https://smithery.ai/server/@imbenrabi/financial-modeling-prep-mcp-server)**
 
@@ -879,7 +879,7 @@ curl -X POST "http://localhost:8080/mcp?config=${CONFIG_BASE64}" \
 Notes:
 
 - The `Tools` section adapts to the effective mode (Dynamic/Static/Legacy). In legacy mode, it summarizes categories instead of listing all 250+ tools.
-- In Static mode, toolsets shown are the authoritative list from the server’s mode enforcer (single source of truth). Session `FMP_TOOL_SETS` may request Static mode, but server-level configuration controls the final toolsets.
+- In Static mode, toolsets shown are the authoritative list from the server's mode enforcer (single source of truth). Session `FMP_TOOL_SETS` may request Static mode, but server-level configuration controls the final toolsets.
 - The `Resources` section includes a lightweight health snapshot (uptime, memory summary, version, mode).
 
 ## Making HTTP Requests
@@ -1093,7 +1093,7 @@ curl -X POST "http://localhost:8080/mcp?config=${CONFIG_BASE64}" \
 
 #### Cache Reuse Policy (Session-Config Aware)
 
-- For the same `clientId` (derived from token), the server compares each request’s desired mode and static tool sets against the cached instance.
+- For the same `clientId` (derived from token), the server compares each request's desired mode and static tool sets against the cached instance.
 - If there is a difference and there is NO server-level mode enforcement, a new `McpServer` instance is created and the cache entry is replaced.
 - If a server-level mode is enforced (via CLI/env), session-level changes are ignored and the cached instance is reused.
 - Static tool set comparison is order-insensitive (e.g., `search,company` equals `company,search`).
