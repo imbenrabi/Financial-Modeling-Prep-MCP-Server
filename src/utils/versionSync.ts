@@ -218,13 +218,14 @@ export async function validateServerJsonSchema(
       }
     }
 
-    // Validate schema URL
+    // Validate schema URL (only accept new schema format)
     const expectedSchema =
-      "https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json";
+      "https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json";
     if (serverJson.$schema !== expectedSchema) {
-      result.warnings.push(
+      result.errors.push(
         `server.json uses schema: ${serverJson.$schema}, expected: ${expectedSchema}`
       );
+      result.isValid = false;
     }
 
     // Validate name format (should include namespace)
@@ -260,9 +261,10 @@ export async function validateServerJsonSchema(
       for (let i = 0; i < serverJson.packages.length; i++) {
         const pkg = serverJson.packages[i];
 
-        if (!pkg.registry_type) {
+        // Validate new schema format (camelCase only)
+        if (!pkg.registryType) {
           result.errors.push(
-            `server.json packages[${i}] missing registry_type`
+            `server.json packages[${i}] missing registryType`
           );
           result.isValid = false;
         }

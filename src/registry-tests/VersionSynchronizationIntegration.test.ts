@@ -46,13 +46,13 @@ describe('VersionSynchronizationIntegration', () => {
     };
     
     const serverJson = {
-      $schema: 'https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json',
+      $schema: 'https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json',
       name: 'io.github.imbenrabi/financial-modeling-prep-mcp-server',
       description: 'MCP server for Financial Modeling Prep API with 250+ financial data tools',
       version: serverVersion || version,
       packages: [
         {
-          registry_type: 'npm',
+          registryType: 'npm',
           identifier: 'financial-modeling-prep-mcp-server',
           version: serverVersion || version
         }
@@ -104,12 +104,12 @@ All notable changes to this project will be documented in this file.
       
       // Manually create server.json with mismatched package version
       const serverJson = {
-        $schema: 'https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json',
+        $schema: 'https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json',
         name: 'io.github.imbenrabi/financial-modeling-prep-mcp-server',
         version: '2.5.0',
         packages: [
           {
-            registry_type: 'npm',
+            registryType: 'npm',
             identifier: 'financial-modeling-prep-mcp-server',
             version: '2.6.0' // Different from server version
           }
@@ -243,17 +243,17 @@ All notable changes to this project will be documented in this file.
       
       // Create server.json with multiple packages
       const serverJson = {
-        $schema: 'https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json',
+        $schema: 'https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json',
         name: 'io.github.imbenrabi/financial-modeling-prep-mcp-server',
         version: '2.5.0',
         packages: [
           {
-            registry_type: 'npm',
+            registryType: 'npm',
             identifier: 'financial-modeling-prep-mcp-server',
             version: '2.5.0'
           },
           {
-            registry_type: 'pypi',
+            registryType: 'pypi',
             identifier: 'financial-modeling-prep-mcp-server',
             version: '2.5.0'
           }
@@ -276,17 +276,17 @@ All notable changes to this project will be documented in this file.
       
       // Create server.json with mismatched package versions
       const serverJson = {
-        $schema: 'https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json',
+        $schema: 'https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json',
         name: 'io.github.imbenrabi/financial-modeling-prep-mcp-server',
         version: '2.5.0',
         packages: [
           {
-            registry_type: 'npm',
+            registryType: 'npm',
             identifier: 'financial-modeling-prep-mcp-server',
             version: '2.5.0'
           },
           {
-            registry_type: 'pypi',
+            registryType: 'pypi',
             identifier: 'financial-modeling-prep-mcp-server',
             version: '2.4.0' // Different version
           }
