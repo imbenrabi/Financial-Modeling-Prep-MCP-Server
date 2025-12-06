@@ -123,40 +123,24 @@ export class McpServerFactory {
    * The serverInfo.capabilities.tools.listChanged field does reflect the correct value.
    */
   private _createMcpServerInstance(isDynamicMode: boolean = false): McpServer {
-    return new McpServer({
-      name: "Financial Modeling Prep MCP (Stateful)",
-      version: this.version,
-      capabilities: {
-        tools: { 
-          listChanged: isDynamicMode // Only enable dynamic tool changes in dynamic mode
-        },
-        // Expose prompts capability for human-friendly prompts listing
-        // Keep listChanged false for now; this server does not dynamically change prompts
-        prompts: {
-          listChanged: false
-        }
+    return new McpServer(
+      {
+        name: "Financial Modeling Prep MCP (Stateful)",
+        version: this.version,
       },
-      configSchema: {
-        type: "object",
-        properties: {
-          FMP_ACCESS_TOKEN: {
-            type: "string",
-            title: "FMP Access Token",
-            description: "Financial Modeling Prep API access token. Optional for server initialization; required to successfully call FMP-backed tools.",
+      {
+        capabilities: {
+          tools: { 
+            listChanged: isDynamicMode // Only enable dynamic tool changes in dynamic mode
           },
-          FMP_TOOL_SETS: {
-            type: "string",
-            title: "Tool Sets (Optional)",  
-            description: "Comma-separated list of tool sets to load (e.g., 'search,company,quotes'). If not specified, all tools will be loaded.",
-          },
-          DYNAMIC_TOOL_DISCOVERY: {
-            type: "string",
-            title: "Dynamic Tool Discovery (Optional)",
-            description: "Enable dynamic toolset management. Set to 'true' to use meta-tools.",
-          },
+          // Expose prompts capability for human-friendly prompts listing
+          // Keep listChanged false for now; this server does not dynamically change prompts
+          prompts: {
+            listChanged: false
+          }
         },
-      },
-    });
+      }
+    );
   }
 
   /**
