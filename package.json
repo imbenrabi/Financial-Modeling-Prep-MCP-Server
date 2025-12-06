@@ -1,6 +1,6 @@
 {
   "name": "financial-modeling-prep-mcp-server",
-  "version": "2.5.2",
+  "version": "2.5.3",
   "mcpName": "io.github.imbenrabi/financial-modeling-prep-mcp-server",
   "description": "Model Context Protocol server for Financial Modeling Prep (FMP) API, exposing 250+ tools for financial data, market insights, and analysis.",
   "main": "dist/index.js",
