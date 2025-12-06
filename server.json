@@ -2,14 +2,14 @@
   "$schema": "https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json",
   "name": "io.github.imbenrabi/financial-modeling-prep-mcp-server",
   "description": "MCP server for Financial Modeling Prep API with 250+ financial data tools",
-  "version": "2.5.1",
+  "version": "2.5.2",
   "status": "active",
   "packages": [
     {
       "registry_type": "npm",
       "registry_base_url": "https://registry.npmjs.org",
       "identifier": "financial-modeling-prep-mcp-server",
-      "version": "2.5.1",
+      "version": "2.5.2",
       "runtime_hint": "npx",
       "transport": {
         "type": "streamable-http",
