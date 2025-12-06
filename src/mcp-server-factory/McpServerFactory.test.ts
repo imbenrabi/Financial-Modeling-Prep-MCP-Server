@@ -9,11 +9,10 @@ vi.mock("../prompts/index.js", () => ({
 }));
 
 vi.mock("@modelcontextprotocol/sdk/server/mcp.js", () => ({
-  McpServer: vi.fn().mockImplementation((config) => ({
-    name: config.name,
-    version: config.version,
-    capabilities: config.capabilities,
-    configSchema: config.configSchema,
+  McpServer: vi.fn().mockImplementation((serverInfo, options) => ({
+    name: serverInfo.name,
+    version: serverInfo.version,
+    capabilities: options?.capabilities,
   })),
 }));
 
