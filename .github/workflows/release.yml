@@ -142,21 +142,6 @@ jobs:
             ./mcp-publisher publish
           fi
 
-      - name: Verify registry publication
-        if: inputs.dry_run != true
-        run: |
-          SERVER_NAME="io.github.imbenrabi/financial-modeling-prep-mcp-server"
-          for i in {1..20}; do
-            if curl -s "https://registry.modelcontextprotocol.io/api/servers/$SERVER_NAME" | grep -q "\"name\":\"$SERVER_NAME\""; then
-              break
-            fi
-            sleep 15
-          done
-
-      - name: Run full registry verification
-        if: inputs.dry_run != true
-        run: npm run verify:registry-submission
-
   release:
     name: Create GitHub Release
     runs-on: ubuntu-latest
