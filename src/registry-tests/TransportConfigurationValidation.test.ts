@@ -26,18 +26,17 @@ describe('TransportConfigurationValidation', () => {
     packageOverrides: any = {}
   ): Promise<void> {
     const serverJson = {
-      $schema: 'https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json',
+      $schema: 'https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json',
       name: 'io.github.imbenrabi/financial-modeling-prep-mcp-server',
       description: 'MCP server for Financial Modeling Prep API with 250+ financial data tools',
       version: '2.5.0',
-      status: 'active',
       packages: [
         {
-          registry_type: 'npm',
-          registry_base_url: 'https://registry.npmjs.org',
+          registryType: 'npm',
+          registryBaseUrl: 'https://registry.npmjs.org',
           identifier: 'financial-modeling-prep-mcp-server',
           version: '2.5.0',
-          runtime_hint: 'npx',
+          runtimeHint: 'npx',
           transport: transportConfig,
           ...packageOverrides
         }
@@ -45,9 +44,8 @@ describe('TransportConfigurationValidation', () => {
       repository: {
         url: 'https://github.com/imbenrabi/Financial-Modeling-Prep-MCP-Server',
         source: 'github',
-        id: '988409529'
       },
-      website_url: 'https://github.com/imbenrabi/Financial-Modeling-Prep-MCP-Server'
+      websiteUrl: 'https://github.com/imbenrabi/Financial-Modeling-Prep-MCP-Server'
     };
     
     await writeFile(
@@ -169,19 +167,19 @@ describe('TransportConfigurationValidation', () => {
       };
       
       const packageOverrides = {
-        package_arguments: [
+        packageArguments: [
           {
             type: 'named',
             name: '--fmp-token',
             description: 'Financial Modeling Prep API access token',
-            is_required: false,
+            isRequired: false,
             format: 'string'
           },
           {
             type: 'named',
             name: '--port',
             description: 'Port number for HTTP server mode',
-            is_required: false,
+            isRequired: false,
             format: 'number'
           }
         ]
@@ -193,8 +191,8 @@ describe('TransportConfigurationValidation', () => {
       const pkg = serverJson.packages[0];
       
       expect(pkg.transport.type).toBe('stdio');
-      expect(pkg.package_arguments).toBeDefined();
-      expect(pkg.package_arguments).toHaveLength(2);
+      expect(pkg.packageArguments).toBeDefined();
+      expect(pkg.packageArguments).toHaveLength(2);
     });
   });
 
@@ -202,26 +200,26 @@ describe('TransportConfigurationValidation', () => {
     it('should validate named arguments structure', async () => {
       const transportConfig = { type: 'stdio' };
       const packageOverrides = {
-        package_arguments: [
+        packageArguments: [
           {
             type: 'named',
             name: '--fmp-token',
             description: 'Financial Modeling Prep API access token',
-            is_required: true,
+            isRequired: true,
             format: 'string'
           },
           {
             type: 'named',
             name: '--debug',
             description: 'Enable debug mode',
-            is_required: false,
+            isRequired: false,
             format: 'boolean'
           },
           {
             type: 'named',
             name: '--port',
             description: 'Port number',
-            is_required: false,
+            isRequired: false,
             format: 'number'
           }
         ]
@@ -230,18 +228,18 @@ describe('TransportConfigurationValidation', () => {
       await createServerJsonWithTransport(transportConfig, packageOverrides);
       
       const serverJson = JSON.parse(await readFile(join(testDir, 'server.json'), 'utf-8'));
-      const args = serverJson.packages[0].package_arguments;
+      const args = serverJson.packages[0].packageArguments;
       
       expect(args).toHaveLength(3);
       
       const tokenArg = args.find((arg: any) => arg.name === '--fmp-token');
       expect(tokenArg.type).toBe('named');
-      expect(tokenArg.is_required).toBe(true);
+      expect(tokenArg.isRequired).toBe(true);
       expect(tokenArg.format).toBe('string');
       
       const debugArg = args.find((arg: any) => arg.name === '--debug');
       expect(debugArg.format).toBe('boolean');
-      expect(debugArg.is_required).toBe(false);
+      expect(debugArg.isRequired).toBe(false);
       
       const portArg = args.find((arg: any) => arg.name === '--port');
       expect(portArg.format).toBe('number');
@@ -250,19 +248,19 @@ describe('TransportConfigurationValidation', () => {
     it('should validate positional arguments structure', async () => {
       const transportConfig = { type: 'stdio' };
       const packageOverrides = {
-        package_arguments: [
+        packageArguments: [
           {
             type: 'positional',
             name: 'config-file',
             description: 'Path to configuration file',
-            is_required: true,
+            isRequired: true,
             format: 'string'
           },
           {
             type: 'positional',
             name: 'output-dir',
             description: 'Output directory',
-            is_required: false,
+            isRequired: false,
             format: 'string'
           }
         ]
@@ -271,23 +269,23 @@ describe('TransportConfigurationValidation', () => {
       await createServerJsonWithTransport(transportConfig, packageOverrides);
       
       const serverJson = JSON.parse(await readFile(join(testDir, 'server.json'), 'utf-8'));
-      const args = serverJson.packages[0].package_arguments;
+      const args = serverJson.packages[0].packageArguments;
       
       expect(args).toHaveLength(2);
       
       const configArg = args.find((arg: any) => arg.name === 'config-file');
       expect(configArg.type).toBe('positional');
-      expect(configArg.is_required).toBe(true);
+      expect(configArg.isRequired).toBe(true);
       
       const outputArg = args.find((arg: any) => arg.name === 'output-dir');
       expect(outputArg.type).toBe('positional');
-      expect(outputArg.is_required).toBe(false);
+      expect(outputArg.isRequired).toBe(false);
     });
 
     it('should validate argument format types', async () => {
       const transportConfig = { type: 'stdio' };
       const packageOverrides = {
-        package_arguments: [
+        packageArguments: [
           {
             type: 'named',
             name: '--string-arg',
@@ -318,7 +316,7 @@ describe('TransportConfigurationValidation', () => {
       await createServerJsonWithTransport(transportConfig, packageOverrides);
       
       const serverJson = JSON.parse(await readFile(join(testDir, 'server.json'), 'utf-8'));
-      const args = serverJson.packages[0].package_arguments;
+      const args = serverJson.packages[0].packageArguments;
       
       const formats = args.map((arg: any) => arg.format);
       expect(formats).toContain('string');
@@ -332,27 +330,27 @@ describe('TransportConfigurationValidation', () => {
     it('should validate environment variables structure', async () => {
       const transportConfig = { type: 'stdio' };
       const packageOverrides = {
-        environment_variables: [
+        environmentVariables: [
           {
             name: 'FMP_ACCESS_TOKEN',
             description: 'Financial Modeling Prep API access token',
-            is_required: true,
+            isRequired: true,
             format: 'string',
-            is_secret: true
+            isSecret: true
           },
           {
             name: 'DEBUG_MODE',
             description: 'Enable debug logging',
-            is_required: false,
+            isRequired: false,
             format: 'boolean',
-            is_secret: false
+            isSecret: false
           },
           {
             name: 'PORT',
             description: 'Server port number',
-            is_required: false,
+            isRequired: false,
             format: 'number',
-            is_secret: false
+            isSecret: false
           }
         ]
       };
@@ -360,18 +358,18 @@ describe('TransportConfigurationValidation', () => {
       await createServerJsonWithTransport(transportConfig, packageOverrides);
       
       const serverJson = JSON.parse(await readFile(join(testDir, 'server.json'), 'utf-8'));
-      const envVars = serverJson.packages[0].environment_variables;
+      const envVars = serverJson.packages[0].environmentVariables;
       
       expect(envVars).toHaveLength(3);
       
       const tokenVar = envVars.find((env: any) => env.name === 'FMP_ACCESS_TOKEN');
-      expect(tokenVar.is_required).toBe(true);
-      expect(tokenVar.is_secret).toBe(true);
+      expect(tokenVar.isRequired).toBe(true);
+      expect(tokenVar.isSecret).toBe(true);
       expect(tokenVar.format).toBe('string');
       
       const debugVar = envVars.find((env: any) => env.name === 'DEBUG_MODE');
       expect(debugVar.format).toBe('boolean');
-      expect(debugVar.is_secret).toBe(false);
+      expect(debugVar.isSecret).toBe(false);
       
       const portVar = envVars.find((env: any) => env.name === 'PORT');
       expect(portVar.format).toBe('number');
@@ -380,23 +378,23 @@ describe('TransportConfigurationValidation', () => {
     it('should validate secret environment variables', async () => {
       const transportConfig = { type: 'stdio' };
       const packageOverrides = {
-        environment_variables: [
+        environmentVariables: [
           {
             name: 'API_KEY',
             description: 'Secret API key',
-            is_secret: true,
+            isSecret: true,
             format: 'string'
           },
           {
             name: 'DATABASE_PASSWORD',
             description: 'Database password',
-            is_secret: true,
+            isSecret: true,
             format: 'string'
           },
           {
             name: 'PUBLIC_CONFIG',
             description: 'Public configuration',
-            is_secret: false,
+            isSecret: false,
             format: 'string'
           }
         ]
@@ -405,10 +403,10 @@ describe('TransportConfigurationValidation', () => {
       await createServerJsonWithTransport(transportConfig, packageOverrides);
       
       const serverJson = JSON.parse(await readFile(join(testDir, 'server.json'), 'utf-8'));
-      const envVars = serverJson.packages[0].environment_variables;
+      const envVars = serverJson.packages[0].environmentVariables;
       
-      const secretVars = envVars.filter((env: any) => env.is_secret === true);
-      const publicVars = envVars.filter((env: any) => env.is_secret === false);
+      const secretVars = envVars.filter((env: any) => env.isSecret === true);
+      const publicVars = envVars.filter((env: any) => env.isSecret === false);
       
       expect(secretVars).toHaveLength(2);
       expect(publicVars).toHaveLength(1);
@@ -423,7 +421,7 @@ describe('TransportConfigurationValidation', () => {
     it('should validate NPX runtime hint', async () => {
       const transportConfig = { type: 'stdio' };
       const packageOverrides = {
-        runtime_hint: 'npx'
+        runtimeHint: 'npx'
       };
       
       await createServerJsonWithTransport(transportConfig, packageOverrides);
@@ -431,14 +429,14 @@ describe('TransportConfigurationValidation', () => {
       const serverJson = JSON.parse(await readFile(join(testDir, 'server.json'), 'utf-8'));
       const pkg = serverJson.packages[0];
       
-      expect(pkg.runtime_hint).toBe('npx');
+      expect(pkg.runtimeHint).toBe('npx');
     });
 
     it('should validate UVX runtime hint', async () => {
       const transportConfig = { type: 'stdio' };
       const packageOverrides = {
-        registry_type: 'pypi',
-        runtime_hint: 'uvx'
+        registryType: 'pypi',
+        runtimeHint: 'uvx'
       };
       
       await createServerJsonWithTransport(transportConfig, packageOverrides);
@@ -446,15 +444,15 @@ describe('TransportConfigurationValidation', () => {
       const serverJson = JSON.parse(await readFile(join(testDir, 'server.json'), 'utf-8'));
       const pkg = serverJson.packages[0];
       
-      expect(pkg.runtime_hint).toBe('uvx');
-      expect(pkg.registry_type).toBe('pypi');
+      expect(pkg.runtimeHint).toBe('uvx');
+      expect(pkg.registryType).toBe('pypi');
     });
 
     it('should validate Docker runtime hint', async () => {
       const transportConfig = { type: 'streamable-http', url: 'http://localhost:8080/mcp' };
       const packageOverrides = {
-        registry_type: 'oci',
-        runtime_hint: 'docker'
+        registryType: 'oci',
+        runtimeHint: 'docker'
       };
       
       await createServerJsonWithTransport(transportConfig, packageOverrides);
@@ -462,8 +460,8 @@ describe('TransportConfigurationValidation', () => {
       const serverJson = JSON.parse(await readFile(join(testDir, 'server.json'), 'utf-8'));
       const pkg = serverJson.packages[0];
       
-      expect(pkg.runtime_hint).toBe('docker');
-      expect(pkg.registry_type).toBe('oci');
+      expect(pkg.runtimeHint).toBe('docker');
+      expect(pkg.registryType).toBe('oci');
     });
 
     it('should validate custom runtime hints', async () => {
@@ -472,7 +470,7 @@ describe('TransportConfigurationValidation', () => {
       for (const hint of customHints) {
         const transportConfig = { type: 'stdio' };
         const packageOverrides = {
-          runtime_hint: hint
+          runtimeHint: hint
         };
         
         await createServerJsonWithTransport(transportConfig, packageOverrides);
@@ -480,7 +478,7 @@ describe('TransportConfigurationValidation', () => {
         const serverJson = JSON.parse(await readFile(join(testDir, 'server.json'), 'utf-8'));
         const pkg = serverJson.packages[0];
         
-        expect(pkg.runtime_hint).toBe(hint);
+        expect(pkg.runtimeHint).toBe(hint);
       }
     });
   });
@@ -493,22 +491,22 @@ describe('TransportConfigurationValidation', () => {
       };
       
       const packageOverrides = {
-        package_arguments: [
+        packageArguments: [
           {
             type: 'named',
             name: '--token',
             description: 'API token for authentication',
-            is_required: true,
+            isRequired: true,
             format: 'string'
           }
         ],
-        environment_variables: [
+        environmentVariables: [
           {
             name: 'API_TOKEN',
             description: 'API token from environment',
-            is_required: false,
+            isRequired: false,
             format: 'string',
-            is_secret: true
+            isSecret: true
           }
         ]
       };
@@ -520,72 +518,72 @@ describe('TransportConfigurationValidation', () => {
       
       expect(pkg.transport.type).toBe('streamable-http');
       expect(pkg.transport.url).toBeDefined();
-      expect(pkg.package_arguments).toHaveLength(1);
-      expect(pkg.environment_variables).toHaveLength(1);
+      expect(pkg.packageArguments).toHaveLength(1);
+      expect(pkg.environmentVariables).toHaveLength(1);
     });
 
     it('should validate stdio transport with comprehensive configuration', async () => {
       const transportConfig = { type: 'stdio' };
       const packageOverrides = {
-        runtime_hint: 'npx',
-        package_arguments: [
+        runtimeHint: 'npx',
+        packageArguments: [
           {
             type: 'named',
             name: '--fmp-token',
             description: 'FMP API token',
-            is_required: false,
+            isRequired: false,
             format: 'string'
           },
           {
             type: 'named',
             name: '--port',
             description: 'HTTP server port',
-            is_required: false,
+            isRequired: false,
             format: 'number'
           },
           {
             type: 'named',
             name: '--dynamic-tool-discovery',
             description: 'Enable dynamic tool discovery',
-            is_required: false,
+            isRequired: false,
             format: 'boolean'
           },
           {
             type: 'named',
             name: '--fmp-tool-sets',
             description: 'Comma-separated tool sets',
-            is_required: false,
+            isRequired: false,
             format: 'string'
           }
         ],
-        environment_variables: [
+        environmentVariables: [
           {
             name: 'FMP_ACCESS_TOKEN',
             description: 'FMP API access token',
-            is_required: false,
+            isRequired: false,
             format: 'string',
-            is_secret: true
+            isSecret: true
           },
           {
             name: 'PORT',
             description: 'HTTP server port',
-            is_required: false,
+            isRequired: false,
             format: 'number',
-            is_secret: false
+            isSecret: false
           },
           {
             name: 'DYNAMIC_TOOL_DISCOVERY',
             description: 'Enable dynamic tool discovery',
-            is_required: false,
+            isRequired: false,
             format: 'boolean',
-            is_secret: false
+            isSecret: false
           },
           {
             name: 'FMP_TOOL_SETS',
             description: 'Comma-separated tool sets',
-            is_required: false,
+            isRequired: false,
             format: 'string',
-            is_secret: false
+            isSecret: false
           }
         ]
       };
@@ -599,21 +597,21 @@ describe('TransportConfigurationValidation', () => {
       const pkg = serverJson.packages[0];
       
       expect(pkg.transport.type).toBe('stdio');
-      expect(pkg.runtime_hint).toBe('npx');
-      expect(pkg.package_arguments).toHaveLength(4);
-      expect(pkg.environment_variables).toHaveLength(4);
+      expect(pkg.runtimeHint).toBe('npx');
+      expect(pkg.packageArguments).toHaveLength(4);
+      expect(pkg.environmentVariables).toHaveLength(4);
       
       // Validate specific arguments match our server's actual configuration
-      const tokenArg = pkg.package_arguments.find((arg: any) => arg.name === '--fmp-token');
+      const tokenArg = pkg.packageArguments.find((arg: any) => arg.name === '--fmp-token');
       expect(tokenArg).toBeDefined();
       
-      const portArg = pkg.package_arguments.find((arg: any) => arg.name === '--port');
+      const portArg = pkg.packageArguments.find((arg: any) => arg.name === '--port');
       expect(portArg).toBeDefined();
       
-      const dynamicArg = pkg.package_arguments.find((arg: any) => arg.name === '--dynamic-tool-discovery');
+      const dynamicArg = pkg.packageArguments.find((arg: any) => arg.name === '--dynamic-tool-discovery');
       expect(dynamicArg).toBeDefined();
       
-      const toolSetsArg = pkg.package_arguments.find((arg: any) => arg.name === '--fmp-tool-sets');
+      const toolSetsArg = pkg.packageArguments.find((arg: any) => arg.name === '--fmp-tool-sets');
       expect(toolSetsArg).toBeDefined();
     });
   });
@@ -621,16 +619,16 @@ describe('TransportConfigurationValidation', () => {
   describe('Multiple Transport Support', () => {
     it('should validate server with both HTTP and stdio transports', async () => {
       const serverJson = {
-        $schema: 'https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json',
+        $schema: 'https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json',
         name: 'io.github.imbenrabi/financial-modeling-prep-mcp-server',
         description: 'MCP server with multiple transport options',
         version: '2.5.0',
         packages: [
           {
-            registry_type: 'npm',
+            registryType: 'npm',
             identifier: 'financial-modeling-prep-mcp-server',
             version: '2.5.0',
-            runtime_hint: 'npx',
+            runtimeHint: 'npx',
             transport: {
               type: 'streamable-http',
               url: 'https://example.com/mcp'
@@ -670,13 +668,13 @@ describe('TransportConfigurationValidation', () => {
   describe('Transport Configuration Edge Cases', () => {
     it('should handle missing transport configuration', async () => {
       const serverJson = {
-        $schema: 'https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json',
+        $schema: 'https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json',
         name: 'io.github.imbenrabi/financial-modeling-prep-mcp-server',
         description: 'MCP server without transport',
         version: '2.5.0',
         packages: [
           {
-            registry_type: 'npm',
+            registryType: 'npm',
             identifier: 'financial-modeling-prep-mcp-server',
             version: '2.5.0'
             // No transport specified
@@ -697,8 +695,8 @@ describe('TransportConfigurationValidation', () => {
     it('should validate empty arguments and environment variables arrays', async () => {
       const transportConfig = { type: 'stdio' };
       const packageOverrides = {
-        package_arguments: [],
-        environment_variables: []
+        packageArguments: [],
+        environmentVariables: []
       };
       
       await createServerJsonWithTransport(transportConfig, packageOverrides);
@@ -709,8 +707,8 @@ describe('TransportConfigurationValidation', () => {
       const serverJson = JSON.parse(await readFile(join(testDir, 'server.json'), 'utf-8'));
       const pkg = serverJson.packages[0];
       
-      expect(pkg.package_arguments).toHaveLength(0);
-      expect(pkg.environment_variables).toHaveLength(0);
+      expect(pkg.packageArguments).toHaveLength(0);
+      expect(pkg.environmentVariables).toHaveLength(0);
     });
   });
 });

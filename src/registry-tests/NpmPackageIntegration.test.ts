@@ -316,7 +316,7 @@ describe('NpmPackageIntegration', () => {
         description: 'Test server',
         packages: [
           {
-            registry_type: 'npm',
+            registryType: 'npm',
             identifier: 'financial-modeling-prep-mcp-server',
             version
           }

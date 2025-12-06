@@ -31,18 +31,17 @@ describe('RegistryApiIntegration', () => {
     };
     
     const serverJson = {
-      $schema: 'https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json',
+      $schema: 'https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json',
       name: 'io.github.imbenrabi/financial-modeling-prep-mcp-server',
       description: 'MCP server for Financial Modeling Prep API with 250+ financial data tools',
       version: '2.5.0',
-      status: 'active',
       packages: [
         {
-          registry_type: 'npm',
-          registry_base_url: 'https://registry.npmjs.org',
+          registryType: 'npm',
+          registryBaseUrl: 'https://registry.npmjs.org',
           identifier: 'financial-modeling-prep-mcp-server',
           version: '2.5.0',
-          runtime_hint: 'npx',
+          runtimeHint: 'npx',
           transport: {
             type: 'streamable-http',
             url: 'https://financial-modeling-prep-mcp-server-production.up.railway.app/mcp'
@@ -52,9 +51,8 @@ describe('RegistryApiIntegration', () => {
       repository: {
         url: 'https://github.com/imbenrabi/Financial-Modeling-Prep-MCP-Server',
         source: 'github',
-        id: '988409529'
       },
-      website_url: 'https://github.com/imbenrabi/Financial-Modeling-Prep-MCP-Server'
+      websiteUrl: 'https://github.com/imbenrabi/Financial-Modeling-Prep-MCP-Server'
     };
     
     await writeFile(
@@ -80,14 +78,13 @@ describe('RegistryApiIntegration', () => {
       name: serverName,
       description: 'MCP server for Financial Modeling Prep API with 250+ financial data tools',
       version: '2.5.0',
-      status: 'active',
       packages: [
         {
-          registry_type: 'npm',
-          registry_base_url: 'https://registry.npmjs.org',
+          registryType: 'npm',
+          registryBaseUrl: 'https://registry.npmjs.org',
           identifier: 'financial-modeling-prep-mcp-server',
           version: '2.5.0',
-          runtime_hint: 'npx',
+          runtimeHint: 'npx',
           transport: {
             type: 'streamable-http',
             url: 'https://financial-modeling-prep-mcp-server-production.up.railway.app/mcp'
@@ -98,7 +95,7 @@ describe('RegistryApiIntegration', () => {
         url: 'https://github.com/imbenrabi/Financial-Modeling-Prep-MCP-Server',
         source: 'github'
       },
-      website_url: 'https://github.com/imbenrabi/Financial-Modeling-Prep-MCP-Server',
+      websiteUrl: 'https://github.com/imbenrabi/Financial-Modeling-Prep-MCP-Server',
       created_at: '2024-01-01T00:00:00Z',
       updated_at: '2024-01-01T00:00:00Z'
     };
@@ -147,7 +144,7 @@ describe('RegistryApiIntegration', () => {
       expect(apiResponse.name).toBe(serverJson.name);
       expect(apiResponse.description).toBe(serverJson.description);
       expect(apiResponse.version).toBe(serverJson.version);
-      expect(apiResponse.status).toBe('active');
+      // Status field removed in new schema format
       expect(apiResponse.packages).toBeDefined();
       expect(Array.isArray(apiResponse.packages)).toBe(true);
     });
@@ -156,11 +153,11 @@ describe('RegistryApiIntegration', () => {
       const serverJson = JSON.parse(await readFile(join(testDir, 'server.json'), 'utf-8'));
       const apiResponse = simulateRegistryApiResponse(serverJson.name);
       
-      const npmPackage = apiResponse.packages.find((pkg: any) => pkg.registry_type === 'npm');
+      const npmPackage = apiResponse.packages.find((pkg: any) => pkg.registryType === 'npm');
       expect(npmPackage).toBeDefined();
       expect(npmPackage.identifier).toBe('financial-modeling-prep-mcp-server');
       expect(npmPackage.version).toBe('2.5.0');
-      expect(npmPackage.runtime_hint).toBe('npx');
+      expect(npmPackage.runtimeHint).toBe('npx');
     });
 
     it('should validate repository information in registry response', async () => {
@@ -231,7 +228,7 @@ describe('RegistryApiIntegration', () => {
       const serverJson = JSON.parse(await readFile(join(testDir, 'server.json'), 'utf-8'));
       const apiResponse = simulateRegistryApiResponse(serverJson.name);
       
-      const npmPackage = apiResponse.packages.find((pkg: any) => pkg.registry_type === 'npm');
+      const npmPackage = apiResponse.packages.find((pkg: any) => pkg.registryType === 'npm');
       
       // Validate installation methods can be derived
       const installationMethods = {
@@ -293,7 +290,7 @@ describe('RegistryApiIntegration', () => {
       expect(npmResponse.version).toBe(registryResponse.version);
       
       const npmPackageInRegistry = registryResponse.packages.find(
-        (pkg: any) => pkg.registry_type === 'npm'
+        (pkg: any) => pkg.registryType === 'npm'
       );
       expect(npmPackageInRegistry.identifier).toBe(npmResponse.name);
       expect(npmPackageInRegistry.version).toBe(npmResponse.version);
@@ -307,7 +304,7 @@ describe('RegistryApiIntegration', () => {
 
     it('should validate HTTP transport configuration', async () => {
       const serverJson = JSON.parse(await readFile(join(testDir, 'server.json'), 'utf-8'));
-      const npmPackage = serverJson.packages.find((pkg: any) => pkg.registry_type === 'npm');
+      const npmPackage = serverJson.packages.find((pkg: any) => pkg.registryType === 'npm');
       
       expect(npmPackage.transport).toBeDefined();
       expect(npmPackage.transport.type).toBe('streamable-http');
@@ -317,7 +314,7 @@ describe('RegistryApiIntegration', () => {
 
     it('should validate transport URL accessibility format', async () => {
       const serverJson = JSON.parse(await readFile(join(testDir, 'server.json'), 'utf-8'));
-      const npmPackage = serverJson.packages.find((pkg: any) => pkg.registry_type === 'npm');
+      const npmPackage = serverJson.packages.find((pkg: any) => pkg.registryType === 'npm');
       
       const transportUrl = npmPackage.transport.url;
       
@@ -335,10 +332,10 @@ describe('RegistryApiIntegration', () => {
         description: 'Test server',
         packages: [
           {
-            registry_type: 'npm',
+            registryType: 'npm',
             identifier: 'financial-modeling-prep-mcp-server',
             version: '2.5.0',
-            runtime_hint: 'npx',
+            runtimeHint: 'npx',
             transport: {
               type: 'stdio'
             }
@@ -353,7 +350,7 @@ describe('RegistryApiIntegration', () => {
       );
       
       const serverJson = JSON.parse(await readFile(join(testDir, 'server-stdio.json'), 'utf-8'));
-      const npmPackage = serverJson.packages.find((pkg: any) => pkg.registry_type === 'npm');
+      const npmPackage = serverJson.packages.find((pkg: any) => pkg.registryType === 'npm');
       
       expect(npmPackage.transport.type).toBe('stdio');
       expect(npmPackage.transport.url).toBeUndefined(); // stdio doesn't need URL
@@ -368,19 +365,19 @@ describe('RegistryApiIntegration', () => {
         packages: [
           {
             ...serverJson.packages[0],
-            package_arguments: [
+            packageArguments: [
               {
                 type: 'named',
                 name: '--fmp-token',
                 description: 'Financial Modeling Prep API access token',
-                is_required: false,
+                isRequired: false,
                 format: 'string'
               },
               {
                 type: 'named',
                 name: '--port',
                 description: 'Port number for HTTP server mode',
-                is_required: false,
+                isRequired: false,
                 format: 'number'
               }
             ]
@@ -395,13 +392,13 @@ describe('RegistryApiIntegration', () => {
       );
       
       const testServerJson = JSON.parse(await readFile(join(testDir, 'server-with-args.json'), 'utf-8'));
-      const npmPackage = testServerJson.packages.find((pkg: any) => pkg.registry_type === 'npm');
+      const npmPackage = testServerJson.packages.find((pkg: any) => pkg.registryType === 'npm');
       
-      expect(npmPackage.package_arguments).toBeDefined();
-      expect(Array.isArray(npmPackage.package_arguments)).toBe(true);
-      expect(npmPackage.package_arguments.length).toBeGreaterThan(0);
+      expect(npmPackage.packageArguments).toBeDefined();
+      expect(Array.isArray(npmPackage.packageArguments)).toBe(true);
+      expect(npmPackage.packageArguments.length).toBeGreaterThan(0);
       
-      const tokenArg = npmPackage.package_arguments.find((arg: any) => arg.name === '--fmp-token');
+      const tokenArg = npmPackage.packageArguments.find((arg: any) => arg.name === '--fmp-token');
       expect(tokenArg).toBeDefined();
       expect(tokenArg.type).toBe('named');
       expect(tokenArg.format).toBe('string');
@@ -434,14 +431,11 @@ describe('RegistryApiIntegration', () => {
       
       // Validate filterable attributes
       const filterableAttributes = {
-        status: apiResponse.status,
-        registryType: apiResponse.packages[0].registry_type,
+        registryType: apiResponse.packages[0].registryType,
         transportType: apiResponse.packages[0].transport?.type || 'none',
         hasRepository: !!apiResponse.repository,
-        hasWebsite: !!apiResponse.website_url
+        hasWebsite: !!apiResponse.websiteUrl
       };
-      
-      expect(filterableAttributes.status).toBe('active');
       expect(filterableAttributes.registryType).toBe('npm');
       expect(filterableAttributes.transportType).toBeDefined();
       expect(filterableAttributes.transportType).not.toBe('none');
@@ -459,7 +453,7 @@ describe('RegistryApiIntegration', () => {
       expect(apiResponse.version).toBeDefined();
       expect(apiResponse.version).toMatch(/^\d+\.\d+\.\d+/);
       
-      const npmPackage = apiResponse.packages.find((pkg: any) => pkg.registry_type === 'npm');
+      const npmPackage = apiResponse.packages.find((pkg: any) => pkg.registryType === 'npm');
       expect(npmPackage.version).toBe(apiResponse.version);
     });
   });

@@ -22,48 +22,46 @@ describe('ServerJsonSchemaValidation', () => {
    */
   async function createServerJson(overrides: any = {}): Promise<void> {
     const defaultServerJson = {
-      $schema: 'https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json',
+      $schema: 'https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json',
       name: 'io.github.imbenrabi/financial-modeling-prep-mcp-server',
       description: 'MCP server for Financial Modeling Prep API with 250+ financial data tools',
       version: '2.5.0',
-      status: 'active',
       packages: [
         {
-          registry_type: 'npm',
-          registry_base_url: 'https://registry.npmjs.org',
+          registryType: 'npm',
+          registryBaseUrl: 'https://registry.npmjs.org',
           identifier: 'financial-modeling-prep-mcp-server',
           version: '2.5.0',
-          runtime_hint: 'npx',
+          runtimeHint: 'npx',
           transport: {
             type: 'streamable-http',
             url: 'https://financial-modeling-prep-mcp-server-production.up.railway.app/mcp'
           },
-          package_arguments: [
+          packageArguments: [
             {
               type: 'named',
               name: '--fmp-token',
               description: 'Financial Modeling Prep API access token',
-              is_required: false,
+              isRequired: false,
               format: 'string'
             }
           ],
-          environment_variables: [
+          environmentVariables: [
             {
               name: 'FMP_ACCESS_TOKEN',
               description: 'Financial Modeling Prep API access token',
-              is_required: false,
+              isRequired: false,
               format: 'string',
-              is_secret: true
+              isSecret: true
             }
           ]
         }
       ],
       repository: {
         url: 'https://github.com/imbenrabi/Financial-Modeling-Prep-MCP-Server',
-        source: 'github',
-        id: '988409529'
+        source: 'github'
       },
-      website_url: 'https://github.com/imbenrabi/Financial-Modeling-Prep-MCP-Server',
+      websiteUrl: 'https://github.com/imbenrabi/Financial-Modeling-Prep-MCP-Server',
       ...overrides
     };
     
@@ -146,8 +144,8 @@ describe('ServerJsonSchemaValidation', () => {
       
       const result = await validateServerJsonSchema(testDir);
       
-      expect(result.warnings).toContain(
-        'server.json uses schema: https://example.com/custom-schema.json, expected: https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json'
+      expect(result.errors).toContain(
+        'server.json uses schema: https://example.com/custom-schema.json, expected: https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json'
       );
     });
 
@@ -176,7 +174,7 @@ describe('ServerJsonSchemaValidation', () => {
       await createServerJson({
         packages: [
           {
-            registry_type: 'npm',
+            registryType: 'npm',
             identifier: 'test-package',
             version: '1.0.0'
           }
@@ -188,7 +186,7 @@ describe('ServerJsonSchemaValidation', () => {
       expect(result.isValid).toBe(true);
     });
 
-    it('should require registry_type in packages', async () => {
+    it('should require registryType in packages', async () => {
       await createServerJson({
         packages: [
           {
@@ -201,14 +199,14 @@ describe('ServerJsonSchemaValidation', () => {
       const result = await validateServerJsonSchema(testDir);
       
       expect(result.isValid).toBe(false);
-      expect(result.errors).toContain('server.json packages[0] missing registry_type');
+      expect(result.errors).toContain('server.json packages[0] missing registryType');
     });
 
     it('should require identifier in packages', async () => {
       await createServerJson({
         packages: [
           {
-            registry_type: 'npm',
+            registryType: 'npm',
             version: '1.0.0'
           }
         ]
@@ -224,7 +222,7 @@ describe('ServerJsonSchemaValidation', () => {
       await createServerJson({
         packages: [
           {
-            registry_type: 'npm',
+            registryType: 'npm',
             identifier: 'test-package'
           }
         ]
@@ -240,7 +238,7 @@ describe('ServerJsonSchemaValidation', () => {
       await createServerJson({
         packages: [
           {
-            registry_type: 'npm',
+            registryType: 'npm',
             identifier: 'test-package',
             version: 'invalid'
           }
@@ -257,12 +255,12 @@ describe('ServerJsonSchemaValidation', () => {
       await createServerJson({
         packages: [
           {
-            registry_type: 'npm',
+            registryType: 'npm',
             identifier: 'test-package-1',
             version: '1.0.0'
           },
           {
-            registry_type: 'pypi',
+            registryType: 'pypi',
             identifier: 'test-package-2',
             version: '2.0.0'
           }
@@ -281,7 +279,6 @@ describe('ServerJsonSchemaValidation', () => {
         repository: {
           url: 'https://github.com/user/repo',
           source: 'github',
-          id: '123456789'
         }
       });
       
@@ -330,7 +327,7 @@ describe('ServerJsonSchemaValidation', () => {
       await createServerJson({
         packages: [
           {
-            registry_type: 'npm',
+            registryType: 'npm',
             identifier: 'test-package',
             version: '1.0.0',
             transport: {
@@ -350,7 +347,7 @@ describe('ServerJsonSchemaValidation', () => {
       await createServerJson({
         packages: [
           {
-            registry_type: 'npm',
+            registryType: 'npm',
             identifier: 'test-package',
             version: '1.0.0',
             transport: {
@@ -369,7 +366,7 @@ describe('ServerJsonSchemaValidation', () => {
       await createServerJson({
         packages: [
           {
-            registry_type: 'npm',
+            registryType: 'npm',
             identifier: 'test-package',
             version: '1.0.0',
             transport: {
@@ -391,22 +388,22 @@ describe('ServerJsonSchemaValidation', () => {
       await createServerJson({
         packages: [
           {
-            registry_type: 'npm',
+            registryType: 'npm',
             identifier: 'test-package',
             version: '1.0.0',
-            package_arguments: [
+            packageArguments: [
               {
                 type: 'named',
                 name: '--token',
                 description: 'API token',
-                is_required: true,
+                isRequired: true,
                 format: 'string'
               },
               {
                 type: 'positional',
                 name: 'input-file',
                 description: 'Input file path',
-                is_required: false,
+                isRequired: false,
                 format: 'string'
               }
             ]
@@ -423,23 +420,23 @@ describe('ServerJsonSchemaValidation', () => {
       await createServerJson({
         packages: [
           {
-            registry_type: 'npm',
+            registryType: 'npm',
             identifier: 'test-package',
             version: '1.0.0',
-            environment_variables: [
+            environmentVariables: [
               {
                 name: 'API_TOKEN',
                 description: 'API access token',
-                is_required: true,
+                isRequired: true,
                 format: 'string',
-                is_secret: true
+                isSecret: true
               },
               {
                 name: 'DEBUG_MODE',
                 description: 'Enable debug logging',
-                is_required: false,
+                isRequired: false,
                 format: 'boolean',
-                is_secret: false
+                isSecret: false
               }
             ]
           }

@@ -54,38 +54,37 @@ describe('EndToEndPublishingWorkflow', () => {
     
     // Create server.json
     const serverJson = {
-      $schema: 'https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json',
+      $schema: 'https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json',
       name: 'io.github.imbenrabi/financial-modeling-prep-mcp-server',
       description: 'MCP server for Financial Modeling Prep API with 250+ financial data tools',
       version: '2.5.0',
-      status: 'active',
       packages: [
         {
-          registry_type: 'npm',
-          registry_base_url: 'https://registry.npmjs.org',
+          registryType: 'npm',
+          registryBaseUrl: 'https://registry.npmjs.org',
           identifier: 'financial-modeling-prep-mcp-server',
           version: '2.5.0',
-          runtime_hint: 'npx',
+          runtimeHint: 'npx',
           transport: {
             type: 'streamable-http',
             url: 'https://financial-modeling-prep-mcp-server-production.up.railway.app/mcp'
           },
-          package_arguments: [
+          packageArguments: [
             {
               type: 'named',
               name: '--fmp-token',
               description: 'Financial Modeling Prep API access token',
-              is_required: false,
+              isRequired: false,
               format: 'string'
             }
           ],
-          environment_variables: [
+          environmentVariables: [
             {
               name: 'FMP_ACCESS_TOKEN',
               description: 'Financial Modeling Prep API access token',
-              is_required: false,
+              isRequired: false,
               format: 'string',
-              is_secret: true
+              isSecret: true
             }
           ]
         }
@@ -93,9 +92,8 @@ describe('EndToEndPublishingWorkflow', () => {
       repository: {
         url: 'https://github.com/imbenrabi/Financial-Modeling-Prep-MCP-Server',
         source: 'github',
-        id: '988409529'
       },
-      website_url: 'https://github.com/imbenrabi/Financial-Modeling-Prep-MCP-Server'
+      websiteUrl: 'https://github.com/imbenrabi/Financial-Modeling-Prep-MCP-Server'
     };
     
     // Create CHANGELOG.md
@@ -202,7 +200,7 @@ npx financial-modeling-prep-mcp-server --fmp-token=YOUR_TOKEN
     it('should validate server.json schema compliance', async () => {
       const serverJson = JSON.parse(await readFile(join(testDir, 'server.json'), 'utf-8'));
       
-      expect(serverJson.$schema).toBe('https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json');
+      expect(serverJson.$schema).toBe('https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json');
       expect(serverJson.name).toBe('io.github.imbenrabi/financial-modeling-prep-mcp-server');
       expect(serverJson.packages).toBeDefined();
       expect(Array.isArray(serverJson.packages)).toBe(true);

@@ -52,13 +52,13 @@ describe('versionSync', () => {
    */
   async function createTestServerJson(version: string, packageVersion?: string): Promise<void> {
     const serverJson = {
-      $schema: 'https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json',
+      $schema: 'https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json',
       name: 'test/server',
       description: 'Test server description',
       version,
       packages: [
         {
-          registry_type: 'npm',
+          registryType: 'npm',
           identifier: 'test-package',
           version: packageVersion || version
         }
@@ -218,7 +218,7 @@ describe('versionSync', () => {
 
     it('should fail validation for description length', async () => {
       const serverJson = {
-        $schema: 'https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json',
+        $schema: 'https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json',
         name: 'test/server',
         description: 'a'.repeat(101), // Too long
         version: '1.0.0'

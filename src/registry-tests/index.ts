@@ -131,7 +131,7 @@ export const REGISTRY_TEST_CONFIG = {
   /**
    * Default server.json schema URL for testing.
    */
-  DEFAULT_SCHEMA_URL: 'https://static.modelcontextprotocol.io/schemas/2025-07-09/server.schema.json',
+  DEFAULT_SCHEMA_URL: 'https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json',
   
   /**
    * Default MCP name for testing.
