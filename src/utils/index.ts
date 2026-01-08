@@ -1,7 +1,6 @@
 export { computeClientId } from './computeClientId.js';
 export { getServerVersion } from './getServerVersion.js';
 export { isValidJsonRpc } from './isValidJsonRpc.js';
-export { loadModuleWithTimeout } from './loadModuleWithTimeout.js';
 export { resolveAccessToken } from './resolveAccessToken.js';
 export { showHelp } from './showHelp.js';
 export { parseCommaSeparatedToolSets, validateToolSets } from './validation.js';

@@ -1,4 +1,4 @@
-import type { SessionConfig } from "../mcp-server-factory/McpServerFactory.js";
+import type { SessionConfig } from "../types/index.js";
 
 /**
  * Resolves access token with precedence: server-level token overrides session config.

@@ -64,8 +64,10 @@ A Model Context Protocol (MCP) implementation for Financial Modeling Prep, enabl
 
 ## Features
 
+- **Powered by Toolception**: Built on [toolception](https://www.npmjs.com/package/toolception) for robust server orchestration and dynamic tool management
 - **Comprehensive Coverage**: Access to 253+ financial tools across 24 categories
 - **Tool Set Filtering**: Load only the tools you need to reduce complexity and improve performance
+- **Dynamic Tool Loading**: Runtime enable/disable of tool categories via meta-tools
 - **Real-time Data**: Live stock quotes, market data, and financial information
 - **Financial Statements**: Income statements, balance sheets, cash flow statements, and financial ratios
 - **Market Analysis**: Technical indicators, analyst estimates, and market performance metrics
@@ -74,25 +76,34 @@ A Model Context Protocol (MCP) implementation for Financial Modeling Prep, enabl
 
 ## Server Architecture
 
-This MCP server uses a **stateful session-based architecture** powered by the Smithery SDK for request/session lifecycle. Resource reuse is handled via a client-level cache keyed by `clientId` (derived from the access token).
+This MCP server leverages **[toolception](https://www.npmjs.com/package/toolception)** - a dynamic MCP server toolkit for runtime toolset management with Fastify transport and meta-tools. Toolception provides complete server orchestration including HTTP transport, session management, and tool lifecycle.
 
 ### Key Features:
 
-- **Client-level Caching**: Exactly one `McpServer`/`DynamicToolsetManager` is maintained per `clientId`. Tokenless requests use a per-request anonymous id (no reuse).
-- **Session Isolation**: Sessions are managed by the SDK, but caching does not use `sessionId`.
-- **Stateful Management**: Sessions maintain their state across multiple requests
+- **Powered by Toolception**: Uses [toolception v0.4.0](https://www.npmjs.com/package/toolception) for server orchestration and dynamic tool management
+- **Client-level Caching**: Toolception's `ClientResourceCache` maintains isolated sessions per client with LRU/TTL eviction
+- **Session Isolation**: Each client gets their own MCP server instance with independent tool state
+- **Stateful Management**: Sessions maintain their state across multiple requests via toolception's session management
 - **Mode Enforcement**: Server-level configurations can override session-level settings
-- **HTTP-based Protocol**: Communicates via HTTP with JSON-RPC formatted messages
-- **Dynamic Tool Management**: Tools can be loaded/unloaded at runtime per session
+- **HTTP-based Protocol**: Communicates via HTTP with JSON-RPC formatted messages using Fastify transport
+- **Dynamic Tool Management**: Tools can be loaded/unloaded at runtime per session using toolception's DynamicToolManager
 
 ### Request Flow:
 
-1. **Client Request** → HTTP POST to `/mcp` endpoint
-2. **Session Management** → Server creates or retrieves session based on config (caching and reuse are keyed by `clientId`)
+1. **Client Request** → HTTP POST to `/` endpoint
+2. **Session Management** → Toolception creates or retrieves session based on client ID (caching via `ClientResourceCache`)
 3. **Mode Resolution** → Server determines operational mode (Dynamic/Static/Legacy)
-4. **Tool Registration** → Session-specific tools are loaded based on resolved mode
-5. **Request Processing** → MCP request is processed with available tools
+4. **Tool Registration** → Toolception's `ModuleResolver` lazy-loads tools based on resolved mode
+5. **Request Processing** → MCP request is processed with available tools via toolception's orchestrator
 6. **Response** → JSON-RPC response sent back to client
+
+### Available HTTP Endpoints:
+
+- `POST /` - Main MCP protocol endpoint (JSON-RPC formatted messages)
+- `GET /mcp` - Server information endpoint
+- `GET /healthz` - Health check endpoint (returns `{"ok": true}`)
+- `GET /tools` - Tool manager status endpoint
+- `GET /.well-known/mcp-config` - MCP configuration schema endpoint
 
 ## Configuration & Mode Enforcement
 
@@ -411,7 +422,7 @@ npm start -- --fmp-token=YOUR_TOKEN
 
 ```bash
 # Health check
-curl http://localhost:8080/health
+curl http://localhost:8080/healthz
 
 # List available tools
 curl -X POST http://localhost:8080/mcp \
@@ -521,7 +532,7 @@ services:
       # OR: - FMP_TOOL_SETS=search,company,quotes
     restart: unless-stopped
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8080/healthz"]
       interval: 30s
       timeout: 10s
       retries: 3
@@ -604,7 +615,7 @@ After installation, verify the server is working:
 **Health check:**
 
 ```bash
-curl http://localhost:8080/health
+curl http://localhost:8080/healthz
 ```
 
 **MCP capabilities:**
