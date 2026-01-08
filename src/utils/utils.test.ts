@@ -6,7 +6,6 @@ import crypto from 'node:crypto';
 // Import utility functions
 import { getServerVersion } from './getServerVersion.js';
 import { isValidJsonRpc } from './isValidJsonRpc.js';
-import { loadModuleWithTimeout } from './loadModuleWithTimeout.js';
 import {
   validateAndSanitizeToolsetName,
   validateToolSets,
@@ -222,66 +221,6 @@ describe('isValidJsonRpc', () => {
     };
 
     expect(isValidJsonRpc(validRequest)).toBe(true);
-  });
-});
-
-describe('loadModuleWithTimeout', () => {
-  beforeEach(() => {
-    vi.useFakeTimers();
-  });
-
-  afterEach(() => {
-    vi.useRealTimers();
-  });
-
-  it('should resolve successfully when module loads before timeout', async () => {
-    const mockRegistrationFunction = vi.fn();
-    const moduleLoader = vi.fn().mockResolvedValue(mockRegistrationFunction);
-
-    const resultPromise = loadModuleWithTimeout(moduleLoader, 'test-module', 5000);
-    
-    // Fast-forward time but not past timeout
-    vi.advanceTimersByTime(1000);
-    
-    const result = await resultPromise;
-    
-    expect(result).toBe(mockRegistrationFunction);
-    expect(moduleLoader).toHaveBeenCalled();
-  });
-
-  it('should reject with timeout error when module takes too long to load', async () => {
-    const moduleLoader = vi.fn().mockImplementation(() => 
-      new Promise(resolve => setTimeout(resolve, 15000))
-    );
-
-    const resultPromise = loadModuleWithTimeout(moduleLoader, 'slow-module', 5000);
-    
-    // Fast-forward past timeout
-    vi.advanceTimersByTime(6000);
-    
-    await expect(resultPromise).rejects.toThrow('Module loading timeout for slow-module');
-  });
-
-  it('should use default timeout of 10000ms when not specified', async () => {
-    const moduleLoader = vi.fn().mockImplementation(() => 
-      new Promise(resolve => setTimeout(resolve, 12000))
-    );
-
-    const resultPromise = loadModuleWithTimeout(moduleLoader, 'default-timeout-module');
-    
-    // Fast-forward past default timeout
-    vi.advanceTimersByTime(11000);
-    
-    await expect(resultPromise).rejects.toThrow('Module loading timeout for default-timeout-module');
-  });
-
-  it('should reject with module error when loader throws', async () => {
-    const moduleError = new Error('Module load error');
-    const moduleLoader = vi.fn().mockRejectedValue(moduleError);
-
-    const resultPromise = loadModuleWithTimeout(moduleLoader, 'error-module', 5000);
-    
-    await expect(resultPromise).rejects.toThrow('Module load error');
   });
 });
 

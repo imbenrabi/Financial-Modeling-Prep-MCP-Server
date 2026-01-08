@@ -36,7 +36,7 @@ async function main() {
   console.log(`[FMP MCP Server] Starting v${version} in ${mode} mode...`);
 
   if (!fmpToken) {
-    console.warn('[FMP MCP Server] ⚠️  No FMP access token provided. Tools will fail without authentication.');
+    console.warn('[FMP MCP Server] No FMP access token provided. Tools will fail without authentication.');
   }
 
   // Build toolception configuration
@@ -83,20 +83,20 @@ async function main() {
 
     await start();
 
-    console.log(`[FMP MCP Server] 🚀 Server started successfully on port ${PORT}`);
-    console.log(`[FMP MCP Server] 🔌 MCP endpoint: http://localhost:${PORT}/mcp`);
-    console.log(`[FMP MCP Server] 📊 Mode: ${mode}`);
-    console.log(`[FMP MCP Server] 🔑 Token: ${fmpToken ? 'Configured' : 'Not configured'}`);
+    console.log(`[FMP MCP Server] Server started successfully on port ${PORT}`);
+    console.log(`[FMP MCP Server] MCP endpoint: http://localhost:${PORT}/mcp`);
+    console.log(`[FMP MCP Server] Mode: ${mode}`);
+    console.log(`[FMP MCP Server] Token: ${fmpToken ? 'Configured' : 'Not configured'}`);
 
     // Graceful shutdown handler
     const handleShutdown = async (signal: string) => {
-      console.log(`\n🔌 Received ${signal}, shutting down server...`);
+      console.log(`\nReceived ${signal}, shutting down server...`);
       try {
         await close();
-        console.log('✅ Server stopped successfully');
+        console.log('Server stopped successfully');
         process.exit(0);
       } catch (error) {
-        console.error('❌ Error during shutdown:', error);
+        console.error('Error during shutdown:', error);
         process.exit(1);
       }
     };
@@ -105,7 +105,7 @@ async function main() {
     process.on('SIGTERM', () => handleShutdown('SIGTERM')); // Catches kill signals
 
   } catch (error) {
-    console.error('[FMP MCP Server] ❌ Failed to start server:', error);
+    console.error('[FMP MCP Server] Failed to start server:', error);
     if (error instanceof Error) {
       console.error('[FMP MCP Server] Error details:', error.message);
       console.error('[FMP MCP Server] Stack trace:', error.stack);
@@ -115,6 +115,6 @@ async function main() {
 }
 
 main().catch((error) => {
-  console.error('[FMP MCP Server] ❌ Fatal error:', error);
+  console.error('[FMP MCP Server] Fatal error:', error);
   process.exit(1);
 });

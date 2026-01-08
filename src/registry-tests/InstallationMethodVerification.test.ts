@@ -43,7 +43,7 @@ const CI_TEST_CONFIG = {
    * Expected server startup patterns.
    */
   SERVER_STARTUP_PATTERNS: [
-    /MCP Server started successfully/i,
+    /Server started successfully/i,
     /port \d+/i
   ]
 } as const;
@@ -240,7 +240,7 @@ describe('Installation Method Verification ', () => {
         console.warn('Build artifacts missing - skipping server tests');
         return;
       }
-      
+
       // Test that server accepts token argument without error
       const { matched, output } = await CITestUtils.spawnAndWaitForPatterns(
         'node',
@@ -249,32 +249,32 @@ describe('Installation Method Verification ', () => {
         CI_TEST_CONFIG.SERVER_STARTUP_PATTERNS,
         { timeout: 8000 }
       );
-      
+
       expect(matched).toBe(true);
-      expect(output).toMatch(/MCP Server started successfully/i);
-    });
+      expect(output).toMatch(/Server started successfully/i);
+    }, 10000);
 
     it('should accept environment variables correctly', async () => {
       if (!existsSync('dist/index.js')) {
         console.warn('Build artifacts missing - skipping server tests');
         return;
       }
-      
+
       // Test that server accepts token via environment variable
       const { matched, output } = await CITestUtils.spawnAndWaitForPatterns(
         'node',
         ['dist/index.js', '--port', '8086'],
         //@ts-expect-error
         CI_TEST_CONFIG.SERVER_STARTUP_PATTERNS,
-        { 
+        {
           timeout: 8000,
           env: { FMP_ACCESS_TOKEN: 'test_token' }
         }
       );
-      
+
       expect(matched).toBe(true);
-      expect(output).toMatch(/MCP Server started successfully/i);
-    });
+      expect(output).toMatch(/Server started successfully/i);
+    }, 10000);
   });
 
   describe('NPM Package Structure', () => {
@@ -323,24 +323,24 @@ describe('Installation Method Verification ', () => {
         console.warn('Build artifacts missing - skipping server tests');
         return;
       }
-      
+
       const { matched, output } = await CITestUtils.spawnAndWaitForPatterns(
         'node',
         ['dist/index.js', '--fmp-token', 'test_token', '--port', '8087'],
-        [/MCP Server started successfully/i],
+        [/Server started successfully/i],
         { timeout: 8000 }
       );
-      
+
       expect(matched).toBe(true);
-      expect(output).toMatch(/MCP Server started successfully/i);
-    });
+      expect(output).toMatch(/Server started successfully/i);
+    }, 10000);
 
     it('should handle shutdown gracefully', async () => {
       if (!existsSync('dist/index.js')) {
         console.warn('Build artifacts missing - skipping server tests');
         return;
       }
-      
+
       const child = spawn('node', [
         'dist/index.js',
         '--fmp-token', 'test_token',
@@ -354,26 +354,26 @@ describe('Installation Method Verification ', () => {
         let output = '';
         const checkStartup = (data: Buffer) => {
           output += data.toString();
-          if (output.includes('MCP Server started successfully')) {
+          if (output.includes('Server started successfully')) {
             resolve(void 0);
           }
         };
-        
+
         child.stdout?.on('data', checkStartup);
         child.stderr?.on('data', checkStartup);
-        
+
         setTimeout(resolve, 5000); // Fallback timeout
       });
 
       // Send SIGTERM and wait for graceful shutdown
       child.kill('SIGTERM');
-      
+
       const exitCode = await new Promise<number>((resolve) => {
         child.on('close', (code) => resolve(code || 0));
         setTimeout(() => resolve(1), 3000); // Timeout after 3 seconds
       });
 
       expect(exitCode).toBe(0);
-    });
+    }, 10000);
   });
 });
