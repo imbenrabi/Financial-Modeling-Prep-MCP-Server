@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 
 import minimist from 'minimist';
-import { createMcpServer } from 'toolception';
+import { createMcpServer, defineEndpoint } from 'toolception';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import { z } from 'zod';
 import { getAvailableToolSets, DEFAULT_PORT } from './constants/index.js';
 import { showHelp } from './utils/showHelp.js';
 import { ServerModeEnforcer } from './server-mode-enforcer/index.js';
@@ -19,6 +20,58 @@ if (argv.help || argv.h) {
   showHelp(availableToolSets);
   process.exit(0);
 }
+
+// Define custom HTTP endpoints for health checks
+const pingEndpoint = defineEndpoint({
+  method: 'GET',
+  path: '/ping',
+  responseSchema: z.object({
+    status: z.literal('ok')
+  }),
+  handler: async () => ({ status: 'ok' as const })
+});
+
+const healthCheckEndpoint = defineEndpoint({
+  method: 'GET',
+  path: '/healthcheck',
+  responseSchema: z.object({
+    status: z.string(),
+    timestamp: z.string(),
+    uptime: z.number(),
+    sessionManagement: z.string(),
+    server: z.object({
+      type: z.string(),
+      version: z.string(),
+    }),
+    memoryUsage: z.object({
+      rss: z.string(),
+      heapTotal: z.string(),
+      heapUsed: z.string(),
+      external: z.string(),
+    }),
+  }),
+  handler: async () => {
+    const uptime = process.uptime();
+    const memoryUsage = process.memoryUsage();
+
+    return {
+      status: 'ok',
+      timestamp: new Date().toISOString(),
+      uptime,
+      sessionManagement: 'stateful',
+      server: {
+        type: 'FmpMcpServer',
+        version: getServerVersion(),
+      },
+      memoryUsage: {
+        rss: Math.round(memoryUsage.rss / 1024 / 1024) + 'MB',
+        heapTotal: Math.round(memoryUsage.heapTotal / 1024 / 1024) + 'MB',
+        heapUsed: Math.round(memoryUsage.heapUsed / 1024 / 1024) + 'MB',
+        external: Math.round(memoryUsage.external / 1024 / 1024) + 'MB',
+      },
+    };
+  }
+});
 
 async function main() {
   // Initialize the ServerModeEnforcer with env vars and CLI args
@@ -77,7 +130,8 @@ async function main() {
         host: '0.0.0.0',
         basePath: '/',
         cors: true,
-        logger: false
+        logger: false,
+        customEndpoints: [pingEndpoint, healthCheckEndpoint]
       }
     });
 
