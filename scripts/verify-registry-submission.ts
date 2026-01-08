@@ -214,7 +214,7 @@ async function validateServerJson(): Promise<VerificationResult> {
       };
     }
     
-    const npmPackage = serverConfig.packages.find((pkg: any) => pkg.registry_type === 'npm');
+    const npmPackage = serverConfig.packages.find((pkg: any) => pkg.registryType === 'npm');
     if (!npmPackage) {
       return {
         success: false,
@@ -258,10 +258,10 @@ async function validateServerJson(): Promise<VerificationResult> {
  */
 async function testHttpTransport(): Promise<VerificationResult> {
   console.log('🌐 Testing HTTP transport functionality...');
-  
+
   try {
     const serverConfig = JSON.parse(readFileSync('server.json', 'utf-8'));
-    const npmPackage = serverConfig.packages.find((pkg: any) => pkg.registry_type === 'npm');
+    const npmPackage = serverConfig.packages.find((pkg: any) => pkg.registryType === 'npm');
     
     if (!npmPackage?.transport?.url) {
       return {

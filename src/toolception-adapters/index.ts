@@ -5,10 +5,11 @@
  * pattern with toolception's module loader pattern.
  */
 
-export { ToolCollector, type McpToolDefinition } from './ToolCollector.js';
+export { ToolCollector, type McpToolDefinition, type ToolRegistrar } from './ToolCollector.js';
 export {
   createModuleAdapter,
-  type RegisterToolsFunction
+  type RegisterToolsFunction,
+  type ModuleLoaderContext
 } from './createModuleAdapter.js';
 export type { ModuleLoader } from 'toolception';
 export {

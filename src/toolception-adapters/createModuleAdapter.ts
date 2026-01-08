@@ -1,9 +1,36 @@
-import { ToolCollector, type McpToolDefinition } from './ToolCollector.js';
+import { ToolCollector, type McpToolDefinition, type ToolRegistrar } from './ToolCollector.js';
 import type { ModuleLoader } from 'toolception';
 
 /**
+ * Context object passed to module loaders by toolception
+ * May contain configuration and authentication details
+ */
+export interface ModuleLoaderContext {
+  /** Optional FMP API access token */
+  accessToken?: string;
+  /** Additional context properties toolception may provide */
+  [key: string]: unknown;
+}
+
+/**
  * Type for existing FMP tool registration functions
+ *
  * These functions follow the pattern: registerXxxTools(server, accessToken?)
+ * where server is typically McpServer but can be any object implementing ToolRegistrar.
+ *
+ * @param server - Should implement ToolRegistrar interface with a .tool() method.
+ *                 At runtime, receives either McpServer or ToolCollector instance.
+ * @param accessToken - Optional FMP API access token
+ *
+ * @example
+ * ```typescript
+ * function registerMyTools(server: McpServer, accessToken?: string): void {
+ *   server.tool("myTool", "Description", schema, handler);
+ * }
+ * ```
+ *
+ * Note: Uses `any` for server parameter due to TypeScript contravariance limitations.
+ * The actual implementation must have a .tool() method compatible with ToolRegistrar.
  */
 export type RegisterToolsFunction = (server: any, accessToken?: string) => void;
 
@@ -35,10 +62,12 @@ export function createModuleAdapter(
 
     // Extract access token from context
     // Context is passed by toolception and may contain our accessToken
-    const accessToken = (context as any)?.accessToken;
+    const accessToken = (context as ModuleLoaderContext)?.accessToken;
 
     try {
       // Execute the registration function with our collector
+      // ToolCollector implements ToolRegistrar, providing the .tool() method
+      // that registerFn expects from McpServer
       registerFn(collector, accessToken);
 
       // Return the captured tool definitions

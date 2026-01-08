@@ -14,9 +14,22 @@ export interface McpToolDefinition {
 }
 
 /**
+ * Interface for objects that can register tools
+ * Used to provide type safety for registerXxxTools functions
+ */
+export interface ToolRegistrar {
+  tool(
+    name: string,
+    description: string,
+    schema: Record<string, any>,
+    handler: (params: any) => Promise<any>
+  ): void;
+}
+
+/**
  * Virtual server that captures tool registrations instead of registering them
  */
-export class ToolCollector {
+export class ToolCollector implements ToolRegistrar {
   private tools: McpToolDefinition[] = [];
 
   /**

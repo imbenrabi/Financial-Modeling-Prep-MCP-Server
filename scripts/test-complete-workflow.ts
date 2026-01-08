@@ -115,7 +115,7 @@ async function testCompleteWorkflow(): Promise<void> {
       // Check package configuration
       if (serverJson.packages && serverJson.packages.length > 0) {
         const pkg = serverJson.packages[0];
-        if (pkg.registry_type === 'npm' && pkg.identifier === packageJson.name) {
+        if (pkg.registryType === 'npm' && pkg.identifier === packageJson.name) {
           console.log('   SUCCESS: NPM package configuration correct');
         } else {
           console.log('   FAILURE: NPM package configuration incorrect');
