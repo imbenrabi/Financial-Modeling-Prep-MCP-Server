@@ -101,9 +101,17 @@ async function main() {
     MODULE_ADAPTERS
   );
 
+  console.log('[FMP MCP Server] Toolception config:', JSON.stringify({
+    startup: toolceptionConfig.startup,
+    exposurePolicy: toolceptionConfig.exposurePolicy,
+    catalogKeys: Object.keys(toolceptionConfig.catalog),
+    moduleLoaderKeys: Object.keys(toolceptionConfig.moduleLoaders)
+  }, null, 2));
+
   try {
+    console.log('[FMP MCP Server] Calling createMcpServer...');
     // Create and start server using toolception
-    const { start, close } = await createMcpServer({
+    const { start, close, server } = await createMcpServer({
       catalog: toolceptionConfig.catalog,
       moduleLoaders: toolceptionConfig.moduleLoaders,
       startup: toolceptionConfig.startup,
@@ -135,6 +143,7 @@ async function main() {
       }
     });
 
+    console.log('[FMP MCP Server] Starting HTTP server...');
     await start();
 
     console.log(`[FMP MCP Server] Server started successfully on port ${PORT}`);

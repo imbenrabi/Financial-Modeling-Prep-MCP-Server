@@ -13,7 +13,7 @@ export interface ToolceptionConfig {
   moduleLoaders: Record<string, ModuleLoader>;
   startup: {
     mode: 'DYNAMIC' | 'STATIC';
-    initialToolsets?: ToolSet[];
+    toolsets?: ToolSet[];  // Changed from initialToolsets in toolception 0.5.1
   };
   context: {
     accessToken?: string;
@@ -91,7 +91,7 @@ export class ModeConfigMapper {
           moduleLoaders: loaders,
           startup: {
             mode: 'STATIC',
-            initialToolsets: toolsets
+            toolsets: toolsets  // Changed from initialToolsets in toolception 0.5.1
           },
           context: {
             accessToken
@@ -104,15 +104,13 @@ export class ModeConfigMapper {
       }
 
       case 'ALL_TOOLS': {
-        // Load all available toolsets
-        const allToolsets = Object.keys(TOOL_SETS) as ToolSet[];
-
+        // Load all available toolsets using the "ALL" shorthand
         return {
           catalog,
           moduleLoaders: loaders,
           startup: {
             mode: 'STATIC',
-            initialToolsets: allToolsets
+            toolsets: 'ALL'  // Changed from initialToolsets array in toolception 0.5.1
           },
           context: {
             accessToken

@@ -80,7 +80,7 @@ This MCP server leverages **[toolception](https://www.npmjs.com/package/toolcept
 
 ### Key Features:
 
-- **Powered by Toolception**: Uses [toolception v0.4.0](https://www.npmjs.com/package/toolception) for server orchestration and dynamic tool management
+- **Powered by Toolception**: Uses [toolception v0.5.1](https://www.npmjs.com/package/toolception) for server orchestration and dynamic tool management
 - **Client-level Caching**: Toolception's `ClientResourceCache` maintains isolated sessions per client with LRU/TTL eviction
 - **Session Isolation**: Each client gets their own MCP server instance with independent tool state
 - **Stateful Management**: Sessions maintain their state across multiple requests via toolception's session management
@@ -115,7 +115,7 @@ The server operates in one of three modes:
 
 1. **🔀 Dynamic Mode** (`DYNAMIC_TOOL_DISCOVERY=true`)
 
-   - Starts with only **3 meta-tools**: `enable_toolset`, `disable_toolset`, `get_toolset_status`
+   - Starts with only **5 meta-tools**: `enable_toolset`, `disable_toolset`, `list_toolsets`, `describe_toolset`, `list_tools`
    - Tools loaded on-demand via meta-tool calls
    - **Best for**: Flexible, task-specific workflows where tool requirements change
 
@@ -227,11 +227,13 @@ The Dynamic Toolset Management feature allows you to enable and disable tool cat
 
 ### How It Works
 
-When dynamic toolset management is enabled, each session starts with only **3 meta-tools**:
+When dynamic toolset management is enabled, each session starts with only **5 meta-tools**:
 
-- `enable_toolset` - Enable a specific toolset during runtime
-- `disable_toolset` - Disable a previously enabled toolset
-- `get_toolset_status` - Check which toolsets are currently active
+- `enable_toolset` - Enable a toolset by name
+- `disable_toolset` - Disable a toolset by name (state only)
+- `list_toolsets` - List available toolsets with active status and definitions
+- `describe_toolset` - Describe a toolset with definition, active status and tools
+- `list_tools` - List currently registered tool names (best effort)
 
 AI assistants can then use these meta-tools to dynamically load and unload specific tool categories as needed for different tasks within their session.
 
@@ -299,12 +301,14 @@ curl -X POST "http://localhost:8080/mcp?config=${CONFIG_BASE64}" \
 2. **AI assistant initializes session and gets meta-tools:**
 
    ```json
-   // Response includes only 3 meta-tools:
+   // Response includes only 5 meta-tools:
    {
      "tools": [
-       { "name": "enable_toolset", "description": "Enable a specific toolset" },
-       { "name": "disable_toolset", "description": "Disable a toolset" },
-       { "name": "get_toolset_status", "description": "Check active toolsets" }
+       { "name": "enable_toolset", "description": "Enable a toolset by name" },
+       { "name": "disable_toolset", "description": "Disable a toolset by name (state only)" },
+       { "name": "list_toolsets", "description": "List available toolsets with active status and definitions" },
+       { "name": "describe_toolset", "description": "Describe a toolset with definition, active status and tools" },
+       { "name": "list_tools", "description": "List currently registered tool names (best effort)" }
      ]
    }
    ```
@@ -804,15 +808,16 @@ CORE RULES:
 - Always include: "This is not financial advice"
 
 DYNAMIC TOOLSET MANAGEMENT:
-Your tools are organized into categories ("toolsets") that must be enabled before use. You have a 4-toolset maximum at any time.
+Your tools are organized into categories ("toolsets") that must be enabled before use.
 
 Available toolsets: search, company, quotes, statements, calendar, charts, news, analyst, market-performance, insider-trades, institutional, indexes, economics, crypto, forex, commodities, etf-funds, esg, technical-indicators, senate, sec-filings, earnings, dcf, bulk
 
 EXECUTION WORKFLOW:
-1. ENABLE: Use enable_toolset for required categories based on the user's query
-2. VERIFY: Call get_toolset_status to confirm active toolsets. If >4 active, use disable_toolset to remove the least relevant
-3. EXECUTE: Call specific tools from enabled toolsets
-4. CLEAN UP: Consider disabling unused toolsets when switching to different analysis types
+1. DISCOVER: Use list_toolsets to see available toolset categories and their status
+2. ENABLE: Use enable_toolset for required categories based on the user's query
+3. VERIFY: Use list_tools to confirm the tools you need are available
+4. EXECUTE: Call specific tools from enabled toolsets
+5. CLEAN UP: Consider disabling unused toolsets when switching to different analysis types
 
 FAILURE PROTOCOL:
 If tools fail repeatedly or data is unavailable, state: "I cannot find the requested information with the available tools" and stop attempting.
@@ -1010,25 +1015,33 @@ curl -X POST "http://localhost:8080/mcp?config=${CONFIG_BASE64}" \
     "tools": [
       {
         "name": "enable_toolset",
-        "description": "Enable a specific toolset during runtime",
+        "description": "Enable a toolset by name",
         "inputSchema": {
           "type": "object",
           "properties": {
-            "toolset": {
+            "name": {
               "type": "string",
-              "description": "Name of the toolset to enable"
+              "description": "Toolset name"
             }
           },
-          "required": ["toolset"]
+          "required": ["name"]
         }
       },
       {
         "name": "disable_toolset",
-        "description": "Disable a previously enabled toolset"
+        "description": "Disable a toolset by name (state only)"
       },
       {
-        "name": "get_toolset_status",
-        "description": "Check which toolsets are currently active"
+        "name": "list_toolsets",
+        "description": "List available toolsets with active status and definitions"
+      },
+      {
+        "name": "describe_toolset",
+        "description": "Describe a toolset with definition, active status and tools"
+      },
+      {
+        "name": "list_tools",
+        "description": "List currently registered tool names (best effort)"
       }
     ]
   }
