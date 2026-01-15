@@ -218,9 +218,9 @@ export async function validateServerJsonSchema(
       }
     }
 
-    // Validate schema URL (only accept new schema format)
+    // Validate schema URL (only accept current schema format)
     const expectedSchema =
-      "https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json";
+      "https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json";
     if (serverJson.$schema !== expectedSchema) {
       result.errors.push(
         `server.json uses schema: ${serverJson.$schema}, expected: ${expectedSchema}`

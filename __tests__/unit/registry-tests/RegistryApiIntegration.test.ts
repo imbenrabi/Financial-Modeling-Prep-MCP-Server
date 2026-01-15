@@ -31,7 +31,7 @@ describe('RegistryApiIntegration', () => {
     };
     
     const serverJson = {
-      $schema: 'https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json',
+      $schema: 'https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json',
       name: 'io.github.imbenrabi/financial-modeling-prep-mcp-server',
       description: 'MCP server for Financial Modeling Prep API with 250+ financial data tools',
       version: '2.5.0',
