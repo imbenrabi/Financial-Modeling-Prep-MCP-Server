@@ -89,7 +89,7 @@ async function main() {
   console.log(`[FMP MCP Server] Starting v${version} in ${mode} mode...`);
 
   if (!fmpToken) {
-    console.warn('[FMP MCP Server] No FMP access token provided. Tools will fail without authentication.');
+    console.warn('[FMP MCP Server] No server-level FMP access token configured. Provide via: (1) FMP_ACCESS_TOKEN env var, (2) --fmp-token CLI arg, or (3) session config {"FMP_ACCESS_TOKEN":"your_token"}. Without auth, API calls will fail.');
   }
 
   // Build toolception configuration
