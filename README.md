@@ -62,10 +62,63 @@ A Model Context Protocol (MCP) implementation for Financial Modeling Prep, enabl
 - [Issues and Bug Reports](#issues-and-bug-reports)
 - [License](#license)
 
+## Quick Start
+
+Choose your deployment option:
+
+### 🚀 Option 1: Use Our Hosted Instance (Fastest)
+
+**No installation required!**
+
+1. **Get FMP API Key**: [Sign up at FMP](https://financialmodelingprep.com/developer/docs)
+2. **Connect via Smithery**: [View on Smithery.ai](https://smithery.ai/server/@imbenrabi/financial-modeling-prep-mcp-server)
+3. **Provide API key** in session configuration
+4. **Start using** 5 meta-tools to load toolsets dynamically
+
+**Our hosted instance endpoint:**
+```
+https://financial-modeling-prep-mcp-server-production.up.railway.app/mcp
+```
+
+**Example session config:**
+```json
+{
+  "FMP_ACCESS_TOKEN": "your_fmp_api_key_here"
+}
+```
+
+---
+
+### 🏠 Option 2: Self-Host Your Own Instance (Full Control)
+
+**Choose your mode and deploy:**
+
+**NPM Installation:**
+```bash
+npm install -g financial-modeling-prep-mcp-server
+export FMP_ACCESS_TOKEN=your_token_here
+export DYNAMIC_TOOL_DISCOVERY=true  # or choose static/legacy
+fmp-mcp
+```
+
+**Docker:**
+```bash
+docker run -p 8080:8080 \
+  -e FMP_ACCESS_TOKEN=your_token_here \
+  -e DYNAMIC_TOOL_DISCOVERY=true \
+  ghcr.io/imbenrabi/financial-modeling-prep-mcp-server:latest
+```
+
+See [Installation Methods](#installation-methods) for detailed self-hosting options.
+
+---
+
 ## Features
 
 - **Powered by Toolception**: Built on [toolception](https://www.npmjs.com/package/toolception) for robust server orchestration and dynamic tool management
+- **5 Meta-Tools in Dynamic Mode**: `enable_toolset`, `disable_toolset`, `list_toolsets`, `describe_toolset`, `list_tools`
 - **Comprehensive Coverage**: Access to 253+ financial tools across 24 categories
+- **Flexible Deployment**: Use our hosted instance or self-host with full control
 - **Tool Set Filtering**: Load only the tools you need to reduce complexity and improve performance
 - **Dynamic Tool Loading**: Runtime enable/disable of tool categories via meta-tools
 - **Real-time Data**: Live stock quotes, market data, and financial information
@@ -73,6 +126,31 @@ A Model Context Protocol (MCP) implementation for Financial Modeling Prep, enabl
 - **Market Analysis**: Technical indicators, analyst estimates, and market performance metrics
 - **Economic Data**: Treasury rates, economic indicators, and macroeconomic information
 - **Alternative Data**: ESG scores, insider trading, congressional trading, and social sentiment
+
+## Deployment Options
+
+This server can be used in two ways:
+
+### 📡 **Using Our Hosted Instance** (Recommended for Quick Start)
+
+Our hosted instance is available via:
+- **Smithery.ai**: [View on Smithery](https://smithery.ai/server/@imbenrabi/financial-modeling-prep-mcp-server)
+- **Direct Access**: `https://financial-modeling-prep-mcp-server-production.up.railway.app/mcp`
+
+**Configuration:**
+- Runs in **dynamic mode** (5 meta-tools: `enable_toolset`, `disable_toolset`, `list_toolsets`, `describe_toolset`, `list_tools`)
+- Requires FMP API key in **session configuration** (not server environment)
+- No server-side setup needed - just connect and use
+
+### 🏠 **Self-Hosting Your Own Instance** (Full Control)
+
+Deploy your own instance for complete control:
+- **Choose any mode**: Dynamic, Static, or Legacy
+- **Configure via**: Environment variables or CLI arguments
+- **Deployment options**: NPM, Docker, or from source
+- See [Installation Methods](#installation-methods) below
+
+---
 
 ## Server Architecture
 
@@ -109,30 +187,72 @@ This MCP server leverages **[toolception](https://www.npmjs.com/package/toolcept
 
 The server supports multiple configuration methods with a clear precedence hierarchy to ensure predictable behavior.
 
-### Server Modes
+### Understanding Server Modes
 
-The server operates in one of three modes:
+The server supports three operational modes. **The mode you use depends on your deployment scenario:**
 
-1. **🔀 Dynamic Mode** (`DYNAMIC_TOOL_DISCOVERY=true`)
+#### **Using Our Hosted Instance** (Smithery/Railway)
+- **Fixed Mode**: Dynamic mode (5 meta-tools)
+- **Configuration**: Pass `FMP_ACCESS_TOKEN` in session config
+- **Use Case**: Quick start without deployment
 
-   - Starts with only **5 meta-tools**: `enable_toolset`, `disable_toolset`, `list_toolsets`, `describe_toolset`, `list_tools`
-   - Tools loaded on-demand via meta-tool calls
-   - **Best for**: Flexible, task-specific workflows where tool requirements change
+#### **Self-Hosting Your Own Instance**
+- **Your Choice**: Select any mode via environment variables or CLI arguments
+- **Configuration**: Set at server startup
+- **Use Case**: Full control over tools and configuration
 
-2. **🔧 Static Mode** (`FMP_TOOL_SETS=search,company,quotes`)
+---
 
-   - Pre-loads specific toolsets at session creation
-   - All specified tools available immediately
-   - **Best for**: Known, consistent tool requirements with predictable usage patterns
+### Available Modes
 
-3. **📚 Legacy Mode** (default, no specific configuration)
-   - Loads all 253+ tools at session creation
-   - Maximum compatibility with all features available
-   - **Best for**: Full feature access without configuration complexity
+#### 1. **🔀 Dynamic Mode** (`DYNAMIC_TOOL_DISCOVERY=true`)
 
-### Configuration Precedence
+Starts with only **5 meta-tools**:
+- `enable_toolset` - Enable a toolset by name
+- `disable_toolset` - Disable a toolset by name
+- `list_toolsets` - List available toolsets with active status
+- `describe_toolset` - Describe a toolset with details and tools
+- `list_tools` - List currently registered tool names
 
-The server follows a strict precedence hierarchy when determining the operational mode:
+**When to Use:**
+- ✅ Using our hosted instance (default)
+- ✅ Building flexible workflows where tool needs change
+- ✅ Minimizing initial overhead
+- ✅ Multi-tenant deployments where users need different tools
+
+**Our Hosted Instance:** This is the default mode
+
+**Self-Hosted:** Set via `DYNAMIC_TOOL_DISCOVERY=true` or `--dynamic-tool-discovery`
+
+#### 2. **🔧 Static Mode** (`FMP_TOOL_SETS=search,company,quotes`)
+
+Pre-loads specific toolsets at session creation. All specified tools available immediately.
+
+**When to Use:**
+- ✅ Self-hosted with known, consistent tool requirements
+- ✅ Predictable usage patterns
+- ✅ Faster tool access (no runtime loading)
+
+**Our Hosted Instance:** Not available (we use dynamic mode)
+
+**Self-Hosted:** Set via `FMP_TOOL_SETS=search,company,quotes` or `--fmp-tool-sets=search,company,quotes`
+
+#### 3. **📚 Legacy Mode** (no specific configuration)
+
+Loads all 253+ tools at session creation. Maximum compatibility with all features.
+
+**When to Use:**
+- ✅ Self-hosted with full feature access requirements
+- ✅ No configuration complexity needed
+- ✅ Not concerned about initial load time
+
+**Our Hosted Instance:** Not available (we use dynamic mode)
+
+**Self-Hosted:** Default when no mode is configured, or set `DYNAMIC_TOOL_DISCOVERY=false`
+
+### Configuration Precedence (Self-Hosted Only)
+
+When self-hosting, configuration follows this strict precedence hierarchy:
 
 ```
 🥇 CLI Arguments (highest priority)
@@ -142,7 +262,9 @@ The server follows a strict precedence hierarchy when determining the operationa
 🥉 Session Configuration (lowest priority)
 ```
 
-#### ⚠️ **Important Mode Enforcement Behavior**
+**Note:** Our hosted instance mode configuration is fixed to dynamic tool exploration and cannot be changed via session config.
+
+#### ⚠️ **Important Mode Enforcement Behavior (Self-Hosted)**
 
 When **server-level** configurations are set (CLI arguments or environment variables), they **override** all session-level configurations for **ALL** sessions. This ensures consistent behavior across the entire server instance.
 
@@ -602,15 +724,40 @@ rm -rf dist && npm run build
 
 ### Environment Variables
 
-All installation methods support the same environment variables:
+These apply when **self-hosting your own instance**. Our hosted instance has fixed configuration.
 
-| Variable                 | Description                       | Default       | Example                 |
-| ------------------------ | --------------------------------- | ------------- | ----------------------- |
-| `FMP_ACCESS_TOKEN`       | Financial Modeling Prep API token | Required      | `your_fmp_token_here`   |
-| `PORT`                   | Server port                       | `8080`        | `4000`                  |
-| `DYNAMIC_TOOL_DISCOVERY` | Enable dynamic toolset mode       | `false`       | `true`                  |
-| `FMP_TOOL_SETS`          | Static toolsets (comma-separated) | All tools     | `search,company,quotes` |
-| `NODE_ENV`               | Node.js environment               | `development` | `production`            |
+| Variable                 | Description                       | Self-Host Default | Our Hosted Instance | Notes |
+| ------------------------ | --------------------------------- | ----------------- | ------------------- | ----- |
+| `FMP_ACCESS_TOKEN`       | Financial Modeling Prep API token | -                 | Not set             | **Our hosted:** Pass via session config |
+| `PORT`                   | Server port                       | `8080`            | Railway-managed     | |
+| `DYNAMIC_TOOL_DISCOVERY` | Enable dynamic toolset mode       | `false`           | `true` (fixed)      | **Our hosted:** Always dynamic mode |
+| `FMP_TOOL_SETS`          | Static toolsets (comma-separated) | -                 | Not applicable      | **Our hosted:** Dynamic mode only |
+| `NODE_ENV`               | Node.js environment               | `development`     | `production`        | |
+
+**Deployment Scenarios:**
+
+**Using Our Hosted Instance (Smithery/Railway):**
+- ✅ No environment variables needed on your end
+- ✅ Pass `FMP_ACCESS_TOKEN` in session config
+- ✅ Dynamic mode enabled by default
+
+**Self-Hosting Your Own Instance:**
+```bash
+# Example: Dynamic mode with server-level API key
+export FMP_ACCESS_TOKEN=your_token_here
+export DYNAMIC_TOOL_DISCOVERY=true
+export PORT=8080
+npm start
+
+# Example: Static mode with specific toolsets
+export FMP_ACCESS_TOKEN=your_token_here
+export FMP_TOOL_SETS=search,company,quotes
+npm start
+
+# Example: Legacy mode (all tools)
+export FMP_ACCESS_TOKEN=your_token_here
+npm start
+```
 
 ### Verification
 
@@ -686,34 +833,81 @@ curl -X POST http://localhost:8080/mcp \
 
 **[🚀 View on Smithery.ai](https://smithery.ai/server/@imbenrabi/financial-modeling-prep-mcp-server)**
 
-Smithery is a platform that helps developers find and ship AI-native services designed to communicate with AI agents. All services follow the Model Context Protocol (MCP) specification and provide:
+The Financial Modeling Prep MCP Server is available on Smithery via **our hosted instance**.
 
-- Centralized discovery of MCP servers
-- Hosting and distribution for MCP servers
-- Standardized interfaces for tool integration
+##### Important Update: Smithery Hosting Changes (March 2026)
 
-##### Session Configuration with Smithery
+On March 1st, 2026, Smithery discontinued their free hosting service. As a result:
 
-When using Smithery, you can configure individual sessions by passing configuration in your MCP client. The Smithery platform handles the HTTP request formatting and session management.
+- ✅ **Our hosted instance is still available** - We deployed our own server to Railway and expose it via Smithery
+- ✅ **No server setup required** - Just connect and provide your FMP API key
+- ❌ **No Smithery-hosted version** - The server runs on our infrastructure, not Smithery's
 
-**Example configurations for Smithery:**
+##### Using Our Hosted Instance
+
+**Server Configuration:**
+- **Mode**: Dynamic (5 meta-tools only)
+- **Endpoint**: `https://financial-modeling-prep-mcp-server-production.up.railway.app/mcp`
+- **API Key**: You must provide your FMP API key in session configuration
+
+**Session Configuration Requirements:**
+
+You **must** pass your FMP API key in the session configuration. The server does not have an API key configured at the environment level.
+
+**Example Session Configuration (via Smithery/MCP Client):**
 
 ```json
-// Dynamic mode session
 {
+  "FMP_ACCESS_TOKEN": "your_fmp_api_key_here"
+}
+```
+
+**Alternative Configurations:**
+
+```json
+// Explicitly request dynamic mode (already the default)
+{
+  "FMP_ACCESS_TOKEN": "your_fmp_api_key_here",
   "DYNAMIC_TOOL_DISCOVERY": "true"
 }
 
-// Static mode session
+// Note: Static/Legacy modes are NOT SUPPORTED on our hosted instance
+// Server-level configuration overrides session requests
 {
-  "FMP_TOOL_SETS": "search,company,quotes"
+  "FMP_ACCESS_TOKEN": "your_fmp_api_key_here",
+  "FMP_TOOL_SETS": "search,company,quotes"  // This will be ignored
 }
-
-// Legacy mode (all tools)
-{}
 ```
 
-For detailed integration instructions, follow the [Smithery documentation](https://smithery.ai/docs) for connecting MCP clients to hosted servers.
+**Important Notes:**
+- 🔒 **Your API key is required** - We don't store API keys on the server
+- 🚀 **Dynamic mode only** - Our instance is configured for dynamic mode
+- 🔧 **Meta-tools available** - Use them to load toolsets as needed
+- 💡 **Session isolation** - Your tools and state are isolated from other users
+
+##### Getting Your FMP API Key
+
+1. Visit [Financial Modeling Prep](https://financialmodelingprep.com/developer/docs)
+2. Sign up for a free account
+3. Copy your API key from the dashboard
+4. Use it in your session configuration
+
+##### Want Different Configuration?
+
+If you need static or legacy mode, or want full control over the server configuration:
+
+**Self-Host Your Own Instance:**
+- Follow the [Installation Methods](#installation-methods) guide
+- Choose any mode (dynamic, static, or legacy)
+- Configure environment variables as needed
+- Deploy to your preferred platform
+
+**Then Register with Smithery (Optional):**
+- Deploy your instance with a public URL
+- Register the external URL with Smithery (free)
+- Full configuration control
+
+For Smithery integration documentation, visit [smithery.ai/docs](https://smithery.ai/docs).
 
 #### Glama.ai
 
@@ -917,11 +1111,29 @@ Accept: application/json, text/event-stream
 
 ### Session Configuration
 
-Session configurations are passed as Base64-encoded JSON in the `config` query parameter. This allows each session to have different tool configurations when no server-level mode enforcement is active.
+Session configurations are passed as Base64-encoded JSON in the `config` query parameter.
 
-#### Configuration Examples:
+#### Connecting to Our Hosted Instance
 
-1. **Dynamic Mode Session:**
+When connecting to our hosted instance (via Smithery or directly), you **must** provide your FMP API key:
+
+```bash
+# Configuration: {"FMP_ACCESS_TOKEN":"your_fmp_api_key_here"}
+CONFIG_BASE64=$(echo -n '{"FMP_ACCESS_TOKEN":"your_fmp_api_key_here"}' | base64)
+
+# Make request to our hosted instance
+curl -X POST "https://financial-modeling-prep-mcp-server-production.up.railway.app/mcp?config=${CONFIG_BASE64}" \
+  -H "Content-Type: application/json" \
+  -d '{"jsonrpc":"2.0","id":1,"method":"initialize","params":{"protocolVersion":"2024-11-05","clientInfo":{"name":"client","version":"1.0.0"},"capabilities":{}}}'
+```
+
+**Note:** Our hosted instance runs in dynamic mode. Static/legacy mode configurations will be ignored.
+
+#### Self-Hosting Configuration Examples
+
+When self-hosting, you can use session-level configuration (if no server-level override is set):
+
+**1. Dynamic Mode Session:**
 
 ```bash
 # Configuration: {"DYNAMIC_TOOL_DISCOVERY":"true"}
@@ -929,7 +1141,7 @@ CONFIG_BASE64=$(echo -n '{"DYNAMIC_TOOL_DISCOVERY":"true"}' | base64)
 # Result: eyJEWU5BTUlDX1RPT0xfRElTQ09WRVJZIjoidHJ1ZSJ9
 ```
 
-2. **Static Mode Session:**
+**2. Static Mode Session:**
 
 ```bash
 # Configuration: {"FMP_TOOL_SETS":"search,company,quotes"}
@@ -937,10 +1149,17 @@ CONFIG_BASE64=$(echo -n '{"FMP_TOOL_SETS":"search,company,quotes"}' | base64)
 # Result: eyJGTVBfVE9PTF9TRVRTIjoic2VhcmNoLGNvbXBhbnkscXVvdGVzIn0=
 ```
 
-3. **Legacy Mode Session:**
+**3. With API Key (if not set server-side):**
 
 ```bash
-# Configuration: {} (empty object)
+# Configuration: {"FMP_ACCESS_TOKEN":"your_key","DYNAMIC_TOOL_DISCOVERY":"true"}
+CONFIG_BASE64=$(echo -n '{"FMP_ACCESS_TOKEN":"your_key","DYNAMIC_TOOL_DISCOVERY":"true"}' | base64)
+```
+
+**4. Legacy Mode Session:**
+
+```bash
+# Configuration: {} (empty object for default legacy mode)
 CONFIG_BASE64=$(echo -n '{}' | base64)
 # Result: e30=
 ```
