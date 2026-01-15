@@ -53,7 +53,7 @@ describe('EndToEndPublishingWorkflow', () => {
     
     // Create server.json
     const serverJson = {
-      $schema: 'https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json',
+      $schema: 'https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json',
       name: 'io.github.imbenrabi/financial-modeling-prep-mcp-server',
       description: 'MCP server for Financial Modeling Prep API with 250+ financial data tools',
       version: '2.5.0',
@@ -199,7 +199,7 @@ npx financial-modeling-prep-mcp-server --fmp-token=YOUR_TOKEN
     it('should validate server.json schema compliance', async () => {
       const serverJson = JSON.parse(await readFile(join(testDir, 'server.json'), 'utf-8'));
       
-      expect(serverJson.$schema).toBe('https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json');
+      expect(serverJson.$schema).toBe('https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json');
       expect(serverJson.name).toBe('io.github.imbenrabi/financial-modeling-prep-mcp-server');
       expect(serverJson.packages).toBeDefined();
       expect(Array.isArray(serverJson.packages)).toBe(true);

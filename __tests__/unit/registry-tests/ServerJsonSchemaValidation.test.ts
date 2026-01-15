@@ -22,7 +22,7 @@ describe('ServerJsonSchemaValidation', () => {
    */
   async function createServerJson(overrides: any = {}): Promise<void> {
     const defaultServerJson = {
-      $schema: 'https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json',
+      $schema: 'https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json',
       name: 'io.github.imbenrabi/financial-modeling-prep-mcp-server',
       description: 'MCP server for Financial Modeling Prep API with 250+ financial data tools',
       version: '2.5.0',
@@ -145,7 +145,7 @@ describe('ServerJsonSchemaValidation', () => {
       const result = await validateServerJsonSchema(testDir);
       
       expect(result.errors).toContain(
-        'server.json uses schema: https://example.com/custom-schema.json, expected: https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json'
+        'server.json uses schema: https://example.com/custom-schema.json, expected: https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json'
       );
     });
 

@@ -26,7 +26,7 @@ describe('TransportConfigurationValidation', () => {
     packageOverrides: any = {}
   ): Promise<void> {
     const serverJson = {
-      $schema: 'https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json',
+      $schema: 'https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json',
       name: 'io.github.imbenrabi/financial-modeling-prep-mcp-server',
       description: 'MCP server for Financial Modeling Prep API with 250+ financial data tools',
       version: '2.5.0',
@@ -619,7 +619,7 @@ describe('TransportConfigurationValidation', () => {
   describe('Multiple Transport Support', () => {
     it('should validate server with both HTTP and stdio transports', async () => {
       const serverJson = {
-        $schema: 'https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json',
+        $schema: 'https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json',
         name: 'io.github.imbenrabi/financial-modeling-prep-mcp-server',
         description: 'MCP server with multiple transport options',
         version: '2.5.0',
@@ -668,7 +668,7 @@ describe('TransportConfigurationValidation', () => {
   describe('Transport Configuration Edge Cases', () => {
     it('should handle missing transport configuration', async () => {
       const serverJson = {
-        $schema: 'https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json',
+        $schema: 'https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json',
         name: 'io.github.imbenrabi/financial-modeling-prep-mcp-server',
         description: 'MCP server without transport',
         version: '2.5.0',
