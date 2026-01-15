@@ -70,14 +70,13 @@ Choose your deployment option:
 **No installation required!**
 
 1. **Get FMP API Key**: [Sign up at FMP](https://financialmodelingprep.com/developer/docs)
-2. **Connect via Smithery**: [View on Smithery.ai](https://smithery.ai/server/@imbenrabi/financial-modeling-prep-mcp-server)
+2. **Connect to our endpoint**: `https://financial-modeling-prep-mcp-server-production.up.railway.app/mcp`
 3. **Provide API key** in session configuration
 4. **Start using** 5 meta-tools to load toolsets dynamically
 
-**Our hosted instance endpoint:**
-```
-https://financial-modeling-prep-mcp-server-production.up.railway.app/mcp
-```
+**Available via:**
+- **Direct HTTP connection** (recommended)
+- **MCP registries** like Smithery.ai, Glama.ai, Contexaai.com
 
 **Example session config:**
 ```json
@@ -132,9 +131,14 @@ This server can be used in two ways:
 
 ### 📡 **Using Our Hosted Instance** (Recommended for Quick Start)
 
-Our hosted instance is available via:
-- **Smithery.ai**: [View on Smithery](https://smithery.ai/server/@imbenrabi/financial-modeling-prep-mcp-server)
-- **Direct Access**: `https://financial-modeling-prep-mcp-server-production.up.railway.app/mcp`
+**Direct HTTP Endpoint:**
+```
+https://financial-modeling-prep-mcp-server-production.up.railway.app/mcp
+```
+
+**Also available through MCP registries:**
+- Smithery.ai: [View on Smithery](https://smithery.ai/server/@imbenrabi/financial-modeling-prep-mcp-server)
+- Glama.ai, Contexaai.com (see [Registries](#registries) section)
 
 **Configuration:**
 - Runs in **dynamic mode** (5 meta-tools: `enable_toolset`, `disable_toolset`, `list_toolsets`, `describe_toolset`, `list_tools`)
@@ -190,10 +194,11 @@ The server supports multiple configuration methods with a clear precedence hiera
 
 The server supports three operational modes. **The mode you use depends on your deployment scenario:**
 
-#### **Using Our Hosted Instance** (Smithery/Railway)
+#### **Using Our Hosted Instance** (Railway)
 - **Fixed Mode**: Dynamic mode (5 meta-tools)
 - **Configuration**: Pass `FMP_ACCESS_TOKEN` in session config
 - **Use Case**: Quick start without deployment
+- **Access**: Direct HTTP or via MCP registries
 
 #### **Self-Hosting Your Own Instance**
 - **Your Choice**: Select any mode via environment variables or CLI arguments
@@ -735,10 +740,11 @@ These apply when **self-hosting your own instance**. Our hosted instance has fix
 
 **Deployment Scenarios:**
 
-**Using Our Hosted Instance (Smithery/Railway):**
+**Using Our Hosted Instance (Railway):**
 - ✅ No environment variables needed on your end
 - ✅ Pass `FMP_ACCESS_TOKEN` in session config
 - ✅ Dynamic mode enabled by default
+- ✅ Access via direct HTTP or MCP registries
 
 **Self-Hosting Your Own Instance:**
 ```bash
@@ -828,9 +834,9 @@ curl -X POST http://localhost:8080/mcp \
 
 #### Smithery.ai
 
-**[🚀 View on Smithery.ai](https://smithery.ai/server/@imbenrabi/financial-modeling-prep-mcp-server)**
+The Financial Modeling Prep MCP Server is listed on Smithery as one way to access **our hosted instance**.
 
-The Financial Modeling Prep MCP Server is available on Smithery via **our hosted instance**.
+**[View on Smithery.ai](https://smithery.ai/server/@imbenrabi/financial-modeling-prep-mcp-server)**
 
 ##### Important Update: Smithery Hosting Changes (March 2026)
 
@@ -851,7 +857,7 @@ On March 1st, 2026, Smithery discontinued their free hosting service. As a resul
 
 You **must** pass your FMP API key in the session configuration. The server does not have an API key configured at the environment level.
 
-**Example Session Configuration (via Smithery/MCP Client):**
+**Example Session Configuration:**
 
 ```json
 {
@@ -1179,7 +1185,7 @@ Session configurations are passed as Base64-encoded JSON in the `config` query p
 
 #### Connecting to Our Hosted Instance
 
-When connecting to our hosted instance (via Smithery or directly), you **must** provide your FMP API key:
+When connecting to our hosted instance (directly or via MCP registries), you **must** provide your FMP API key:
 
 ```bash
 # Configuration: {"FMP_ACCESS_TOKEN":"your_fmp_api_key_here"}
