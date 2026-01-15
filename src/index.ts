@@ -73,6 +73,37 @@ const healthCheckEndpoint = defineEndpoint({
   }
 });
 
+// Define MCP Server Card endpoint for Smithery/registry discovery (SEP-1649)
+const serverCardEndpoint = defineEndpoint({
+  method: 'GET',
+  path: '/.well-known/mcp/server-card.json',
+  responseSchema: z.object({
+    $schema: z.string(),
+    version: z.string(),
+    protocolVersion: z.string(),
+    serverInfo: z.object({
+      name: z.string(),
+      title: z.string().optional(),
+      version: z.string(),
+      description: z.string().optional(),
+      iconUrl: z.string().optional(),
+      documentationUrl: z.string().optional(),
+    }),
+  }),
+  handler: async () => ({
+    $schema: 'https://modelcontextprotocol.io/schemas/server-card/1.0',
+    version: '1.0',
+    protocolVersion: '2025-11-25',
+    serverInfo: {
+      name: 'financial-modeling-prep-mcp-server',
+      title: 'Financial Modeling Prep MCP Server',
+      version: getServerVersion(),
+      description: 'MCP server providing 250+ financial data tools using meta tools via Financial Modeling Prep API',
+      documentationUrl: 'https://github.com/imbenrabi/Financial-Modeling-Prep-MCP-Server',
+    },
+  })
+});
+
 async function main() {
   // Initialize the ServerModeEnforcer with env vars and CLI args
   // This will also validate tool sets and exit if invalid ones are found
@@ -139,7 +170,7 @@ async function main() {
         basePath: '/',
         cors: true,
         logger: false,
-        customEndpoints: [pingEndpoint, healthCheckEndpoint]
+        customEndpoints: [pingEndpoint, healthCheckEndpoint, serverCardEndpoint]
       }
     });
 

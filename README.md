@@ -177,11 +177,11 @@ This MCP server leverages **[toolception](https://www.npmjs.com/package/toolcept
 
 ### Available HTTP Endpoints:
 
-- `POST /` - Main MCP protocol endpoint (JSON-RPC formatted messages)
-- `GET /mcp` - Server information endpoint
-- `GET /healthz` - Health check endpoint (returns `{"ok": true}`)
-- `GET /tools` - Tool manager status endpoint
-- `GET /.well-known/mcp-config` - MCP configuration schema endpoint
+- `POST /mcp` - Main MCP protocol endpoint (JSON-RPC formatted messages)
+  - **Requires session initialization** - see [Session Management](#session-management-and-headers)
+- `GET /ping` - Simple ping endpoint (returns `{"status": "ok"}`)
+- `GET /healthcheck` - Comprehensive health check endpoint
+- `GET /.well-known/mcp/server-card.json` - MCP server card for auto-discovery (SEP-1649)
 
 ## Configuration & Mode Enforcement
 
@@ -1108,6 +1108,73 @@ POST http://localhost:8080/mcp[?config=BASE64_ENCODED_CONFIG]
 Content-Type: application/json
 Accept: application/json, text/event-stream
 ```
+
+### Session Management and Headers
+
+**IMPORTANT:** This server uses the MCP Streamable HTTP transport, which requires session management via headers.
+
+#### Session Initialization Flow
+
+1. **First Request - Initialize:**
+   ```bash
+   curl -X POST "http://localhost:8080/mcp" \
+     -H "Content-Type: application/json" \
+     -H "Accept: application/json, text/event-stream" \
+     -d '{
+       "jsonrpc": "2.0",
+       "id": 1,
+       "method": "initialize",
+       "params": {
+         "protocolVersion": "2024-11-05",
+         "clientInfo": {"name": "my-client", "version": "1.0.0"},
+         "capabilities": {}
+       }
+     }'
+   ```
+
+   **Server Response Includes:**
+   - Header: `mcp-session-id: <unique-session-id>`
+   - This session ID identifies your isolated server instance
+
+2. **Subsequent Requests - Include Session ID:**
+   ```bash
+   curl -X POST "http://localhost:8080/mcp" \
+     -H "Content-Type: application/json" \
+     -H "Accept: application/json, text/event-stream" \
+     -H "mcp-session-id: <session-id-from-initialize>" \
+     -d '{
+       "jsonrpc": "2.0",
+       "id": 2,
+       "method": "tools/list",
+       "params": {}
+     }'
+   ```
+
+   **Required Header:** `mcp-session-id: <your-session-id>`
+
+#### Session Behavior
+
+- **Isolated State**: Each session has its own tool state, enabled toolsets, and configuration
+- **Session Persistence**: Sessions are maintained across requests via the `mcp-session-id` header
+- **Session Expiration**: Sessions may expire after inactivity (handled by toolception's LRU/TTL cache)
+- **Client Identification**: The server also uses an internal `mcp-client-id` for session routing
+
+#### Error Without Session ID
+
+If you forget to include the session ID header after initialization, you'll receive:
+
+```json
+{
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32000,
+    "message": "Session not found or expired"
+  },
+  "id": null
+}
+```
+
+**Solution:** Always call `initialize` first and include the returned `mcp-session-id` in all subsequent requests.
 
 ### Session Configuration
 
