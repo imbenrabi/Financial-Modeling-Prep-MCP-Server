@@ -59,14 +59,14 @@
   },
   "devDependencies": {
     "@types/minimist": "^1.2.5",
-    "@types/node": "^20.19.0",
+    "@types/node": "^25.0.0",
     "@vitest/coverage-v8": "^3.2.4",
     "tsx": "^4.19.2",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=25.3.0"
   },
   "repository": {
     "type": "git",

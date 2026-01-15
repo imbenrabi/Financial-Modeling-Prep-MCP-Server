@@ -1,5 +1,5 @@
 # ---- Build stage ----
-FROM node:lts-alpine AS builder
+FROM node:25.3.0-alpine AS builder
 WORKDIR /app
 
 COPY package.json package-lock.json ./
@@ -10,7 +10,7 @@ COPY . .
 RUN npm run build
 
 # ---- Runtime stage ----
-FROM node:lts-alpine AS runner
+FROM node:25.3.0-alpine AS runner
 WORKDIR /app
 
 # Copy manifests and install prod deps as root
