@@ -13,7 +13,7 @@ export interface ToolceptionConfig {
   moduleLoaders: Record<string, ModuleLoader>;
   startup: {
     mode: 'DYNAMIC' | 'STATIC';
-    toolsets?: ToolSet[];  // Changed from initialToolsets in toolception 0.5.1
+    toolsets?: ToolSet[] | 'ALL';  // Changed from initialToolsets in toolception 0.5.1
   };
   context: {
     accessToken?: string;
