@@ -1,6 +1,5 @@
 # Financial Modeling Prep MCP (Model Context Protocol) Server
 
-[![smithery badge](https://smithery.ai/badge/@imbenrabi/financial-modeling-prep-mcp-server)](https://smithery.ai/server/@imbenrabi/financial-modeling-prep-mcp-server)
 [![npm version](https://img.shields.io/npm/v/financial-modeling-prep-mcp-server.svg)](https://www.npmjs.com/package/financial-modeling-prep-mcp-server)
 
 A Model Context Protocol (MCP) implementation for Financial Modeling Prep, enabling AI assistants to access and analyze financial data, stock information, company fundamentals, and market insights.
@@ -71,14 +70,13 @@ Choose your deployment option:
 **No installation required!**
 
 1. **Get FMP API Key**: [Sign up at FMP](https://financialmodelingprep.com/developer/docs)
-2. **Connect via Smithery**: [View on Smithery.ai](https://smithery.ai/server/@imbenrabi/financial-modeling-prep-mcp-server)
+2. **Connect to our endpoint**: `https://financial-modeling-prep-mcp-server-production.up.railway.app/mcp`
 3. **Provide API key** in session configuration
 4. **Start using** 5 meta-tools to load toolsets dynamically
 
-**Our hosted instance endpoint:**
-```
-https://financial-modeling-prep-mcp-server-production.up.railway.app/mcp
-```
+**Available via:**
+- **Direct HTTP connection** (recommended)
+- **MCP registries** like Smithery.ai, Glama.ai, Contexaai.com
 
 **Example session config:**
 ```json
@@ -133,9 +131,14 @@ This server can be used in two ways:
 
 ### 📡 **Using Our Hosted Instance** (Recommended for Quick Start)
 
-Our hosted instance is available via:
-- **Smithery.ai**: [View on Smithery](https://smithery.ai/server/@imbenrabi/financial-modeling-prep-mcp-server)
-- **Direct Access**: `https://financial-modeling-prep-mcp-server-production.up.railway.app/mcp`
+**Direct HTTP Endpoint:**
+```
+https://financial-modeling-prep-mcp-server-production.up.railway.app/mcp
+```
+
+**Also available through MCP registries:**
+- Smithery.ai: [View on Smithery](https://smithery.ai/server/@imbenrabi/financial-modeling-prep-mcp-server)
+- Glama.ai, Contexaai.com (see [Registries](#registries) section)
 
 **Configuration:**
 - Runs in **dynamic mode** (5 meta-tools: `enable_toolset`, `disable_toolset`, `list_toolsets`, `describe_toolset`, `list_tools`)
@@ -177,11 +180,11 @@ This MCP server leverages **[toolception](https://www.npmjs.com/package/toolcept
 
 ### Available HTTP Endpoints:
 
-- `POST /` - Main MCP protocol endpoint (JSON-RPC formatted messages)
-- `GET /mcp` - Server information endpoint
-- `GET /healthz` - Health check endpoint (returns `{"ok": true}`)
-- `GET /tools` - Tool manager status endpoint
-- `GET /.well-known/mcp-config` - MCP configuration schema endpoint
+- `POST /mcp` - Main MCP protocol endpoint (JSON-RPC formatted messages)
+  - **Requires session initialization** - see [Session Management](#session-management-and-headers)
+- `GET /ping` - Simple ping endpoint (returns `{"status": "ok"}`)
+- `GET /healthcheck` - Comprehensive health check endpoint
+- `GET /.well-known/mcp/server-card.json` - MCP server card for auto-discovery (SEP-1649)
 
 ## Configuration & Mode Enforcement
 
@@ -191,10 +194,11 @@ The server supports multiple configuration methods with a clear precedence hiera
 
 The server supports three operational modes. **The mode you use depends on your deployment scenario:**
 
-#### **Using Our Hosted Instance** (Smithery/Railway)
+#### **Using Our Hosted Instance** (Railway)
 - **Fixed Mode**: Dynamic mode (5 meta-tools)
 - **Configuration**: Pass `FMP_ACCESS_TOKEN` in session config
 - **Use Case**: Quick start without deployment
+- **Access**: Direct HTTP or via MCP registries
 
 #### **Self-Hosting Your Own Instance**
 - **Your Choice**: Select any mode via environment variables or CLI arguments
@@ -736,10 +740,11 @@ These apply when **self-hosting your own instance**. Our hosted instance has fix
 
 **Deployment Scenarios:**
 
-**Using Our Hosted Instance (Smithery/Railway):**
+**Using Our Hosted Instance (Railway):**
 - ✅ No environment variables needed on your end
 - ✅ Pass `FMP_ACCESS_TOKEN` in session config
 - ✅ Dynamic mode enabled by default
+- ✅ Access via direct HTTP or MCP registries
 
 **Self-Hosting Your Own Instance:**
 ```bash
@@ -829,11 +834,9 @@ curl -X POST http://localhost:8080/mcp \
 
 #### Smithery.ai
 
-[![smithery badge](https://smithery.ai/badge/@imbenrabi/financial-modeling-prep-mcp-server)](https://smithery.ai/server/@imbenrabi/financial-modeling-prep-mcp-server)
+The Financial Modeling Prep MCP Server is listed on Smithery as one way to access **our hosted instance**.
 
-**[🚀 View on Smithery.ai](https://smithery.ai/server/@imbenrabi/financial-modeling-prep-mcp-server)**
-
-The Financial Modeling Prep MCP Server is available on Smithery via **our hosted instance**.
+**[View on Smithery.ai](https://smithery.ai/server/@imbenrabi/financial-modeling-prep-mcp-server)**
 
 ##### Important Update: Smithery Hosting Changes (March 2026)
 
@@ -854,7 +857,7 @@ On March 1st, 2026, Smithery discontinued their free hosting service. As a resul
 
 You **must** pass your FMP API key in the session configuration. The server does not have an API key configured at the environment level.
 
-**Example Session Configuration (via Smithery/MCP Client):**
+**Example Session Configuration:**
 
 ```json
 {
@@ -1109,13 +1112,80 @@ Content-Type: application/json
 Accept: application/json, text/event-stream
 ```
 
+### Session Management and Headers
+
+**IMPORTANT:** This server uses the MCP Streamable HTTP transport, which requires session management via headers.
+
+#### Session Initialization Flow
+
+1. **First Request - Initialize:**
+   ```bash
+   curl -X POST "http://localhost:8080/mcp" \
+     -H "Content-Type: application/json" \
+     -H "Accept: application/json, text/event-stream" \
+     -d '{
+       "jsonrpc": "2.0",
+       "id": 1,
+       "method": "initialize",
+       "params": {
+         "protocolVersion": "2024-11-05",
+         "clientInfo": {"name": "my-client", "version": "1.0.0"},
+         "capabilities": {}
+       }
+     }'
+   ```
+
+   **Server Response Includes:**
+   - Header: `mcp-session-id: <unique-session-id>`
+   - This session ID identifies your isolated server instance
+
+2. **Subsequent Requests - Include Session ID:**
+   ```bash
+   curl -X POST "http://localhost:8080/mcp" \
+     -H "Content-Type: application/json" \
+     -H "Accept: application/json, text/event-stream" \
+     -H "mcp-session-id: <session-id-from-initialize>" \
+     -d '{
+       "jsonrpc": "2.0",
+       "id": 2,
+       "method": "tools/list",
+       "params": {}
+     }'
+   ```
+
+   **Required Header:** `mcp-session-id: <your-session-id>`
+
+#### Session Behavior
+
+- **Isolated State**: Each session has its own tool state, enabled toolsets, and configuration
+- **Session Persistence**: Sessions are maintained across requests via the `mcp-session-id` header
+- **Session Expiration**: Sessions may expire after inactivity (handled by toolception's LRU/TTL cache)
+- **Client Identification**: The server also uses an internal `mcp-client-id` for session routing
+
+#### Error Without Session ID
+
+If you forget to include the session ID header after initialization, you'll receive:
+
+```json
+{
+  "jsonrpc": "2.0",
+  "error": {
+    "code": -32000,
+    "message": "Session not found or expired"
+  },
+  "id": null
+}
+```
+
+**Solution:** Always call `initialize` first and include the returned `mcp-session-id` in all subsequent requests.
+
 ### Session Configuration
 
 Session configurations are passed as Base64-encoded JSON in the `config` query parameter.
 
 #### Connecting to Our Hosted Instance
 
-When connecting to our hosted instance (via Smithery or directly), you **must** provide your FMP API key:
+When connecting to our hosted instance (directly or via MCP registries), you **must** provide your FMP API key:
 
 ```bash
 # Configuration: {"FMP_ACCESS_TOKEN":"your_fmp_api_key_here"}
