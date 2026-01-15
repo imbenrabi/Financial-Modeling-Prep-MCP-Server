@@ -7,20 +7,13 @@ export type FMPContext = {
   config?: {
     FMP_ACCESS_TOKEN?: string;
   };
-}; 
+};
 
 /**
  * Type definition for tool registration functions
  * All registration functions follow this pattern: (server, accessToken?) => void
  */
 export type ToolRegistrationFunction = (server: McpServer, accessToken?: string) => void;
-
-
-/**
- * Type definition for module loader functions
- * Each module loader returns a Promise that resolves to a registration function
- */
-export type ModuleLoader = () => Promise<ToolRegistrationFunction>;
 
 /**
  * Tool sets configuration based on Financial Modeling Prep API categories
@@ -67,3 +60,12 @@ export interface ToolSetDefinition {
  * Server mode enumeration
  */
 export type ServerMode = 'DYNAMIC_TOOL_DISCOVERY' | 'STATIC_TOOL_SETS' | 'ALL_TOOLS';
+
+/**
+ * Session configuration type
+ */
+export interface SessionConfig {
+  FMP_ACCESS_TOKEN?: string;
+  FMP_TOOL_SETS?: string;
+  DYNAMIC_TOOL_DISCOVERY?: string;
+}

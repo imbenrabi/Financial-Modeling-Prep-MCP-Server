@@ -1,6 +1,6 @@
 {
   "name": "financial-modeling-prep-mcp-server",
-  "version": "2.5.3",
+  "version": "2.6.0",
   "mcpName": "io.github.imbenrabi/financial-modeling-prep-mcp-server",
   "description": "Model Context Protocol server for Financial Modeling Prep (FMP) API, exposing 250+ tools for financial data, market insights, and analysis.",
   "main": "dist/index.js",
@@ -49,26 +49,24 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.24.3",
-    "@smithery/sdk": "^1.5.5",
     "@types/axios": "0.14.4",
     "axios": "^1.13.2",
     "commander": "^14.0.0",
-    "express": "^5.0.1",
     "mcp-trace": "^0.1.0",
     "minimist": "^1.2.8",
+    "toolception": "^0.5.5",
     "zod": "^3.22.4"
   },
   "devDependencies": {
-    "@types/express": "^5.0.2",
     "@types/minimist": "^1.2.5",
-    "@types/node": "^20.19.0",
+    "@types/node": "^25.0.0",
     "@vitest/coverage-v8": "^3.2.4",
     "tsx": "^4.19.2",
     "typescript": "^5.9.2",
     "vitest": "^3.2.4"
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=25.3.0"
   },
   "repository": {
     "type": "git",
