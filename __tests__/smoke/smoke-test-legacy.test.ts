@@ -143,4 +143,36 @@ describe('Legacy/All Tools Mode Smoke Tests', () => {
       expect(toolNames).not.toContain(metaTool);
     }
   }, 40000);
+
+  it('should include MCP annotations on FMP tool definitions in legacy mode', async () => {
+    // Start server in legacy mode (all tools loaded)
+    server = await startTestServer({
+      env: {},
+    });
+
+    const sessionConfig: SessionConfig = {};
+
+    // Initialize session
+    await initializeSession(server.port, sessionConfig);
+
+    // List tools to get tool definitions
+    const toolsResponse = await listTools(server.port, sessionConfig);
+
+    expect(toolsResponse.result.tools).toBeDefined();
+    expect(Array.isArray(toolsResponse.result.tools)).toBe(true);
+    expect(toolsResponse.result.tools.length).toBeGreaterThan(200);
+
+    // Find the getCompanyProfile tool
+    const companyProfileTool = toolsResponse.result.tools.find(
+      (t: any) => t.name === 'getCompanyProfile'
+    );
+
+    expect(companyProfileTool).toBeDefined();
+
+    // Verify MCP annotations are present on the tool definition
+    expect(companyProfileTool.annotations).toBeDefined();
+    expect(companyProfileTool.annotations).toHaveProperty('readOnlyHint', true);
+    expect(companyProfileTool.annotations).toHaveProperty('openWorldHint', true);
+    expect(companyProfileTool.annotations).toHaveProperty('idempotentHint', true);
+  }, 40000);
 });

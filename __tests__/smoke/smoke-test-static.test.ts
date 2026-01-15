@@ -131,4 +131,36 @@ describe('Static/Toolsets Mode Smoke Tests', () => {
     // Should have a significant number of tools
     expect(toolsResponse.result.tools.length).toBeGreaterThan(30);
   }, 40000);
+
+  it('should include MCP annotations on FMP tool definitions', async () => {
+    // Start server with search toolset
+    server = await startTestServer({
+      env: { FMP_TOOL_SETS: 'search' },
+    });
+
+    const sessionConfig: SessionConfig = { FMP_TOOL_SETS: 'search' };
+
+    // Initialize session
+    await initializeSession(server.port, sessionConfig);
+
+    // List tools to get tool definitions
+    const toolsResponse = await listTools(server.port, sessionConfig);
+
+    expect(toolsResponse.result.tools).toBeDefined();
+    expect(Array.isArray(toolsResponse.result.tools)).toBe(true);
+    expect(toolsResponse.result.tools.length).toBeGreaterThan(0);
+
+    // Find the searchSymbol tool
+    const searchSymbolTool = toolsResponse.result.tools.find(
+      (t: any) => t.name === 'searchSymbol'
+    );
+
+    expect(searchSymbolTool).toBeDefined();
+
+    // Verify MCP annotations are present on the tool definition
+    expect(searchSymbolTool.annotations).toBeDefined();
+    expect(searchSymbolTool.annotations).toHaveProperty('readOnlyHint', true);
+    expect(searchSymbolTool.annotations).toHaveProperty('openWorldHint', true);
+    expect(searchSymbolTool.annotations).toHaveProperty('idempotentHint', true);
+  }, 40000);
 });

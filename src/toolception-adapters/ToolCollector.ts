@@ -11,6 +11,12 @@ export interface McpToolDefinition {
   description: string;
   inputSchema: Record<string, any>;
   handler: (args: any) => Promise<any> | any;
+  annotations?: {
+    readOnlyHint?: boolean;
+    destructiveHint?: boolean;
+    idempotentHint?: boolean;
+    openWorldHint?: boolean;
+  };
 }
 
 /**
@@ -50,9 +56,13 @@ export class ToolCollector implements ToolRegistrar {
       name,
       description,
       inputSchema: schema,
-      handler: async (params: any) => {
-        // Execute the handler and return its result
-        return await handler(params);
+      handler,
+      // Add MCP annotations to tool definition
+      // All FMP tools are read-only data fetchers that call external APIs
+      annotations: {
+        readOnlyHint: true,      // All FMP tools are read-only data fetchers
+        openWorldHint: true,     // All FMP tools call external FMP API (open world)
+        idempotentHint: true,    // Read operations are idempotent
       }
     });
   }
