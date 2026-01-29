@@ -52,7 +52,6 @@
     "@types/axios": "0.14.4",
     "axios": "^1.13.2",
     "commander": "^14.0.0",
-    "mcp-trace": "^0.1.0",
     "minimist": "^1.2.8",
     "toolception": "^0.6.0",
     "zod": "^3.22.4"
