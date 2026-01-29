@@ -6,8 +6,10 @@ import type { ModuleLoader } from 'toolception';
  * May contain configuration and authentication details
  */
 export interface ModuleLoaderContext {
-  /** Optional FMP API access token */
+  /** Optional FMP API access token (from server-level context) */
   accessToken?: string;
+  /** Optional FMP API access token (from session context via query param) */
+  FMP_ACCESS_TOKEN?: string;
   /** Additional context properties toolception may provide */
   [key: string]: unknown;
 }
@@ -61,8 +63,10 @@ export function createModuleAdapter(
     const collector = new ToolCollector();
 
     // Extract access token from context
-    // Context is passed by toolception and may contain our accessToken
-    const accessToken = (context as ModuleLoaderContext)?.accessToken;
+    // Session context FMP_ACCESS_TOKEN takes priority (shallow merge puts it on top)
+    // Falls back to server-level accessToken
+    const accessToken = (context as ModuleLoaderContext)?.FMP_ACCESS_TOKEN
+      || (context as ModuleLoaderContext)?.accessToken;
 
     try {
       // Execute the registration function with our collector
