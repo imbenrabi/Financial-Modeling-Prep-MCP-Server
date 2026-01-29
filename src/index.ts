@@ -147,6 +147,7 @@ async function main() {
       moduleLoaders: toolceptionConfig.moduleLoaders,
       startup: toolceptionConfig.startup,
       context: toolceptionConfig.context,
+      sessionContext: toolceptionConfig.sessionContext,
       exposurePolicy: toolceptionConfig.exposurePolicy,
       createServer: () => {
         // Toolception will create its own MCP server instance

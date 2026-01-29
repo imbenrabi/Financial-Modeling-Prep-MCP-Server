@@ -5,6 +5,20 @@ import type { ServerModeEnforcer } from '../server-mode-enforcer/ServerModeEnfor
 import type { ModuleLoader } from 'toolception';
 
 /**
+ * Session context configuration for per-session token support
+ * Enables users to provide their own FMP_ACCESS_TOKEN via query param
+ */
+export interface SessionContextConfig {
+  enabled: boolean;
+  queryParam: {
+    name: string;
+    encoding: 'base64' | 'json';
+    allowedKeys: string[];
+  };
+  merge: 'shallow' | 'deep';
+}
+
+/**
  * Toolception configuration options
  * Based on toolception's CreateMcpServerOptions type
  */
@@ -19,6 +33,7 @@ export interface ToolceptionConfig {
     accessToken?: string;
     [key: string]: any;
   };
+  sessionContext?: SessionContextConfig;
   exposurePolicy: {
     namespaceToolsWithSetKey: boolean;
     maxActiveToolsets?: number;
@@ -76,6 +91,7 @@ export class ModeConfigMapper {
           context: {
             accessToken
           },
+          sessionContext: this.buildSessionContextConfig(),
           exposurePolicy: {
             namespaceToolsWithSetKey: false, // Flat namespace per user requirement
             maxActiveToolsets: undefined // No limit
@@ -96,6 +112,7 @@ export class ModeConfigMapper {
           context: {
             accessToken
           },
+          sessionContext: this.buildSessionContextConfig(),
           exposurePolicy: {
             namespaceToolsWithSetKey: false,
             allowlist: toolsets
@@ -115,6 +132,7 @@ export class ModeConfigMapper {
           context: {
             accessToken
           },
+          sessionContext: this.buildSessionContextConfig(),
           exposurePolicy: {
             namespaceToolsWithSetKey: false
           }
@@ -124,6 +142,22 @@ export class ModeConfigMapper {
       default:
         throw new Error(`Unknown server mode: ${mode}`);
     }
+  }
+
+  /**
+   * Build session context configuration for per-session token support
+   * Only allows FMP_ACCESS_TOKEN to be overridden per-session
+   */
+  private static buildSessionContextConfig(): SessionContextConfig {
+    return {
+      enabled: true,
+      queryParam: {
+        name: 'config',
+        encoding: 'base64',
+        allowedKeys: ['FMP_ACCESS_TOKEN'],
+      },
+      merge: 'shallow',
+    };
   }
 
   /**
