@@ -169,6 +169,22 @@ This MCP server leverages **[toolception](https://www.npmjs.com/package/toolcept
 - **HTTP-based Protocol**: Communicates via HTTP with JSON-RPC formatted messages using Fastify transport
 - **Dynamic Tool Management**: Tools can be loaded/unloaded at runtime per session using toolception's DynamicToolManager
 
+### Transport & Client Compatibility
+
+> **Important:** This server uses **HTTP/SSE transport only** (no stdio). See compatibility notes below.
+
+| Client | Support | How to Connect |
+|--------|---------|----------------|
+| **Claude.ai** | Yes | Settings > Connectors > Add remote server |
+| **Claude Desktop** | Yes | Settings > Connectors (NOT `claude add` or config.json) |
+| **Claude Mobile** | Yes | Uses servers added via claude.ai |
+| **Smithery/Glama** | Yes | Via registry with server card |
+| **Custom HTTP** | Yes | Include `mcp-client-id` header |
+
+**Claude Desktop users:** Do NOT use `claude add <url>` or edit `claude_desktop_config.json` - these expect stdio transport. Instead, add as a remote server via **Settings > Connectors**.
+
+See [Anthropic's Remote MCP Server Guide](https://support.claude.com/en/articles/11503834-building-custom-connectors-via-remote-mcp-servers).
+
 ### Request Flow:
 
 1. **Client Request** → HTTP POST to `/` endpoint
@@ -568,14 +584,13 @@ curl -X POST http://localhost:8080/mcp \
 
 ### AI Platform Integration
 
-This server is compatible with AI platforms that support the Model Context Protocol:
+This server uses **HTTP/SSE transport** and is compatible with platforms that support remote MCP servers:
 
-- **ChatGPT** (with MCP support)
-- **Claude** (via MCP clients)
-- **Perplexity** (via MCP integration)
-- **Custom AI Applications** (using MCP SDK)
+- **Claude (claude.ai, Desktop, Mobile)** - Add via Settings > Connectors as a remote server. See [Anthropic's guide](https://support.claude.com/en/articles/11503834-building-custom-connectors-via-remote-mcp-servers).
+- **Smithery.ai / Glama.ai / Contexaai** - Supported via MCP registries
+- **Custom Applications** - Use MCP SDK with HTTP transport
 
-For platform-specific integration instructions, refer to your AI platform's MCP documentation.
+> **Note:** This server does NOT support stdio transport. Do not use `claude add <url>` or `claude_desktop_config.json` - these methods expect stdio.
 
 ## Installation Methods
 

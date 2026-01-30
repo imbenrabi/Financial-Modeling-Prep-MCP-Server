@@ -57,6 +57,7 @@ export const serverCardEndpoint = defineEndpoint({
     },
     // Session configuration schema for Smithery UI
     // Note: Config is passed as base64-encoded JSON in the 'config' query parameter
+    // Only FMP_ACCESS_TOKEN is supported per-session; mode is set at server level via env/CLI
     configSchema: {
       type: 'object',
       properties: {
@@ -64,17 +65,6 @@ export const serverCardEndpoint = defineEndpoint({
           type: 'string',
           title: 'FMP API Key',
           description: 'Your Financial Modeling Prep API access token (required)',
-        },
-        DYNAMIC_TOOL_DISCOVERY: {
-          type: 'string',
-          title: 'Dynamic Tool Discovery',
-          description: 'Enable dynamic toolset management: "true" for meta-tools only, "false" for all tools',
-          default: 'true',
-        },
-        FMP_TOOL_SETS: {
-          type: 'string',
-          title: 'Tool Sets',
-          description: 'Comma-separated list of tool sets to load (e.g., "search,company,quotes"). Only used when DYNAMIC_TOOL_DISCOVERY is false.',
         },
       },
       required: ['FMP_ACCESS_TOKEN'],
@@ -89,12 +79,12 @@ export const serverCardEndpoint = defineEndpoint({
         inputSchema: {
           type: 'object',
           properties: {
-            toolset: {
+            name: {
               type: 'string',
               description: 'Name of the toolset to enable (e.g., "search", "company", "quotes")',
             },
           },
-          required: ['toolset'],
+          required: ['name'],
         },
       },
       {
@@ -103,12 +93,12 @@ export const serverCardEndpoint = defineEndpoint({
         inputSchema: {
           type: 'object',
           properties: {
-            toolset: {
+            name: {
               type: 'string',
               description: 'Name of the toolset to disable',
             },
           },
-          required: ['toolset'],
+          required: ['name'],
         },
       },
       {
@@ -125,12 +115,12 @@ export const serverCardEndpoint = defineEndpoint({
         inputSchema: {
           type: 'object',
           properties: {
-            toolset: {
+            name: {
               type: 'string',
               description: 'Name of the toolset to describe',
             },
           },
-          required: ['toolset'],
+          required: ['name'],
         },
       },
       {
