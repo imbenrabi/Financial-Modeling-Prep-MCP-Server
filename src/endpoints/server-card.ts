@@ -39,7 +39,10 @@ export const serverCardEndpoint = defineEndpoint({
       inputSchema: z.record(z.any()),
     })).optional(),
     resources: z.array(z.any()).optional(),
-    prompts: z.array(z.any()).optional(),
+    prompts: z.array(z.object({
+      name: z.string(),
+      description: z.string(),
+    })).optional(),
   }),
   handler: async () => ({
     $schema: 'https://modelcontextprotocol.io/schemas/server-card/1.0',
@@ -140,6 +143,11 @@ export const serverCardEndpoint = defineEndpoint({
       },
     ],
     resources: [],
-    prompts: [],
+    prompts: [
+      {
+        name: 'list_mcp_assets',
+        description: 'Human-friendly overview of server capabilities: modes, prompts, tools, resources, and quick start.',
+      },
+    ],
   })
 });

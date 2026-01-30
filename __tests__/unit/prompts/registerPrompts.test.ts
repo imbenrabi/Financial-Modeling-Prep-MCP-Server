@@ -45,7 +45,7 @@ describe('registerPrompts', () => {
     registerPrompts(server, { ...baseCtx, mode: 'DYNAMIC_TOOL_DISCOVERY', listChanged: true });
     const promptResult = await calls.prompt.handler();
     expect(promptResult.messages[0].content[0].text).toContain('enable_toolset');
-    expect(promptResult.messages[0].content[0].text).toContain('get_toolset_status');
+    expect(promptResult.messages[0].content[0].text).toContain('list_toolsets');
   });
 });
 

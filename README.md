@@ -1110,19 +1110,35 @@ POST http://localhost:8080/mcp[?config=BASE64_ENCODED_CONFIG]
 ```http
 Content-Type: application/json
 Accept: application/json, text/event-stream
+mcp-client-id: <your-client-id>
 ```
 
 ### Session Management and Headers
 
 **IMPORTANT:** This server uses the MCP Streamable HTTP transport, which requires session management via headers.
 
+#### Required Headers for Session Persistence
+
+| Header | When Required | Description |
+|--------|--------------|-------------|
+| `mcp-client-id` | **All requests** | Unique client identifier for session routing and caching |
+| `mcp-session-id` | After `initialize` | Session ID returned from `initialize` request |
+| `Content-Type` | All requests | Must be `application/json` |
+| `Accept` | All requests | Must include `application/json, text/event-stream` |
+
+> **Critical:** The `mcp-client-id` header is required for session persistence. Without it, each request creates an anonymous client that is NOT cached, causing "Session not found or expired" errors on subsequent requests.
+
 #### Session Initialization Flow
 
 1. **First Request - Initialize:**
    ```bash
+   # Generate a unique client ID (once per client instance)
+   CLIENT_ID="my-app-$(date +%s)"
+   
    curl -X POST "http://localhost:8080/mcp" \
      -H "Content-Type: application/json" \
      -H "Accept: application/json, text/event-stream" \
+     -H "mcp-client-id: $CLIENT_ID" \
      -d '{
        "jsonrpc": "2.0",
        "id": 1,
@@ -1139,11 +1155,12 @@ Accept: application/json, text/event-stream
    - Header: `mcp-session-id: <unique-session-id>`
    - This session ID identifies your isolated server instance
 
-2. **Subsequent Requests - Include Session ID:**
+2. **Subsequent Requests - Include Both Session ID and Client ID:**
    ```bash
    curl -X POST "http://localhost:8080/mcp" \
      -H "Content-Type: application/json" \
      -H "Accept: application/json, text/event-stream" \
+     -H "mcp-client-id: $CLIENT_ID" \
      -H "mcp-session-id: <session-id-from-initialize>" \
      -d '{
        "jsonrpc": "2.0",
@@ -1153,18 +1170,18 @@ Accept: application/json, text/event-stream
      }'
    ```
 
-   **Required Header:** `mcp-session-id: <your-session-id>`
+   **Required Headers:** Both `mcp-client-id` and `mcp-session-id`
 
 #### Session Behavior
 
 - **Isolated State**: Each session has its own tool state, enabled toolsets, and configuration
 - **Session Persistence**: Sessions are maintained across requests via the `mcp-session-id` header
+- **Client Caching**: Clients are cached by `mcp-client-id` for efficient bundle reuse
 - **Session Expiration**: Sessions may expire after inactivity (handled by toolception's LRU/TTL cache)
-- **Client Identification**: The server also uses an internal `mcp-client-id` for session routing
 
-#### Error Without Session ID
+#### Error Without Required Headers
 
-If you forget to include the session ID header after initialization, you'll receive:
+If you forget to include the required headers, you'll receive:
 
 ```json
 {
@@ -1177,7 +1194,10 @@ If you forget to include the session ID header after initialization, you'll rece
 }
 ```
 
-**Solution:** Always call `initialize` first and include the returned `mcp-session-id` in all subsequent requests.
+**Solution:** 
+1. Generate a unique `mcp-client-id` for your client instance
+2. Include `mcp-client-id` in ALL requests (including `initialize`)
+3. Include the returned `mcp-session-id` in all requests AFTER `initialize`
 
 ### Session Configuration
 

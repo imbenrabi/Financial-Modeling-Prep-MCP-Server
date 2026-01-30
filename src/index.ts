@@ -10,6 +10,7 @@ import { ModeConfigMapper } from './toolception-adapters/index.js';
 import { MODULE_ADAPTERS } from './toolception-adapters/moduleAdapters.js';
 import { getServerVersion } from './utils/getServerVersion.js';
 import { pingEndpoint, healthCheckEndpoint, serverCardEndpoint } from './endpoints/index.js';
+import { registerPrompts } from './prompts/index.js';
 
 // Parse command line arguments
 const argv = minimist(process.argv.slice(2));
@@ -91,6 +92,15 @@ async function main() {
         customEndpoints: [pingEndpoint, healthCheckEndpoint, serverCardEndpoint]
       }
     });
+
+    // Register prompts with the MCP server
+    registerPrompts(server, {
+      mode,
+      version,
+      listChanged: mode === 'DYNAMIC_TOOL_DISCOVERY',
+      staticToolSets: enforcer.toolSets
+    });
+    console.log('[FMP MCP Server] Prompts registered');
 
     console.log('[FMP MCP Server] Starting HTTP server...');
     await start();
