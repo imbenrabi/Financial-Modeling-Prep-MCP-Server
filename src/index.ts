@@ -1,15 +1,16 @@
 #!/usr/bin/env node
 
 import minimist from 'minimist';
-import { createMcpServer, defineEndpoint } from 'toolception';
+import { createMcpServer } from 'toolception';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
-import { z } from 'zod';
 import { getAvailableToolSets, DEFAULT_PORT } from './constants/index.js';
 import { showHelp } from './utils/showHelp.js';
 import { ServerModeEnforcer } from './server-mode-enforcer/index.js';
 import { ModeConfigMapper } from './toolception-adapters/index.js';
 import { MODULE_ADAPTERS } from './toolception-adapters/moduleAdapters.js';
 import { getServerVersion } from './utils/getServerVersion.js';
+import { pingEndpoint, healthCheckEndpoint, serverCardEndpoint } from './endpoints/index.js';
+import { registerPrompts } from './prompts/index.js';
 
 // Parse command line arguments
 const argv = minimist(process.argv.slice(2));
@@ -20,89 +21,6 @@ if (argv.help || argv.h) {
   showHelp(availableToolSets);
   process.exit(0);
 }
-
-// Define custom HTTP endpoints for health checks
-const pingEndpoint = defineEndpoint({
-  method: 'GET',
-  path: '/ping',
-  responseSchema: z.object({
-    status: z.literal('ok')
-  }),
-  handler: async () => ({ status: 'ok' as const })
-});
-
-const healthCheckEndpoint = defineEndpoint({
-  method: 'GET',
-  path: '/healthcheck',
-  responseSchema: z.object({
-    status: z.string(),
-    timestamp: z.string(),
-    uptime: z.number(),
-    sessionManagement: z.string(),
-    server: z.object({
-      type: z.string(),
-      version: z.string(),
-    }),
-    memoryUsage: z.object({
-      rss: z.string(),
-      heapTotal: z.string(),
-      heapUsed: z.string(),
-      external: z.string(),
-    }),
-  }),
-  handler: async () => {
-    const uptime = process.uptime();
-    const memoryUsage = process.memoryUsage();
-
-    return {
-      status: 'ok',
-      timestamp: new Date().toISOString(),
-      uptime,
-      sessionManagement: 'stateful',
-      server: {
-        type: 'FmpMcpServer',
-        version: getServerVersion(),
-      },
-      memoryUsage: {
-        rss: Math.round(memoryUsage.rss / 1024 / 1024) + 'MB',
-        heapTotal: Math.round(memoryUsage.heapTotal / 1024 / 1024) + 'MB',
-        heapUsed: Math.round(memoryUsage.heapUsed / 1024 / 1024) + 'MB',
-        external: Math.round(memoryUsage.external / 1024 / 1024) + 'MB',
-      },
-    };
-  }
-});
-
-// Define MCP Server Card endpoint for Smithery/registry discovery (SEP-1649)
-const serverCardEndpoint = defineEndpoint({
-  method: 'GET',
-  path: '/.well-known/mcp/server-card.json',
-  responseSchema: z.object({
-    $schema: z.string(),
-    version: z.string(),
-    protocolVersion: z.string(),
-    serverInfo: z.object({
-      name: z.string(),
-      title: z.string().optional(),
-      version: z.string(),
-      description: z.string().optional(),
-      iconUrl: z.string().optional(),
-      documentationUrl: z.string().optional(),
-    }),
-  }),
-  handler: async () => ({
-    $schema: 'https://modelcontextprotocol.io/schemas/server-card/1.0',
-    version: '1.0',
-    protocolVersion: '2025-11-25',
-    serverInfo: {
-      name: 'financial-modeling-prep-mcp-server',
-      title: 'Financial Modeling Prep MCP Server',
-      version: getServerVersion(),
-      description: 'MCP server providing 250+ financial data tools using meta tools via Financial Modeling Prep API',
-      documentationUrl: 'https://github.com/imbenrabi/Financial-Modeling-Prep-MCP-Server',
-    },
-  })
-});
 
 async function main() {
   // Initialize the ServerModeEnforcer with env vars and CLI args
@@ -174,6 +92,15 @@ async function main() {
         customEndpoints: [pingEndpoint, healthCheckEndpoint, serverCardEndpoint]
       }
     });
+
+    // Register prompts with the MCP server
+    registerPrompts(server, {
+      mode,
+      version,
+      listChanged: mode === 'DYNAMIC_TOOL_DISCOVERY',
+      staticToolSets: enforcer.toolSets
+    });
+    console.log('[FMP MCP Server] Prompts registered');
 
     console.log('[FMP MCP Server] Starting HTTP server...');
     await start();

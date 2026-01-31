@@ -5,6 +5,11 @@ All notable changes to the Financial Modeling Prep MCP Server will be documented
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.4] - 2026-01-30
+
+### Added
+- Version 2.6.4 release
+
 ## [2.6.3] - 2026-01-29
 
 ### Added

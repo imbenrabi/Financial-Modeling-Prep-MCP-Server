@@ -90,7 +90,9 @@ function renderToolsSection(mode: ServerMode, staticToolSets: ToolSet[] | undefi
       `Dynamic mode starts with meta-tools only:`,
       `- enable_toolset`,
       `- disable_toolset`,
-      `- get_toolset_status`,
+      `- list_toolsets`,
+      `- describe_toolset`,
+      `- list_tools`,
       ``,
       `Available toolsets (${toolsetCount}):`
     );
