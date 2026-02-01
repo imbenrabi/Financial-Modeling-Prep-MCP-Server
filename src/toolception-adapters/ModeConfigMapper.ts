@@ -1,6 +1,5 @@
-import type { ServerMode, ToolSet, SessionConfig } from '../types/index.js';
+import type { ServerMode, ToolSet } from '../types/index.js';
 import { TOOL_SETS } from '../constants/toolSets.js';
-import { parseCommaSeparatedToolSets } from '../utils/validation.js';
 import type { ServerModeEnforcer } from '../server-mode-enforcer/ServerModeEnforcer.js';
 import type { ModuleLoader } from 'toolception';
 
@@ -64,7 +63,6 @@ export class ModeConfigMapper {
    * Convert FMP ServerMode to toolception configuration
    *
    * @param mode - FMP server mode
-   * @param sessionConfig - Session configuration (may be empty for server-level config)
    * @param enforcer - Server mode enforcer instance
    * @param accessToken - FMP API access token
    * @param moduleLoaders - Record of module name to loader function
@@ -72,7 +70,6 @@ export class ModeConfigMapper {
    */
   static toToolceptionConfig(
     mode: ServerMode,
-    sessionConfig: SessionConfig,
     enforcer: ServerModeEnforcer,
     accessToken?: string,
     moduleLoaders?: Record<string, ModuleLoader>
@@ -99,8 +96,8 @@ export class ModeConfigMapper {
         };
 
       case 'STATIC_TOOL_SETS': {
-        // Get toolsets from enforcer or session config
-        const toolsets = this.resolveToolSets(enforcer, sessionConfig);
+        // Get toolsets from enforcer
+        const toolsets = enforcer.toolSets;
 
         return {
           catalog,
@@ -178,24 +175,4 @@ export class ModeConfigMapper {
     return catalog;
   }
 
-  /**
-   * Resolve tool sets from enforcer or session config
-   */
-  private static resolveToolSets(
-    enforcer: ServerModeEnforcer,
-    sessionConfig: SessionConfig
-  ): ToolSet[] {
-    // Check if enforcer has server-level toolsets
-    if (enforcer.serverModeOverride === 'STATIC_TOOL_SETS') {
-      return enforcer.toolSets;
-    }
-
-    // Fall back to session config
-    if (sessionConfig?.FMP_TOOL_SETS && typeof sessionConfig.FMP_TOOL_SETS === 'string') {
-      return parseCommaSeparatedToolSets(sessionConfig.FMP_TOOL_SETS);
-    }
-
-    // Default to empty (will be handled by caller)
-    return [];
-  }
 }

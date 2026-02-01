@@ -44,7 +44,6 @@ async function main() {
   // Build toolception configuration
   const toolceptionConfig = ModeConfigMapper.toToolceptionConfig(
     mode,
-    {}, // No session config - using server-level enforcement
     enforcer,
     fmpToken,
     MODULE_ADAPTERS

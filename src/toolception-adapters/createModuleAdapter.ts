@@ -1,4 +1,4 @@
-import { ToolCollector, type McpToolDefinition, type ToolRegistrar } from './ToolCollector.js';
+import { ToolCollector, type McpToolDefinition } from './ToolCollector.js';
 import type { ModuleLoader } from 'toolception';
 
 /**
