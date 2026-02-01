@@ -161,7 +161,7 @@ Toolception requires `mcp-client-id` header for session caching. Some MCP client
 When `mcp-client-id` is missing, the server auto-generates a stable ID:
 
 ```
-auto-{sha256(ip|userAgent|accept).slice(0,16)}
+auto-{sha256(ip|userAgent).slice(0,16)}
 ```
 
 **How it works:**
@@ -173,7 +173,8 @@ auto-{sha256(ip|userAgent|accept).slice(0,16)}
 **Fingerprint components:**
 - Client IP address (or `x-forwarded-for`)
 - `User-Agent` header
-- `Accept` header
+
+Note: `Accept` header is intentionally excluded as it can vary between requests.
 
 This ensures clients without proper MCP headers can still maintain sessions across multiple requests.
 

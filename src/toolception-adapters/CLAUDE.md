@@ -178,8 +178,8 @@ ${clientId}:${sessionConfigHash}
 When `mcp-client-id` header is missing, the server generates a stable ID:
 
 ```typescript
-// Fingerprint: IP + User-Agent + Accept
-const hash = sha256(`${ip}|${userAgent}|${accept}`).slice(0, 16);
+// Fingerprint: IP + User-Agent (Accept excluded - can vary between requests)
+const hash = sha256(`${ip}|${userAgent}`).slice(0, 16);
 return `auto-${hash}`;
 ```
 

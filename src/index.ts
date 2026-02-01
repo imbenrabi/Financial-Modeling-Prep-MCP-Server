@@ -4,7 +4,7 @@ import minimist from 'minimist';
 import { createMcpServer } from 'toolception';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import Fastify from 'fastify';
-import { createHash } from 'crypto';
+import { createHash } from 'node:crypto';
 import { getAvailableToolSets, DEFAULT_PORT } from './constants/index.js';
 import { showHelp } from './utils/showHelp.js';
 import { ServerModeEnforcer } from './server-mode-enforcer/index.js';
@@ -18,11 +18,12 @@ import { registerPrompts } from './prompts/index.js';
  * Generate a stable client ID from request properties when mcp-client-id header is missing.
  * This fixes issues with MCP clients (like Glama, Smithery) that don't send the header.
  *
- * Uses a hash of: IP address + User-Agent + Accept header
+ * Uses a hash of: IP address + User-Agent
  * This provides reasonable stability across requests from the same client.
+ * Note: Accept header is intentionally excluded as it can vary between requests.
  */
-function generateStableClientId(ip: string, userAgent: string, accept: string): string {
-  const fingerprint = `${ip}|${userAgent}|${accept}`;
+function generateStableClientId(ip: string, userAgent: string): string {
+  const fingerprint = `${ip}|${userAgent}`;
   const hash = createHash('sha256').update(fingerprint).digest('hex').slice(0, 16);
   return `auto-${hash}`;
 }
@@ -88,18 +89,16 @@ async function main() {
         // Generate stable client ID from request fingerprint
         const ip = request.ip || request.headers['x-forwarded-for'] || 'unknown';
         const userAgent = request.headers['user-agent'] || '';
-        const accept = request.headers['accept'] || '';
 
         const stableId = generateStableClientId(
           typeof ip === 'string' ? ip : Array.isArray(ip) ? ip[0] : 'unknown',
-          typeof userAgent === 'string' ? userAgent : '',
-          typeof accept === 'string' ? accept : ''
+          typeof userAgent === 'string' ? userAgent : ''
         );
 
         // Inject the header so toolception sees it
         request.headers['mcp-client-id'] = stableId;
 
-        // Log only once per unique client (avoid spam)
+        // Log for debugging - same stableId will appear for requests from same client
         console.log(`[FMP MCP Server] Auto-generated mcp-client-id: ${stableId} for client without header`);
       }
     });
