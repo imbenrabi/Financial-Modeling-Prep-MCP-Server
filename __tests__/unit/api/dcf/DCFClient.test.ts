@@ -132,7 +132,7 @@ describe('DCFClient', () => {
   });
 
   describe('calculateCustomLeveredDCF', () => {
-    it('should call post with correct parameters', async () => {
+    it('should call get with correct parameters', async () => {
       const input: CustomDCFInput = {
         symbol: 'AAPL',
         revenueGrowthPct: 10.5,
@@ -192,17 +192,17 @@ describe('DCFClient', () => {
         equityValuePerShare: 127.74,
         freeCashFlowT1: 68000000000
       };
-      mockPost.mockResolvedValue(mockData);
+      mockGet.mockResolvedValue(mockData);
 
       const result = await dcfClient.calculateCustomLeveredDCF(input);
 
-      expect(mockPost).toHaveBeenCalledWith('/custom-levered-discounted-cash-flow', {
+      expect(mockGet).toHaveBeenCalledWith('/custom-levered-discounted-cash-flow', {
         ...input
       }, undefined);
       expect(result).toEqual(mockData);
     });
 
-    it('should call post with options', async () => {
+    it('should call get with options', async () => {
       const input: CustomDCFInput = {
         symbol: 'TSLA'
       };
@@ -210,7 +210,7 @@ describe('DCFClient', () => {
       const mockData: CustomDCFOutput = {
         symbol: 'TSLA'
       };
-      mockPost.mockResolvedValue(mockData);
+      mockGet.mockResolvedValue(mockData);
 
       const options = {
         signal: new AbortController().signal,
@@ -219,7 +219,7 @@ describe('DCFClient', () => {
 
       const result = await dcfClient.calculateCustomLeveredDCF(input, options);
 
-      expect(mockPost).toHaveBeenCalledWith('/custom-levered-discounted-cash-flow', {
+      expect(mockGet).toHaveBeenCalledWith('/custom-levered-discounted-cash-flow', {
         ...input
       }, options);
       expect(result).toEqual(mockData);
@@ -235,11 +235,11 @@ describe('DCFClient', () => {
         symbol: 'MSFT',
         taxRate: 25.0
       };
-      mockPost.mockResolvedValue(mockData);
+      mockGet.mockResolvedValue(mockData);
 
       const result = await dcfClient.calculateCustomLeveredDCF(input);
 
-      expect(mockPost).toHaveBeenCalledWith('/custom-levered-discounted-cash-flow', {
+      expect(mockGet).toHaveBeenCalledWith('/custom-levered-discounted-cash-flow', {
         symbol: 'MSFT',
         taxRate: 25.0
       }, undefined);
@@ -251,7 +251,7 @@ describe('DCFClient', () => {
         symbol: 'INVALID'
       };
       const errorMessage = 'Custom Levered DCF API Error';
-      mockPost.mockRejectedValue(new Error(errorMessage));
+      mockGet.mockRejectedValue(new Error(errorMessage));
 
       await expect(dcfClient.calculateCustomLeveredDCF(input))
         .rejects.toThrow(errorMessage);
@@ -259,7 +259,7 @@ describe('DCFClient', () => {
   });
 
   describe('calculateCustomDCF', () => {
-    it('should call post with correct parameters', async () => {
+    it('should call get with correct parameters', async () => {
       const input: CustomDCFInput = {
         symbol: 'GOOGL',
         revenueGrowthPct: 15.0,
@@ -323,17 +323,17 @@ describe('DCFClient', () => {
         equityValuePerShare: 134.30,
         freeCashFlowT1: 55000000000
       };
-      mockPost.mockResolvedValue(mockData);
+      mockGet.mockResolvedValue(mockData);
 
       const result = await dcfClient.calculateCustomDCF(input);
 
-      expect(mockPost).toHaveBeenCalledWith('/custom-discounted-cash-flow', {
+      expect(mockGet).toHaveBeenCalledWith('/custom-discounted-cash-flow', {
         ...input
       }, undefined);
       expect(result).toEqual(mockData);
     });
 
-    it('should call post with options', async () => {
+    it('should call get with options', async () => {
       const input: CustomDCFInput = {
         symbol: 'AMZN',
         revenueGrowthPct: 12.0
@@ -343,7 +343,7 @@ describe('DCFClient', () => {
         symbol: 'AMZN',
         revenuePercentage: 12.0
       };
-      mockPost.mockResolvedValue(mockData);
+      mockGet.mockResolvedValue(mockData);
 
       const options = {
         signal: new AbortController().signal,
@@ -352,7 +352,7 @@ describe('DCFClient', () => {
 
       const result = await dcfClient.calculateCustomDCF(input, options);
 
-      expect(mockPost).toHaveBeenCalledWith('/custom-discounted-cash-flow', {
+      expect(mockGet).toHaveBeenCalledWith('/custom-discounted-cash-flow', {
         symbol: 'AMZN',
         revenueGrowthPct: 12.0
       }, options);
@@ -403,11 +403,11 @@ describe('DCFClient', () => {
         capitalExpenditure: 13490000000,
         capitalExpenditurePercentage: 10.0
       };
-      mockPost.mockResolvedValue(mockData);
+      mockGet.mockResolvedValue(mockData);
 
       const result = await dcfClient.calculateCustomDCF(input);
 
-      expect(mockPost).toHaveBeenCalledWith('/custom-discounted-cash-flow', {
+      expect(mockGet).toHaveBeenCalledWith('/custom-discounted-cash-flow', {
         ...input
       }, undefined);
       expect(result).toEqual(mockData);
@@ -418,7 +418,7 @@ describe('DCFClient', () => {
         symbol: 'ERROR_SYMBOL'
       };
       const errorMessage = 'Custom DCF API Error';
-      mockPost.mockRejectedValue(new Error(errorMessage));
+      mockGet.mockRejectedValue(new Error(errorMessage));
 
       await expect(dcfClient.calculateCustomDCF(input))
         .rejects.toThrow(errorMessage);

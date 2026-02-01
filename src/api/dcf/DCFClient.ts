@@ -58,7 +58,7 @@ export class DCFClient extends FMPClient {
       context?: FMPContext;
     }
   ): Promise<CustomDCFOutput> {
-    return super.post<CustomDCFOutput>("/custom-levered-discounted-cash-flow", { ...input }, options);
+    return super.get<CustomDCFOutput>("/custom-levered-discounted-cash-flow", { ...input }, options);
   }
 
   /**
@@ -74,7 +74,7 @@ export class DCFClient extends FMPClient {
       context?: FMPContext;
     }
   ): Promise<CustomDCFOutput> {
-    return super.post<CustomDCFOutput>("/custom-discounted-cash-flow", { ...input }, options);
+    return super.get<CustomDCFOutput>("/custom-discounted-cash-flow", { ...input }, options);
   }
 }
 
