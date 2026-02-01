@@ -156,9 +156,39 @@ interface ToolceptionConfig {
    ```
 3. Map to tool set in `src/constants/toolSets.ts`
 
+## Session Caching (Toolception Behavior)
+
+Toolception caches client bundles (containing sessions) with a cache key:
+
+```
+${clientId}:${sessionConfigHash}
+```
+
+**Critical:** If either component differs between requests, session lookup fails with "Session not found or expired".
+
+### Cache Key Components
+
+| Component | Source | Impact |
+|-----------|--------|--------|
+| `clientId` | `mcp-client-id` header | Different ID = different cache entry |
+| `sessionConfigHash` | Hash of `?config=` query param | Different config = different cache suffix |
+
+### Auto-Generated Client ID (src/index.ts)
+
+When `mcp-client-id` header is missing, the server generates a stable ID:
+
+```typescript
+// Fingerprint: IP + User-Agent + Accept
+const hash = sha256(`${ip}|${userAgent}|${accept}`).slice(0, 16);
+return `auto-${hash}`;
+```
+
+This ensures MCP clients that don't send the header (Glama, Smithery) can still maintain sessions.
+
 ## Invariants
 
 1. Session `FMP_ACCESS_TOKEN` always takes priority over server-level token
 2. Only `FMP_ACCESS_TOKEN` is allowed in session config (security restriction)
 3. All tools get identical annotations (read-only, idempotent, open-world)
 4. Module names must match between `MODULE_ADAPTERS` and `TOOL_SETS` mappings
+5. Missing `mcp-client-id` header → auto-generated stable ID from request fingerprint

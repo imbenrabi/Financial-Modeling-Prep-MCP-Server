@@ -150,6 +150,32 @@ npm run lint
 4. **Session Restrictions** - Only `FMP_ACCESS_TOKEN` allowed in session config
 5. **Read-Only Tools** - All 253+ tools are read-only data fetchers (no mutations)
 6. **Error Handling** - Tools never throw; return `{ isError: true }` instead
+7. **Auto-Generated Client IDs** - When `mcp-client-id` header is missing, server generates stable ID from request fingerprint
+
+## Session Management
+
+Toolception requires `mcp-client-id` header for session caching. Some MCP clients (Glama, Smithery) don't send this header, causing "Session not found or expired" errors.
+
+### Auto-Generated Client ID
+
+When `mcp-client-id` is missing, the server auto-generates a stable ID:
+
+```
+auto-{sha256(ip|userAgent|accept).slice(0,16)}
+```
+
+**How it works:**
+1. Fastify `preHandler` hook checks for `mcp-client-id` header
+2. If missing/empty, generates stable ID from request fingerprint
+3. Injects header before toolception processes the request
+4. Same fingerprint → same ID → session lookup succeeds
+
+**Fingerprint components:**
+- Client IP address (or `x-forwarded-for`)
+- `User-Agent` header
+- `Accept` header
+
+This ensures clients without proper MCP headers can still maintain sessions across multiple requests.
 
 ## Entry Points
 
@@ -180,6 +206,7 @@ npm run lint
 
 - `toolception` - Dynamic tool loading framework
 - `@modelcontextprotocol/sdk` - MCP protocol implementation
+- `fastify` - HTTP server (used for preHandler middleware)
 - `axios` - HTTP client
 - `zod` - Schema validation
 - `minimist` - CLI argument parsing
