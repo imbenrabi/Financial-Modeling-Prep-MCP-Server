@@ -154,7 +154,7 @@ export class ModeConfigMapper {
       queryParam: {
         name: 'config',
         encoding: 'base64',
-        allowedKeys: ['FMP_ACCESS_TOKEN'],
+        allowedKeys: ['FMP_ACCESS_TOKEN', 'FMP_TOOL_SETS'],
       },
       merge: 'shallow',
     };
