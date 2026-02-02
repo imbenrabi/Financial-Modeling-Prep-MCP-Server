@@ -99,12 +99,15 @@ export DYNAMIC_TOOL_DISCOVERY=true  # or choose static/legacy
 fmp-mcp
 ```
 
-**Docker:**
+**Docker (build from source):**
 ```bash
+git clone https://github.com/imbenrabi/Financial-Modeling-Prep-MCP-Server
+cd Financial-Modeling-Prep-MCP-Server
+docker build -t fmp-mcp-server .
 docker run -p 8080:8080 \
   -e FMP_ACCESS_TOKEN=your_token_here \
   -e DYNAMIC_TOOL_DISCOVERY=true \
-  ghcr.io/imbenrabi/financial-modeling-prep-mcp-server:latest
+  fmp-mcp-server
 ```
 
 See [Installation Methods](#installation-methods) for detailed self-hosting options.
@@ -161,7 +164,7 @@ This MCP server leverages **[toolception](https://www.npmjs.com/package/toolcept
 
 ### Key Features:
 
-- **Powered by Toolception**: Uses [toolception v0.5.1](https://www.npmjs.com/package/toolception) for server orchestration and dynamic tool management
+- **Powered by Toolception**: Uses [toolception](https://www.npmjs.com/package/toolception) for server orchestration and dynamic tool management
 - **Client-level Caching**: Toolception's `ClientResourceCache` maintains isolated sessions per client with LRU/TTL eviction
 - **Session Isolation**: Each client gets their own MCP server instance with independent tool state
 - **Stateful Management**: Sessions maintain their state across multiple requests via toolception's session management
@@ -412,7 +415,7 @@ DYNAMIC_TOOL_DISCOVERY=true FMP_ACCESS_TOKEN=YOUR_TOKEN npm start
 version: "3.8"
 services:
   fmp-mcp:
-    image: your-image-name
+    build: .
     ports:
       - "8080:8080"
     environment:
@@ -513,11 +516,13 @@ npm install financial-modeling-prep-mcp-server
 npx fmp-mcp --fmp-token=YOUR_TOKEN
 ```
 
-**Docker Installation:**
+**Docker (build from source):**
 
 ```bash
-docker run -p 8080:8080 -e FMP_ACCESS_TOKEN=YOUR_TOKEN \
-  ghcr.io/imbenrabi/financial-modeling-prep-mcp-server:latest
+git clone https://github.com/imbenrabi/Financial-Modeling-Prep-MCP-Server
+cd Financial-Modeling-Prep-MCP-Server
+docker build -t fmp-mcp-server .
+docker run -p 8080:8080 -e FMP_ACCESS_TOKEN=YOUR_TOKEN fmp-mcp-server
 ```
 
 **From Source:**
@@ -536,7 +541,7 @@ The server supports multiple installation methods through the MCP Registry:
 | Method     | Command                                                           | Best For                        |
 | ---------- | ----------------------------------------------------------------- | ------------------------------- |
 | **NPM**    | `npm install financial-modeling-prep-mcp-server`                  | Development and local testing   |
-| **Docker** | `docker run ghcr.io/imbenrabi/financial-modeling-prep-mcp-server` | Production deployments          |
+| **Docker** | `git clone && docker build -t fmp-mcp-server .`                   | Production deployments          |
 | **Source** | `git clone && npm install`                                        | Customization and contributions |
 
 ### Quick Start Guide for Registry Users
@@ -549,8 +554,10 @@ npm install financial-modeling-prep-mcp-server
 npx fmp-mcp --fmp-token=YOUR_TOKEN
 
 # Option B: Docker (recommended for production)
-docker run -p 8080:8080 -e FMP_ACCESS_TOKEN=YOUR_TOKEN \
-  ghcr.io/imbenrabi/financial-modeling-prep-mcp-server:latest
+git clone https://github.com/imbenrabi/Financial-Modeling-Prep-MCP-Server
+cd Financial-Modeling-Prep-MCP-Server
+docker build -t fmp-mcp-server .
+docker run -p 8080:8080 -e FMP_ACCESS_TOKEN=YOUR_TOKEN fmp-mcp-server
 
 # Option C: From source (for customization)
 git clone https://github.com/imbenrabi/Financial-Modeling-Prep-MCP-Server
@@ -600,7 +607,7 @@ The Financial Modeling Prep MCP Server supports multiple installation methods to
 
 **Prerequisites:**
 
-- Node.js ≥20.0.0
+- Node.js ≥25.3.0
 - NPM or Yarn package manager
 - Financial Modeling Prep API token
 
@@ -633,14 +640,23 @@ npx fmp-mcp --fmp-token=YOUR_TOKEN --fmp-tool-sets=search,company,quotes
 **Prerequisites:**
 
 - Docker Engine
+- Git
 - Financial Modeling Prep API token
+
+**Build the Docker image:**
+
+```bash
+git clone https://github.com/imbenrabi/Financial-Modeling-Prep-MCP-Server
+cd Financial-Modeling-Prep-MCP-Server
+docker build -t fmp-mcp-server .
+```
 
 **Basic Docker run:**
 
 ```bash
 docker run -p 8080:8080 \
   -e FMP_ACCESS_TOKEN=YOUR_TOKEN \
-  ghcr.io/imbenrabi/financial-modeling-prep-mcp-server:latest
+  fmp-mcp-server
 ```
 
 **With custom configuration:**
@@ -651,13 +667,13 @@ docker run -p 4000:4000 \
   -e FMP_ACCESS_TOKEN=YOUR_TOKEN \
   -e PORT=4000 \
   -e DYNAMIC_TOOL_DISCOVERY=true \
-  ghcr.io/imbenrabi/financial-modeling-prep-mcp-server:latest
+  fmp-mcp-server
 
 # Static toolset mode
 docker run -p 8080:8080 \
   -e FMP_ACCESS_TOKEN=YOUR_TOKEN \
   -e FMP_TOOL_SETS=search,company,quotes \
-  ghcr.io/imbenrabi/financial-modeling-prep-mcp-server:latest
+  fmp-mcp-server
 ```
 
 **Docker Compose:**
@@ -666,7 +682,7 @@ docker run -p 8080:8080 \
 version: "3.8"
 services:
   fmp-mcp:
-    image: ghcr.io/imbenrabi/financial-modeling-prep-mcp-server:latest
+    build: .
     ports:
       - "8080:8080"
     environment:
@@ -687,7 +703,7 @@ services:
 
 **Prerequisites:**
 
-- Node.js ≥20.0.0
+- Node.js ≥25.3.0
 - Git
 - NPM or Yarn package manager
 - Financial Modeling Prep API token
@@ -844,7 +860,7 @@ curl -X POST http://localhost:8080/mcp \
    # Run with user permissions
    docker run --user $(id -u):$(id -g) -p 8080:8080 \
      -e FMP_ACCESS_TOKEN=YOUR_TOKEN \
-     ghcr.io/imbenrabi/financial-modeling-prep-mcp-server:latest
+     fmp-mcp-server
    ```
 
 #### Smithery.ai
