@@ -147,7 +147,7 @@ npm run lint
 1. **API Key as Query Parameter** - FMP API requires key as `?apikey=` query param, never in headers
 2. **Token Precedence** - Context token > Instance token > Environment variable
 3. **Fail-Fast Validation** - Invalid tool sets cause `process.exit(1)` at startup
-4. **Session Restrictions** - Only `FMP_ACCESS_TOKEN` allowed in session config
+4. **Session Restrictions** - Only `FMP_ACCESS_TOKEN` allowed in session config (toolsets are server-level only)
 5. **Read-Only Tools** - All 253+ tools are read-only data fetchers (no mutations)
 6. **Error Handling** - Tools never throw; return `{ isError: true }` instead
 7. **Auto-Generated Client IDs** - When `mcp-client-id` header is missing, server generates stable ID from request fingerprint

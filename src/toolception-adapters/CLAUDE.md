@@ -112,7 +112,7 @@ sessionContext: {
   queryParam: {
     name: 'config',
     encoding: 'base64',           // Base64-encoded JSON
-    allowedKeys: ['FMP_ACCESS_TOKEN'],  // Only this key allowed
+    allowedKeys: ['FMP_ACCESS_TOKEN'],  // Only token allowed per-session
   },
   merge: 'shallow',  // Session overrides server-level
 }
@@ -188,7 +188,7 @@ This ensures MCP clients that don't send the header (Glama, Smithery) can still 
 ## Invariants
 
 1. Session `FMP_ACCESS_TOKEN` always takes priority over server-level token
-2. Only `FMP_ACCESS_TOKEN` is allowed in session config (security restriction)
+2. Only `FMP_ACCESS_TOKEN` is allowed in session config (toolsets are server-level only)
 3. All tools get identical annotations (read-only, idempotent, open-world)
 4. Module names must match between `MODULE_ADAPTERS` and `TOOL_SETS` mappings
 5. Missing `mcp-client-id` header → auto-generated stable ID from request fingerprint

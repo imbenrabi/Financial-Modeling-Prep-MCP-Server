@@ -5,6 +5,16 @@ All notable changes to the Financial Modeling Prep MCP Server will be documented
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.7] - 2026-02-02
+
+### Changed
+- Clarified documentation on session configuration restrictions, explicitly allowing only `FMP_ACCESS_TOKEN` to be set per-session
+- Updated Docker installation instructions to build the MCP server image from source instead of pulling a pre-built image
+- Refreshed documentation for the minimum supported Node.js version and runtime requirements
+
+### Removed
+- Cleaned up code by removing the unused `sessionConfig` parameter from `ModeConfigMapper`
+
 ## [2.6.6] - 2026-02-01
 
 ### Added
