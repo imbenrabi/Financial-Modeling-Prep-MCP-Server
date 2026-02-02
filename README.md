@@ -1250,40 +1250,18 @@ curl -X POST "https://financial-modeling-prep-mcp-server-production.up.railway.a
 
 **Note:** Our hosted instance runs in dynamic mode. Static/legacy mode configurations will be ignored.
 
-#### Self-Hosting Configuration Examples
+#### Self-Hosting Session Configuration
 
-When self-hosting, you can use session-level configuration (if no server-level override is set):
+Session configuration only supports `FMP_ACCESS_TOKEN` override. Server mode and toolsets are configured at server startup only.
 
-**1. Dynamic Mode Session:**
-
-```bash
-# Configuration: {"DYNAMIC_TOOL_DISCOVERY":"true"}
-CONFIG_BASE64=$(echo -n '{"DYNAMIC_TOOL_DISCOVERY":"true"}' | base64)
-# Result: eyJEWU5BTUlDX1RPT0xfRElTQ09WRVJZIjoidHJ1ZSJ9
-```
-
-**2. Static Mode Session:**
+**API Key Override (if not set server-side):**
 
 ```bash
-# Configuration: {"FMP_TOOL_SETS":"search,company,quotes"}
-CONFIG_BASE64=$(echo -n '{"FMP_TOOL_SETS":"search,company,quotes"}' | base64)
-# Result: eyJGTVBfVE9PTF9TRVRTIjoic2VhcmNoLGNvbXBhbnkscXVvdGVzIn0=
+# Configuration: {"FMP_ACCESS_TOKEN":"your_key"}
+CONFIG_BASE64=$(echo -n '{"FMP_ACCESS_TOKEN":"your_key"}' | base64)
 ```
 
-**3. With API Key (if not set server-side):**
-
-```bash
-# Configuration: {"FMP_ACCESS_TOKEN":"your_key","DYNAMIC_TOOL_DISCOVERY":"true"}
-CONFIG_BASE64=$(echo -n '{"FMP_ACCESS_TOKEN":"your_key","DYNAMIC_TOOL_DISCOVERY":"true"}' | base64)
-```
-
-**4. Legacy Mode Session:**
-
-```bash
-# Configuration: {} (empty object for default legacy mode)
-CONFIG_BASE64=$(echo -n '{}' | base64)
-# Result: e30=
-```
+**Note:** Mode selection (`DYNAMIC_TOOL_DISCOVERY`, `FMP_TOOL_SETS`) must be configured at server startup via environment variables or CLI arguments, not per-session.
 
 ### Request Examples
 
@@ -1411,8 +1389,8 @@ curl -X POST "http://localhost:8080/mcp?config=${CONFIG_BASE64}" \
 #### 4. Call a Financial Tool
 
 ```bash
-CONFIG_BASE64=$(echo -n '{"FMP_TOOL_SETS":"search,quotes"}' | base64)
-curl -X POST "http://localhost:8080/mcp?config=${CONFIG_BASE64}" \
+# Requires server started with search toolset enabled (static mode) or dynamic mode
+curl -X POST "http://localhost:8080/mcp" \
   -H "Content-Type: application/json" \
   -H "Accept: application/json, text/event-stream" \
   -d '{
@@ -1431,8 +1409,8 @@ curl -X POST "http://localhost:8080/mcp?config=${CONFIG_BASE64}" \
 #### 5. Get Stock Quote
 
 ```bash
-CONFIG_BASE64=$(echo -n '{"FMP_TOOL_SETS":"quotes"}' | base64)
-curl -X POST "http://localhost:8080/mcp?config=${CONFIG_BASE64}" \
+# Requires server started with quotes toolset enabled (static mode) or dynamic mode
+curl -X POST "http://localhost:8080/mcp" \
   -H "Content-Type: application/json" \
   -H "Accept: application/json, text/event-stream" \
   -d '{
@@ -1450,17 +1428,11 @@ curl -X POST "http://localhost:8080/mcp?config=${CONFIG_BASE64}" \
 
 ### Session and Client Behavior
 
-- **Session Persistence**: Each unique `config` parameter creates a separate session (SDK-managed)
-- **Tool State**: In dynamic mode, enabled/disabled toolsets may be reused for the same `clientId` across requests
-- **Isolation**: Sessions don't interfere with each other's tool configurations; caching is keyed by `clientId`
+- **Session Persistence**: Sessions are cached by `clientId` (from `mcp-client-id` header)
+- **Tool State**: In dynamic mode, enabled/disabled toolsets persist for the same `clientId` across requests
+- **Isolation**: Sessions don't interfere with each other's tool configurations
 - **Caching**: Client storage (LRU + TTL) maintains one `McpServer`/`DynamicToolsetManager` per `clientId`
-
-#### Cache Reuse Policy (Session-Config Aware)
-
-- For the same `clientId` (derived from token), the server compares each request’s desired mode and static tool sets against the cached instance.
-- If there is a difference and there is NO server-level mode enforcement, a new `McpServer` instance is created and the cache entry is replaced.
-- If a server-level mode is enforced (via CLI/env), session-level changes are ignored and the cached instance is reused.
-- Static tool set comparison is order-insensitive (e.g., `search,company` equals `company,search`).
+- **Session Config**: Only `FMP_ACCESS_TOKEN` can be overridden per-session via query param
 
 ### Error Handling
 
@@ -1946,36 +1918,29 @@ npm run dev -- --fmp-token=your_api_key --dynamic-tool-discovery
 ```bash
 # Start server without mode enforcement
 npm run dev -- --fmp-token=your_api_key
-
-# Individual sessions can then specify their own configurations via HTTP requests
 ```
 
-#### Testing Different Configurations
-
-When developing, you can test different configuration scenarios:
-
-1. **Test Session-Level Configurations:**
+#### Testing Different Server Modes
 
 ```bash
-# Start server without enforcement
-npm run dev -- --fmp-token=your_api_key
-
-# Test dynamic mode session
-CONFIG_BASE64=$(echo -n '{"DYNAMIC_TOOL_DISCOVERY":"true"}' | base64)
-curl -X POST "http://localhost:8080/mcp?config=${CONFIG_BASE64}" -d '...'
-
-# Test static mode session
-CONFIG_BASE64=$(echo -n '{"FMP_TOOL_SETS":"search,quotes"}' | base64)
-curl -X POST "http://localhost:8080/mcp?config=${CONFIG_BASE64}" -d '...'
-```
-
-2. **Test Server-Level Enforcement:**
-
-```bash
-# Start with server-level dynamic mode
+# Dynamic mode - meta-tools for runtime toolset management
 npm run dev -- --fmp-token=your_api_key --dynamic-tool-discovery
 
-# ALL sessions will use dynamic mode regardless of session config
+# Static mode - specific toolsets loaded at startup
+npm run dev -- --fmp-token=your_api_key --fmp-tool-sets=search,company,quotes
+
+# Legacy mode - all tools loaded (default)
+npm run dev -- --fmp-token=your_api_key
+```
+
+#### Testing Session Token Override
+
+```bash
+# Start server without token
+npm run dev
+
+# Pass token per-session
+CONFIG_BASE64=$(echo -n '{"FMP_ACCESS_TOKEN":"your_key"}' | base64)
 curl -X POST "http://localhost:8080/mcp?config=${CONFIG_BASE64}" -d '...'
 ```
 
