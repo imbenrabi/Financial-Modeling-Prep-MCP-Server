@@ -1,8 +1,7 @@
 /**
- * Registry Testing Suite
- * 
- * Comprehensive test suite for MCP registry publishing functionality.
- * This module exports all registry-related test utilities and validation functions.
+ * Registry Test Configuration
+ *
+ * Test suite metadata, constants, and utilities for registry publishing tests.
  */
 
 // Re-export test utilities from version sync for use in registry tests
@@ -16,9 +15,11 @@ export {
   type VersionInfo,
   type ValidationResult,
   type SyncOptions
-} from '../utils/versionSync.js';
+} from '../../../src/utils/versionSync.js';
 
-// Test suite documentation
+/**
+ * Test suite definitions and metadata.
+ */
 export const REGISTRY_TEST_SUITES = {
   ServerJsonSchemaValidation: {
     description: 'Tests server.json schema compliance against official MCP schema',
@@ -33,7 +34,7 @@ export const REGISTRY_TEST_SUITES = {
       'Error handling'
     ]
   },
-  
+
   NpmPackageIntegration: {
     description: 'Tests NPM package installation and mcpName validation',
     testFile: 'NpmPackageIntegration.test.ts',
@@ -46,7 +47,7 @@ export const REGISTRY_TEST_SUITES = {
       'NPM registry API simulation'
     ]
   },
-  
+
   RegistryApiIntegration: {
     description: 'Tests registry API responses and server discovery functionality',
     testFile: 'RegistryApiIntegration.test.ts',
@@ -58,7 +59,7 @@ export const REGISTRY_TEST_SUITES = {
       'Registry search and filtering'
     ]
   },
-  
+
   EndToEndPublishingWorkflow: {
     description: 'Tests complete publishing workflow from validation to registry submission',
     testFile: 'EndToEndPublishingWorkflow.test.ts',
@@ -73,7 +74,7 @@ export const REGISTRY_TEST_SUITES = {
       'Complete workflow integration'
     ]
   },
-  
+
   VersionSynchronizationIntegration: {
     description: 'Tests version synchronization utilities across all metadata files',
     testFile: 'VersionSynchronizationIntegration.test.ts',
@@ -87,7 +88,7 @@ export const REGISTRY_TEST_SUITES = {
       'Error handling and recovery'
     ]
   },
-  
+
   TransportConfigurationValidation: {
     description: 'Tests transport configuration and runtime arguments',
     testFile: 'TransportConfigurationValidation.test.ts',
@@ -102,7 +103,7 @@ export const REGISTRY_TEST_SUITES = {
       'Edge cases handling'
     ]
   },
-  
+
   InstallationMethodVerification: {
     description: 'Tests all installation methods work correctly',
     testFile: 'InstallationMethodVerification.test.ts',
@@ -127,27 +128,27 @@ export const REGISTRY_TEST_CONFIG = {
    * Test data directory for temporary files.
    */
   TEST_DATA_DIR: 'registry-tests',
-  
+
   /**
    * Default server.json schema URL for testing.
    */
   DEFAULT_SCHEMA_URL: 'https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json',
-  
+
   /**
    * Default MCP name for testing.
    */
   DEFAULT_MCP_NAME: 'io.github.imbenrabi/financial-modeling-prep-mcp-server',
-  
+
   /**
    * Default NPM package name for testing.
    */
   DEFAULT_NPM_PACKAGE: 'financial-modeling-prep-mcp-server',
-  
+
   /**
    * Default test version.
    */
   DEFAULT_VERSION: '2.5.0',
-  
+
   /**
    * Required files for NPM package validation.
    */
@@ -159,7 +160,7 @@ export const REGISTRY_TEST_CONFIG = {
     'LICENSE',
     'dist/index.js'
   ] as const,
-  
+
   /**
    * Required package.json fields for registry validation.
    */
@@ -172,7 +173,7 @@ export const REGISTRY_TEST_CONFIG = {
     'bin',
     'files'
   ] as const,
-  
+
   /**
    * Required server.json fields for schema validation.
    */
@@ -182,7 +183,7 @@ export const REGISTRY_TEST_CONFIG = {
     'description',
     'version'
   ] as const,
-  
+
   /**
    * Supported transport types.
    */
@@ -191,7 +192,7 @@ export const REGISTRY_TEST_CONFIG = {
     'streamable-http',
     'sse'
   ] as const,
-  
+
   /**
    * Supported runtime hints.
    */
@@ -204,7 +205,7 @@ export const REGISTRY_TEST_CONFIG = {
     'java',
     'go'
   ] as const,
-  
+
   /**
    * Supported argument formats.
    */
@@ -226,10 +227,10 @@ export const REGISTRY_TEST_UTILS = {
    * @returns True if valid, false otherwise.
    */
   isValidMcpName: (mcpName: string): boolean => {
-    return mcpName.startsWith('io.github.imbenrabi/') && 
+    return mcpName.startsWith('io.github.imbenrabi/') &&
            /^io\.github\.imbenrabi\/[a-z0-9-]+$/.test(mcpName);
   },
-  
+
   /**
    * Validates if a URL is a valid transport URL.
    * @param url - The URL to validate.
@@ -243,7 +244,7 @@ export const REGISTRY_TEST_UTILS = {
       return false;
     }
   },
-  
+
   /**
    * Validates if a transport type is supported.
    * @param transportType - The transport type to validate.
@@ -252,7 +253,7 @@ export const REGISTRY_TEST_UTILS = {
   isValidTransportType: (transportType: string): boolean => {
     return REGISTRY_TEST_CONFIG.TRANSPORT_TYPES.includes(transportType as any);
   },
-  
+
   /**
    * Validates if a runtime hint is supported.
    * @param runtimeHint - The runtime hint to validate.
@@ -261,7 +262,7 @@ export const REGISTRY_TEST_UTILS = {
   isValidRuntimeHint: (runtimeHint: string): boolean => {
     return REGISTRY_TEST_CONFIG.RUNTIME_HINTS.includes(runtimeHint as any);
   },
-  
+
   /**
    * Validates if an argument format is supported.
    * @param format - The argument format to validate.
@@ -293,7 +294,7 @@ export const REGISTRY_TEST_REPORTING = {
       totalCoverageAreas: suites.reduce((total, [, config]) => total + config.coverage.length, 0)
     };
   },
-  
+
   /**
    * Validates test coverage completeness.
    * @returns Coverage validation result.
@@ -307,15 +308,15 @@ export const REGISTRY_TEST_REPORTING = {
       'Version synchronization',
       'Transport configuration'
     ];
-    
+
     const coveredAreas = Object.values(REGISTRY_TEST_SUITES)
       .flatMap(suite => suite.coverage)
       .map(area => area.toLowerCase());
-    
-    const missingAreas = requiredAreas.filter(area => 
+
+    const missingAreas = requiredAreas.filter(area =>
       !coveredAreas.some(covered => covered.includes(area.toLowerCase()))
     );
-    
+
     return {
       isComplete: missingAreas.length === 0,
       missingAreas,

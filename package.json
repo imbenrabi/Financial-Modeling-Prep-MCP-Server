@@ -1,6 +1,6 @@
 {
   "name": "financial-modeling-prep-mcp-server",
-  "version": "2.6.7",
+  "version": "2.6.8",
   "mcpName": "io.github.imbenrabi/financial-modeling-prep-mcp-server",
   "description": "Model Context Protocol server for Financial Modeling Prep (FMP) API, exposing 250+ tools for financial data, market insights, and analysis.",
   "main": "dist/index.js",
@@ -37,11 +37,11 @@
     "test:complete-workflow": "tsx scripts/test-complete-workflow.ts",
     "test:automated-pipeline": "tsx scripts/test-automated-pipeline.ts",
     "test:registry-suite": "tsx scripts/test-registry-suite.ts",
-    "test:registry": "vitest run src/registry-tests/",
-    "test:registry-watch": "vitest src/registry-tests/",
-    "test:registry-coverage": "vitest run src/registry-tests/ --coverage",
+    "test:registry": "vitest run __tests__/unit/registry-tests/",
+    "test:registry-watch": "vitest __tests__/unit/registry-tests/",
+    "test:registry-coverage": "vitest run __tests__/unit/registry-tests/ --coverage",
     "test:installation-verification": "tsx scripts/test-installation-verification.ts",
-    "test:installation-ci": "vitest run src/registry-tests/InstallationMethodVerification.ci.test.ts --reporter=verbose --testTimeout=15000",
+    "test:installation-ci": "vitest run __tests__/unit/registry-tests/InstallationMethodVerification.test.ts --reporter=verbose --testTimeout=15000",
     "verify:installation": "tsx scripts/verify-installation-methods.ts",
     "audit:prod": "npm audit --omit=dev"
   },

@@ -10,7 +10,7 @@
 import { execSync } from 'child_process';
 import { readFileSync, existsSync } from 'fs';
 import { join } from 'path';
-import { REGISTRY_TEST_SUITES, REGISTRY_TEST_REPORTING } from '../src/registry-tests/index.js';
+import { REGISTRY_TEST_SUITES, REGISTRY_TEST_REPORTING } from '../__tests__/unit/registry-tests/config.js';
 
 interface TestResult {
   suite: string;
@@ -94,7 +94,7 @@ async function runAllRegistryTests(options: {
     console.log(`   Test File: ${suiteConfig.testFile}`);
     
     // Build test command
-    let command = `npx vitest run src/registry-tests/${suiteConfig.testFile}`;
+    let command = `npx vitest run __tests__/unit/registry-tests/${suiteConfig.testFile}`;
     
     if (options.coverage) {
       command += ' --coverage';
@@ -208,8 +208,8 @@ function validateTestEnvironment(): { valid: boolean; issues: string[] } {
   }
   
   // Check if test files exist
-  const testFiles = Object.values(REGISTRY_TEST_SUITES).map(suite => 
-    join('src', 'registry-tests', suite.testFile)
+  const testFiles = Object.values(REGISTRY_TEST_SUITES).map(suite =>
+    join('__tests__', 'unit', 'registry-tests', suite.testFile)
   );
   
   for (const testFile of testFiles) {
