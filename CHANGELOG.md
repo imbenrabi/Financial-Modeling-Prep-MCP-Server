@@ -5,6 +5,11 @@ All notable changes to the Financial Modeling Prep MCP Server will be documented
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.8] - 2026-02-03
+
+### Changed
+- Improved codebase organization by removing misleading directories, flattening unnecessary nesting in `src/schemas/`, relocating registry test configuration to `__tests__/unit/registry-tests/config.ts`, and fixing test script paths for better maintainability
+
 ## [2.6.7] - 2026-02-02
 
 ### Changed
