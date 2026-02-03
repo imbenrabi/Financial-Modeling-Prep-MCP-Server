@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest';
-import { SessionConfigSchema } from '../../../src/schemas/session/SessionConfigSchema.js';
+import { SessionConfigSchema } from '../../../src/schemas/SessionConfigSchema.js';
 import { QuotesClient } from '../../../src/api/quotes/QuotesClient.js';
 import type { FMPContext } from '../../../src/types/index.js';
 
