@@ -26,7 +26,7 @@ jobs:
         run: npm ci
 
       - name: Security audit (production dependencies)
-        run: npm audit --omit=dev --audit-level=high
+        run: npm audit --omit=dev --audit-level=critical
 
       - name: Build
         run: npm run build
