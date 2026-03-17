@@ -14,14 +14,12 @@ MCP server providing 253+ financial data tools via the Financial Modeling Prep A
 ┌─────────────────────────────────────────────────────────────┐
 │                      Tools Layer                             │
 │         28 modules, 253+ tools with Zod schemas             │
-│                    → src/tools/CLAUDE.md                     │
 └─────────────────────────────────────────────────────────────┘
                               │
                               ▼
 ┌─────────────────────────────────────────────────────────────┐
 │                       API Layer                              │
 │              FMPClient + 27 domain clients                  │
-│                     → src/api/CLAUDE.md                      │
 └─────────────────────────────────────────────────────────────┘
                               │
                               ▼
@@ -31,20 +29,17 @@ MCP server providing 253+ financial data tools via the Financial Modeling Prep A
 └─────────────────────────────────────────────────────────────┘
 ```
 
+See [`AGENTS.md`](AGENTS.md) for non-obvious pitfalls, invariants, and anti-patterns.
+
 ## Directory Structure
 
 ```
 src/
 ├── api/                    # HTTP clients for FMP API
-│   └── CLAUDE.md           # API layer documentation
 ├── tools/                  # MCP tool registrations
-│   └── CLAUDE.md           # Tools layer documentation
 ├── toolception-adapters/   # Toolception framework integration
-│   └── CLAUDE.md           # Adapter layer documentation
 ├── server-mode-enforcer/   # Mode configuration singleton
-│   └── CLAUDE.md           # Mode enforcer documentation
 ├── constants/              # Tool sets and defaults
-│   └── CLAUDE.md           # Constants documentation
 ├── types/                  # TypeScript type definitions
 ├── utils/                  # Validation utilities
 ├── endpoints/              # HTTP endpoints (health, ready, etc.)
@@ -214,42 +209,6 @@ This ensures clients without proper MCP headers can still maintain sessions acro
 
 ---
 
-## Intent Layer Maintenance
+## Intent Layer
 
-This codebase uses CLAUDE.md files as an "Intent Layer" - structured documentation that helps AI agents understand and navigate the code efficiently.
-
-### File Hierarchy
-
-```
-CLAUDE.md (root)                           # Architecture, config, invariants
-├── src/api/CLAUDE.md                      # API clients and patterns
-├── src/tools/CLAUDE.md                    # Tool registration patterns
-├── src/toolception-adapters/CLAUDE.md     # Framework integration
-├── src/server-mode-enforcer/CLAUDE.md     # Mode configuration
-└── src/constants/CLAUDE.md                # Tool sets and defaults
-```
-
-### When to Update
-
-Update the relevant CLAUDE.md when:
-- Adding new modules, tools, or API clients
-- Changing architectural patterns or conventions
-- Adding new invariants or critical behaviors
-- Modifying configuration options or precedence rules
-
-### Writing Guidelines
-
-1. **Document patterns, not implementations** - Focus on "how things work" not line-by-line code
-2. **Highlight invariants** - Critical rules that must never be violated
-3. **Show code snippets** - For patterns that are hard to describe in prose
-4. **Keep it concise** - Target <4K tokens per file
-5. **Use tables** - For mappings, options, and comparisons
-6. **Link to child nodes** - Reference deeper CLAUDE.md files with `→ path/CLAUDE.md`
-
-### What NOT to Document
-
-- Simple type definitions (self-documenting)
-- Trivial utility functions
-- Test files
-- Generated code
-- Anything that changes frequently without architectural impact
+This codebase uses AGENTS.md files to capture non-obvious tribal knowledge — pitfalls, anti-patterns, invariants — that agents cannot infer from code alone. See [`AGENTS.md`](AGENTS.md) for the full hierarchy and navigation.
