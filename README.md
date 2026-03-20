@@ -140,7 +140,7 @@ https://financial-modeling-prep-mcp-server-production.up.railway.app/mcp
 ```
 
 **Also available through MCP registries:**
-- Smithery.ai: [View on Smithery](https://smithery.ai/server/@imbenrabi/financial-modeling-prep-mcp-server)
+- Smithery.ai: [View on Smithery](https://smithery.ai/server/imbenrabi/fmp-mcp)
 - Glama.ai, Contexaai.com (see [Registries](#registries) section)
 
 **Configuration:**
@@ -865,17 +865,9 @@ curl -X POST http://localhost:8080/mcp \
 
 #### Smithery.ai
 
-The Financial Modeling Prep MCP Server is listed on Smithery as one way to access **our hosted instance**.
+**[View on Smithery.ai](https://smithery.ai/server/imbenrabi/fmp-mcp)**
 
-**[View on Smithery.ai](https://smithery.ai/server/@imbenrabi/financial-modeling-prep-mcp-server)**
-
-##### Important Update: Smithery Hosting Changes (March 2026)
-
-On March 1st, 2026, Smithery discontinued their free hosting service. As a result:
-
-- ✅ **Our hosted instance is still available** - We deployed our own server to Railway and expose it via Smithery
-- ✅ **No server setup required** - Just connect and provide your FMP API key
-- ❌ **No Smithery-hosted version** - The server runs on our infrastructure, not Smithery's
+Available via Smithery as a self-hosted deployment. Note: As of March 1st, 2026, Smithery discontinued their free hosting service. The server runs on external infrastructure and is accessible through Smithery's registry.
 
 ##### Using Our Hosted Instance
 
