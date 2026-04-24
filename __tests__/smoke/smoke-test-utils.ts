@@ -158,6 +158,7 @@ export function resetSession(): void {
   sessionId = null;
 }
 
+
 /**
  * Make an MCP HTTP request
  * Handles SSE (Server-Sent Events) response format and session management
