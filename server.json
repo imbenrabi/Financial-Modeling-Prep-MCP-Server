@@ -3,7 +3,7 @@
   "name": "io.github.imbenrabi/financial-modeling-prep-mcp-server",
   "title": "Financial Modeling Prep MCP Server",
   "description": "MCP server for Financial Modeling Prep API with 250+ financial data tools",
-  "version": "2.6.8",
+  "version": "2.6.9",
   "websiteUrl": "https://github.com/imbenrabi/Financial-Modeling-Prep-MCP-Server",
   "repository": {
     "url": "https://github.com/imbenrabi/Financial-Modeling-Prep-MCP-Server",
@@ -14,7 +14,7 @@
       "registryType": "npm",
       "registryBaseUrl": "https://registry.npmjs.org",
       "identifier": "financial-modeling-prep-mcp-server",
-      "version": "2.6.8",
+      "version": "2.6.9",
       "runtimeHint": "npx",
       "transport": {
         "type": "streamable-http",

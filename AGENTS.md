@@ -41,5 +41,6 @@ Score 0-1: Delete. Score 2: Keep gotcha sentence. Score 3-4: FLOW.md. Score 5: I
 | [`src/AGENTS.md`](src/AGENTS.md) | Startup sequence dependencies, custom Fastify app pitfall |
 | [`src/api/AGENTS.md`](src/api/AGENTS.md) | API key as query param (never headers), token precedence |
 | [`src/tools/AGENTS.md`](src/tools/AGENTS.md) | Never-throw pattern, global tool name uniqueness |
-| [`src/toolception-adapters/AGENTS.md`](src/toolception-adapters/AGENTS.md) | Session cache key formula, fingerprint algorithm |
+| [`src/toolception-adapters/AGENTS.md`](src/toolception-adapters/AGENTS.md) | Session cache key formula, module adapter constraints |
 | [`src/server-mode-enforcer/AGENTS.md`](src/server-mode-enforcer/AGENTS.md) | Singleton init order, fail-fast on invalid toolsets |
+| [`__tests__/smoke/AGENTS.md`](__tests__/smoke/AGENTS.md) | Smoke test requirements: build first, SSE parsing, global session state |

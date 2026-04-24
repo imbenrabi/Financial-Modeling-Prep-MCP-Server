@@ -22,10 +22,10 @@ export function registerTechnicalIndicatorsTools(
       timeframe: z
         .string()
         .describe("Timeframe (1min, 5min, 15min, 30min, 1hour, 4hour, 1day)"),
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
     },
-    async ({ symbol, periodLength, timeframe, from, to }) => {
+    async ({ symbol, periodLength, timeframe, from_date: from, to }) => {
       try {
         const results = await technicalIndicatorsClient.getSMA({
           symbol,
@@ -62,10 +62,10 @@ export function registerTechnicalIndicatorsTools(
       timeframe: z
         .string()
         .describe("Timeframe (1min, 5min, 15min, 30min, 1hour, 4hour, 1day)"),
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
     },
-    async ({ symbol, periodLength, timeframe, from, to }) => {
+    async ({ symbol, periodLength, timeframe, from_date: from, to }) => {
       try {
         const results = await technicalIndicatorsClient.getEMA({
           symbol,
@@ -102,10 +102,10 @@ export function registerTechnicalIndicatorsTools(
       timeframe: z
         .string()
         .describe("Timeframe (1min, 5min, 15min, 30min, 1hour, 4hour, 1day)"),
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
     },
-    async ({ symbol, periodLength, timeframe, from, to }) => {
+    async ({ symbol, periodLength, timeframe, from_date: from, to }) => {
       try {
         const results = await technicalIndicatorsClient.getWMA({
           symbol,
@@ -142,10 +142,10 @@ export function registerTechnicalIndicatorsTools(
       timeframe: z
         .string()
         .describe("Timeframe (1min, 5min, 15min, 30min, 1hour, 4hour, 1day)"),
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
     },
-    async ({ symbol, periodLength, timeframe, from, to }) => {
+    async ({ symbol, periodLength, timeframe, from_date: from, to }) => {
       try {
         const results = await technicalIndicatorsClient.getDEMA({
           symbol,
@@ -182,10 +182,10 @@ export function registerTechnicalIndicatorsTools(
       timeframe: z
         .string()
         .describe("Timeframe (1min, 5min, 15min, 30min, 1hour, 4hour, 1day)"),
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
     },
-    async ({ symbol, periodLength, timeframe, from, to }) => {
+    async ({ symbol, periodLength, timeframe, from_date: from, to }) => {
       try {
         const results = await technicalIndicatorsClient.getTEMA({
           symbol,
@@ -222,10 +222,10 @@ export function registerTechnicalIndicatorsTools(
       timeframe: z
         .string()
         .describe("Timeframe (1min, 5min, 15min, 30min, 1hour, 4hour, 1day)"),
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
     },
-    async ({ symbol, periodLength, timeframe, from, to }) => {
+    async ({ symbol, periodLength, timeframe, from_date: from, to }) => {
       try {
         const results = await technicalIndicatorsClient.getRSI({
           symbol,
@@ -262,10 +262,10 @@ export function registerTechnicalIndicatorsTools(
       timeframe: z
         .string()
         .describe("Timeframe (1min, 5min, 15min, 30min, 1hour, 4hour, 1day)"),
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
     },
-    async ({ symbol, periodLength, timeframe, from, to }) => {
+    async ({ symbol, periodLength, timeframe, from_date: from, to }) => {
       try {
         const results = await technicalIndicatorsClient.getStandardDeviation({
           symbol,
@@ -302,10 +302,10 @@ export function registerTechnicalIndicatorsTools(
       timeframe: z
         .string()
         .describe("Timeframe (1min, 5min, 15min, 30min, 1hour, 4hour, 1day)"),
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
     },
-    async ({ symbol, periodLength, timeframe, from, to }) => {
+    async ({ symbol, periodLength, timeframe, from_date: from, to }) => {
       try {
         const results = await technicalIndicatorsClient.getWilliams({
           symbol,
@@ -342,10 +342,10 @@ export function registerTechnicalIndicatorsTools(
       timeframe: z
         .string()
         .describe("Timeframe (1min, 5min, 15min, 30min, 1hour, 4hour, 1day)"),
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
     },
-    async ({ symbol, periodLength, timeframe, from, to }) => {
+    async ({ symbol, periodLength, timeframe, from_date: from, to }) => {
       try {
         const results = await technicalIndicatorsClient.getADX({
           symbol,

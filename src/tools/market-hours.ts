@@ -48,10 +48,10 @@ export function registerMarketHoursTools(
     "Access holiday schedules for specific stock exchanges using the Global Exchange Market Hours API. Find out the dates when global exchanges are closed for holidays and plan your trading activities accordingly.",
     {
       exchange: z.string().describe("Exchange code (e.g., NASDAQ, NYSE)"),
-      from: z.string().optional().describe("Start date for the holidays (YYYY-MM-DD format)"),
+      from_date: z.string().optional().describe("Start date for the holidays (YYYY-MM-DD format)"),
       to: z.string().optional().describe("End date for the holidays (YYYY-MM-DD format)"),
     },
-    async ({ exchange, from, to }) => {
+    async ({ exchange, from_date: from, to }) => {
       try {
         const results = await marketHoursClient.getHolidaysByExchange(
           exchange,

@@ -289,10 +289,10 @@ export function registerCompanyTools(
         .number()
         .optional()
         .describe("Limit on number of results (default: 100, max: 5000)"),
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
     },
-    async ({ symbol, limit, from, to }) => {
+    async ({ symbol, limit, from_date: from, to }) => {
       try {
         const results = await companyClient.getHistoricalMarketCap(
           symbol,

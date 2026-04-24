@@ -11,11 +11,9 @@ Bridge layer converting FMP's imperative tool registration to Toolception's decl
 ## Anti-patterns
 
 - Never add toolset config to session params — will be ignored, causes confusion
-- Never change fingerprint algorithm without migration — breaks existing sessions
+- Never change `MODULE_ADAPTERS` keys without updating `TOOL_SETS` — module loader lookup fails silently at runtime
 
 ## Pitfalls
 
-- Missing `mcp-client-id` header triggers auto-generation from `IP + User-Agent`
-- `Accept` header intentionally excluded from fingerprint — varies between requests from same client
 - "Session not found" usually means clientId or configHash changed between requests
 - ToolCollector captures registrations — doesn't execute tools, just collects definitions

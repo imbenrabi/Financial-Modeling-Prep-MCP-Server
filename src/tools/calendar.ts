@@ -51,10 +51,10 @@ export function registerCalendarTools(
     "getDividendsCalendar",
     "Stay informed on upcoming dividend events with the Dividend Events Calendar API. Access a comprehensive schedule of dividend-related dates for all stocks, including record dates, payment dates, declaration dates, and dividend yields.",
     {
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
     },
-    async ({ from, to }) => {
+    async ({ from_date: from, to }) => {
       try {
         const results = await calendarClient.getDividendsCalendar(from, to);
         return {
@@ -114,10 +114,10 @@ export function registerCalendarTools(
     "getEarningsCalendar",
     "Stay informed on upcoming and past earnings announcements with the FMP Earnings Calendar API. Access key data, including announcement dates, estimated earnings per share (EPS), and actual EPS for publicly traded companies.",
     {
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
     },
-    async ({ from, to }) => {
+    async ({ from_date: from, to }) => {
       try {
         const results = await calendarClient.getEarningsCalendar(from, to);
         return {
@@ -143,10 +143,10 @@ export function registerCalendarTools(
     "getIPOCalendar",
     "Access a comprehensive list of all upcoming initial public offerings (IPOs) with the FMP IPO Calendar API. Stay up to date on the latest companies entering the public market, with essential details on IPO dates, company names, expected pricing, and exchange listings.",
     {
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
     },
-    async ({ from, to }) => {
+    async ({ from_date: from, to }) => {
       try {
         const results = await calendarClient.getIPOCalendar(from, to);
         return {
@@ -172,10 +172,10 @@ export function registerCalendarTools(
     "getIPODisclosures",
     "Access a comprehensive list of disclosure filings for upcoming initial public offerings (IPOs) with the FMP IPO Disclosures API. Stay updated on regulatory filings, including filing dates, effectiveness dates, CIK numbers, and form types, with direct links to official SEC documents.",
     {
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
     },
-    async ({ from, to }) => {
+    async ({ from_date: from, to }) => {
       try {
         const results = await calendarClient.getIPODisclosures(from, to);
         return {
@@ -201,10 +201,10 @@ export function registerCalendarTools(
     "getIPOProspectuses",
     "Access comprehensive information on IPO prospectuses with the FMP IPO Prospectus API. Get key financial details, such as public offering prices, discounts, commissions, proceeds before expenses, and more. This API also provides links to official SEC prospectuses, helping investors stay informed on companies entering the public market.",
     {
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
     },
-    async ({ from, to }) => {
+    async ({ from_date: from, to }) => {
       try {
         const results = await calendarClient.getIPOProspectuses(from, to);
         return {
@@ -264,10 +264,10 @@ export function registerCalendarTools(
     "getStockSplitCalendar",
     "Stay informed about upcoming stock splits with the FMP Stock Splits Calendar API. This API provides essential data on upcoming stock splits across multiple companies, including the split date and ratio, helping you track changes in share structures before they occur.",
     {
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
     },
-    async ({ from, to }) => {
+    async ({ from_date: from, to }) => {
       try {
         const results = await calendarClient.getStockSplitsCalendar(from, to);
         return {

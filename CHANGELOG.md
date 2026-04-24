@@ -5,6 +5,12 @@ All notable changes to the Financial Modeling Prep MCP Server will be documented
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.6.9] - 2026-04-24
+
+### Changed
+- Renamed `from` parameter to `from_date` in MCP tool schemas to avoid Python reserved keyword conflicts
+- Updated `@modelcontextprotocol/sdk` dependency from `^1.24.3` to `^1.27.1` to align with toolception
+
 ## [2.6.8] - 2026-02-03
 
 ### Changed

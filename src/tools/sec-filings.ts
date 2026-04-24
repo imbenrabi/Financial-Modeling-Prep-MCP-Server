@@ -17,12 +17,12 @@ export function registerSECFilingsTools(
     "getLatest8KFilings",
     "Stay up-to-date with the most recent 8-K filings from publicly traded companies using the FMP Latest 8-K SEC Filings API. Get real-time access to significant company events such as mergers, acquisitions, leadership changes, and other material events that may impact the market.",
     {
-      from: z.string().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().describe("Start date (YYYY-MM-DD)"),
       to: z.string().describe("End date (YYYY-MM-DD)"),
       page: z.number().optional().describe("Page number for pagination"),
       limit: z.number().optional().describe("Limit the number of results"),
     },
-    async ({ from, to, page, limit }) => {
+    async ({ from_date: from, to, page, limit }) => {
       try {
         const results = await secFilingsClient.getLatest8KFilings({
           from,
@@ -53,12 +53,12 @@ export function registerSECFilingsTools(
     "getLatestFinancialFilings",
     "Stay updated with the most recent SEC filings from publicly traded companies using the FMP Latest SEC Filings API. Access essential regulatory documents, including financial statements, annual reports, 8-K, 10-K, and 10-Q forms.",
     {
-      from: z.string().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().describe("Start date (YYYY-MM-DD)"),
       to: z.string().describe("End date (YYYY-MM-DD)"),
       page: z.number().optional().describe("Page number for pagination"),
       limit: z.number().optional().describe("Limit the number of results"),
     },
-    async ({ from, to, page, limit }) => {
+    async ({ from_date: from, to, page, limit }) => {
       try {
         const results = await secFilingsClient.getLatestFinancialFilings({
           from,
@@ -90,12 +90,12 @@ export function registerSECFilingsTools(
     "Search for specific SEC filings by form type with the FMP SEC Filings By Form Type API. Retrieve filings such as 10-K, 10-Q, 8-K, and others, filtered by the exact type of document you're looking for.",
     {
       formType: z.string().describe("Form type (e.g., 8-K, 10-K, 10-Q)"),
-      from: z.string().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().describe("Start date (YYYY-MM-DD)"),
       to: z.string().describe("End date (YYYY-MM-DD)"),
       page: z.number().optional().describe("Page number for pagination"),
       limit: z.number().optional().describe("Limit the number of results"),
     },
-    async ({ formType, from, to, page, limit }) => {
+    async ({ formType, from_date: from, to, page, limit }) => {
       try {
         const results = await secFilingsClient.getFilingsByFormType({
           formType,
@@ -128,12 +128,12 @@ export function registerSECFilingsTools(
     "Search and retrieve SEC filings by company symbol using the FMP SEC Filings By Symbol API. Gain direct access to regulatory filings such as 8-K, 10-K, and 10-Q reports for publicly traded companies.",
     {
       symbol: z.string().describe("Stock symbol"),
-      from: z.string().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().describe("Start date (YYYY-MM-DD)"),
       to: z.string().describe("End date (YYYY-MM-DD)"),
       page: z.number().optional().describe("Page number for pagination"),
       limit: z.number().optional().describe("Limit the number of results"),
     },
-    async ({ symbol, from, to, page, limit }) => {
+    async ({ symbol, from_date: from, to, page, limit }) => {
       try {
         const results = await secFilingsClient.getFilingsBySymbol({
           symbol,
@@ -166,12 +166,12 @@ export function registerSECFilingsTools(
     "Search for SEC filings using the FMP SEC Filings By CIK API. Access detailed regulatory filings by Central Index Key (CIK) number, enabling you to track all filings related to a specific company or entity.",
     {
       cik: z.string().describe("Central Index Key (CIK)"),
-      from: z.string().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().describe("Start date (YYYY-MM-DD)"),
       to: z.string().describe("End date (YYYY-MM-DD)"),
       page: z.number().optional().describe("Page number for pagination"),
       limit: z.number().optional().describe("Limit the number of results"),
     },
-    async ({ cik, from, to, page, limit }) => {
+    async ({ cik, from_date: from, to, page, limit }) => {
       try {
         const results = await secFilingsClient.getFilingsByCIK({
           cik,

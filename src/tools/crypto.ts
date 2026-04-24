@@ -127,10 +127,10 @@ export function registerCryptoTools(
     "Access historical end-of-day prices for a variety of cryptocurrencies with the Historical Cryptocurrency Price Snapshot API. Track trends in price and trading volume over time to better understand market behavior.",
     {
       symbol: z.string().describe("Cryptocurrency symbol (e.g., BTCUSD)"),
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
     },
-    async ({ symbol, from, to }) => {
+    async ({ symbol, from_date: from, to }) => {
       try {
         const results = await cryptoClient.getHistoricalLightChart(
           symbol,
@@ -161,10 +161,10 @@ export function registerCryptoTools(
     "Access comprehensive end-of-day (EOD) price data for cryptocurrencies with the Full Historical Cryptocurrency Data API. Analyze long-term price trends, market movements, and trading volumes to inform strategic decisions.",
     {
       symbol: z.string().describe("Cryptocurrency symbol (e.g., BTCUSD)"),
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
     },
-    async ({ symbol, from, to }) => {
+    async ({ symbol, from_date: from, to }) => {
       try {
         const results = await cryptoClient.getHistoricalFullChart(
           symbol,
@@ -195,10 +195,10 @@ export function registerCryptoTools(
     "Get real-time, 1-minute interval price data for cryptocurrencies with the 1-Minute Cryptocurrency Intraday Data API. Monitor short-term price fluctuations and trading volume to stay updated on market movements.",
     {
       symbol: z.string().describe("Cryptocurrency symbol (e.g., BTCUSD)"),
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
     },
-    async ({ symbol, from, to }) => {
+    async ({ symbol, from_date: from, to }) => {
       try {
         const results = await cryptoClient.get1MinuteData(symbol, from, to);
         return {
@@ -225,10 +225,10 @@ export function registerCryptoTools(
     "Analyze short-term price trends with the 5-Minute Interval Cryptocurrency Data API. Access real-time, intraday price data for cryptocurrencies to monitor rapid market movements and optimize trading strategies.",
     {
       symbol: z.string().describe("Cryptocurrency symbol (e.g., BTCUSD)"),
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
     },
-    async ({ symbol, from, to }) => {
+    async ({ symbol, from_date: from, to }) => {
       try {
         const results = await cryptoClient.get5MinuteData(symbol, from, to);
         return {
@@ -255,10 +255,10 @@ export function registerCryptoTools(
     "Access detailed 1-hour intraday price data for cryptocurrencies with the 1-Hour Interval Cryptocurrency Data API. Track hourly price movements to gain insights into market trends and make informed trading decisions throughout the day.",
     {
       symbol: z.string().describe("Cryptocurrency symbol (e.g., BTCUSD)"),
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
     },
-    async ({ symbol, from, to }) => {
+    async ({ symbol, from_date: from, to }) => {
       try {
         const results = await cryptoClient.get1HourData(symbol, from, to);
         return {

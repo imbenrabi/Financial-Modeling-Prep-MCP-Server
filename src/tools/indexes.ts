@@ -130,10 +130,10 @@ export function registerIndexesTools(
     "Retrieve end-of-day historical prices for stock indexes using the Historical Price Data API. This API provides essential data such as date, price, and volume, enabling detailed analysis of price movements over time.",
     {
       symbol: z.string().describe("Index symbol (e.g., ^GSPC for S&P 500)"),
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
     },
-    async ({ symbol, from, to }) => {
+    async ({ symbol, from_date: from, to }) => {
       try {
         const results = await indexesClient.getHistoricalIndexLightChart(
           symbol,
@@ -166,10 +166,10 @@ export function registerIndexesTools(
     "Access full historical end-of-day prices for stock indexes using the Detailed Historical Price Data API. This API provides comprehensive information, including open, high, low, close prices, volume, and additional metrics for detailed financial analysis.",
     {
       symbol: z.string().describe("Index symbol (e.g., ^GSPC for S&P 500)"),
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
     },
-    async ({ symbol, from, to }) => {
+    async ({ symbol, from_date: from, to }) => {
       try {
         const results = await indexesClient.getHistoricalIndexFullChart(
           symbol,
@@ -202,10 +202,10 @@ export function registerIndexesTools(
     "Retrieve 1-minute interval intraday data for stock indexes using the Intraday 1-Minute Price Data API. This API provides granular price information, helping users track short-term price movements and trading volume within each minute.",
     {
       symbol: z.string().describe("Index symbol (e.g., ^GSPC for S&P 500)"),
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
     },
-    async ({ symbol, from, to }) => {
+    async ({ symbol, from_date: from, to }) => {
       try {
         const results = await indexesClient.getIndex1MinuteData(symbol, {
           from,
@@ -235,10 +235,10 @@ export function registerIndexesTools(
     "Retrieve 5-minute interval intraday price data for stock indexes using the Intraday 5-Minute Price Data API. This API provides crucial insights into price movements and trading volume within 5-minute windows, ideal for traders who require short-term data.",
     {
       symbol: z.string().describe("Index symbol (e.g., ^GSPC for S&P 500)"),
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
     },
-    async ({ symbol, from, to }) => {
+    async ({ symbol, from_date: from, to }) => {
       try {
         const results = await indexesClient.getIndex5MinuteData(symbol, {
           from,
@@ -268,10 +268,10 @@ export function registerIndexesTools(
     "Access 1-hour interval intraday data for stock indexes using the Intraday 1-Hour Price Data API. This API provides detailed price movements and volume within hourly intervals, making it ideal for tracking medium-term market trends during the trading day.",
     {
       symbol: z.string().describe("Index symbol (e.g., ^GSPC for S&P 500)"),
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
     },
-    async ({ symbol, from, to }) => {
+    async ({ symbol, from_date: from, to }) => {
       try {
         const results = await indexesClient.getIndex1HourData(symbol, {
           from,

@@ -89,11 +89,11 @@ export function registerMarketPerformanceTools(
     "Access historical sector performance data using the Historical Market Sector Performance API. Review how different sectors have performed over time across various stock exchanges.",
     {
       sector: z.string().describe("Sector (e.g., Energy)"),
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
       exchange: z.string().optional().describe("Exchange (e.g., NASDAQ)"),
     },
-    async ({ sector, from, to, exchange }) => {
+    async ({ sector, from_date: from, to, exchange }) => {
       try {
         const results =
           await marketPerformanceClient.getHistoricalSectorPerformance(sector, {
@@ -125,11 +125,11 @@ export function registerMarketPerformanceTools(
     "Access historical performance data for industries using the Historical Industry Performance API. Track long-term trends and analyze how different industries have evolved over time across various stock exchanges.",
     {
       industry: z.string().describe("Industry (e.g., Biotechnology)"),
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
       exchange: z.string().optional().describe("Exchange (e.g., NASDAQ)"),
     },
-    async ({ industry, from, to, exchange }) => {
+    async ({ industry, from_date: from, to, exchange }) => {
       try {
         const results =
           await marketPerformanceClient.getHistoricalIndustryPerformance(
@@ -232,11 +232,11 @@ export function registerMarketPerformanceTools(
     "Access historical price-to-earnings (P/E) ratios for various sectors using the Historical Sector P/E API. Analyze how sector valuations have evolved over time to understand long-term trends and market shifts.",
     {
       sector: z.string().describe("Sector (e.g., Energy)"),
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
       exchange: z.string().optional().describe("Exchange (e.g., NASDAQ)"),
     },
-    async ({ sector, from, to, exchange }) => {
+    async ({ sector, from_date: from, to, exchange }) => {
       try {
         const results = await marketPerformanceClient.getHistoricalSectorPE(
           sector,
@@ -266,11 +266,11 @@ export function registerMarketPerformanceTools(
     "Access historical price-to-earnings (P/E) ratios by industry using the Historical Industry P/E API. Track valuation trends across various industries to understand how market sentiment and valuations have evolved over time.",
     {
       industry: z.string().describe("Industry (e.g., Biotechnology)"),
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
       exchange: z.string().optional().describe("Exchange (e.g., NASDAQ)"),
     },
-    async ({ industry, from, to, exchange }) => {
+    async ({ industry, from_date: from, to, exchange }) => {
       try {
         const results = await marketPerformanceClient.getHistoricalIndustryPE(
           industry,

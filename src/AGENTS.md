@@ -4,15 +4,22 @@ Cross-cutting concerns and startup sequence for the FMP MCP Server.
 
 ## Key Rules
 
-- `ServerModeEnforcer.initialize()` must be called before any `getInstance()` calls
-- Fastify preHandler hook must be registered before toolception routes are mounted
+- Fastify `preHandler` hook must be registered before toolception routes are mounted
 - When passing custom Fastify app to toolception, caller must invoke `app.listen()` — toolception won't
+
+## Anti-patterns
+
+- Never register the `preHandler` hook after `createMcpServer()` — toolception mounts routes during `start()` and the hook will miss requests
+- Never skip `app.listen()` when passing a custom Fastify instance — the server will initialize but never accept connections
+- Never change the client ID fingerprint algorithm without a migration plan — breaks existing sessions for registry clients
 
 ## Pitfalls
 
-- Startup order: initialize enforcer → build config → create Fastify with hook → create MCP server → register prompts → start → listen
-- `app.listen()` is separate from `start()` when using custom Fastify instance
-- preHandler hook generates stable client ID from `IP + User-Agent` (not `Accept` — it varies)
+- `preHandler` hook generates stable client ID from `IP + User-Agent` (`Accept` is intentionally excluded — it varies between requests)
+
+## Flow Reference
+
+See [FLOW.md](FLOW.md) — ordered startup sequence with non-obvious ordering constraints
 
 ## Deeper Context
 
