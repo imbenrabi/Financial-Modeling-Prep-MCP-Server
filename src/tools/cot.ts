@@ -15,7 +15,7 @@ export function registerCOTTools(server: McpServer, accessToken?: string): void 
     "Access comprehensive Commitment of Traders (COT) reports with the FMP COT Report API. This API provides detailed information about long and short positions across various sectors, helping you assess market sentiment and track positions in commodities, indices, and financial instruments.",
     {
       symbol: z.string().describe("Commodity symbol"),
-      from: z
+      from_date: z
         .string()
         .optional()
         .describe("Optional start date (YYYY-MM-DD)"),
@@ -24,7 +24,7 @@ export function registerCOTTools(server: McpServer, accessToken?: string): void 
         .optional()
         .describe("Optional end date (YYYY-MM-DD)"),
     },
-    async ({ symbol, from, to }) => {
+    async ({ symbol, from_date: from, to }) => {
       try {
         const results = await cotClient.getReports(symbol, from, to);
         return {
@@ -51,7 +51,7 @@ export function registerCOTTools(server: McpServer, accessToken?: string): void 
     "Gain in-depth insights into market sentiment with the FMP COT Report Analysis API. Analyze the Commitment of Traders (COT) reports for a specific date range to evaluate market dynamics, sentiment, and potential reversals across various sectors.",
     {
       symbol: z.string().describe("Commodity symbol"),
-      from: z
+      from_date: z
         .string()
         .optional()
         .describe("Optional start date (YYYY-MM-DD)"),
@@ -60,7 +60,7 @@ export function registerCOTTools(server: McpServer, accessToken?: string): void 
         .optional()
         .describe("Optional end date (YYYY-MM-DD)"),
     },
-    async ({ symbol, from, to }) => {
+    async ({ symbol, from_date: from, to }) => {
       try {
         const results = await cotClient.getAnalysis(symbol, from, to);
         return {

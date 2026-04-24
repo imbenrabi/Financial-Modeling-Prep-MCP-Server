@@ -17,7 +17,7 @@ export function registerEconomicsTools(
     "getTreasuryRates",
     "Access real-time and historical Treasury rates for all maturities with the FMP Treasury Rates API. Track key benchmarks for interest rates across the economy.",
     {
-      from: z
+      from_date: z
         .string()
         .optional()
         .describe("Optional start date (YYYY-MM-DD)"),
@@ -26,7 +26,7 @@ export function registerEconomicsTools(
         .optional()
         .describe("Optional end date (YYYY-MM-DD)"),
     },
-    async ({ from, to }) => {
+    async ({ from_date: from, to }) => {
       try {
         const results = await economicsClient.getTreasuryRates(from, to);
         return {
@@ -55,7 +55,7 @@ export function registerEconomicsTools(
       name: z
         .string()
         .describe("Name of the indicator"),
-      from: z
+      from_date: z
         .string()
         .optional()
         .describe("Optional start date (YYYY-MM-DD)"),
@@ -64,7 +64,7 @@ export function registerEconomicsTools(
         .optional()
         .describe("Optional end date (YYYY-MM-DD)"),
     },
-    async ({ name, from, to }) => {
+    async ({ name, from_date: from, to }) => {
       try {
         const results = await economicsClient.getEconomicIndicators(
           name,
@@ -94,7 +94,7 @@ export function registerEconomicsTools(
     "getEconomicCalendar",
     "Stay informed with the FMP Economic Data Releases Calendar API. Access a comprehensive calendar of upcoming economic data releases to prepare for market impacts and make informed investment decisions.",
     {
-      from: z
+      from_date: z
         .string()
         .optional()
         .describe("Optional start date (YYYY-MM-DD)"),
@@ -103,7 +103,7 @@ export function registerEconomicsTools(
         .optional()
         .describe("Optional end date (YYYY-MM-DD)"),
     },
-    async ({ from, to }) => {
+    async ({ from_date: from, to }) => {
       try {
         const results = await economicsClient.getEconomicCalendar(from, to);
         return {

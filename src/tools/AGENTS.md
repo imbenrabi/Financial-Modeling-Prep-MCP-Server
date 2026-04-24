@@ -16,4 +16,3 @@ MCP tool registrations for all FMP API endpoints.
 ## Pitfalls
 
 - Error message format must be `Error: ${message}` for consistency with MCP clients
-- JSON responses are pretty-printed with `JSON.stringify(results, null, 2)`
