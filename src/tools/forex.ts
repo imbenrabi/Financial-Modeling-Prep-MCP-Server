@@ -130,10 +130,10 @@ export function registerForexTools(
     "Access historical end-of-day forex prices with the Historical Forex Light Chart API. Track long-term price trends across different currency pairs to enhance your trading and analysis strategies.",
     {
       symbol: z.string().describe("Forex pair symbol (e.g., EURUSD)"),
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
     },
-    async ({ symbol, from, to }) => {
+    async ({ symbol, from_date: from, to }) => {
       try {
         const results = await forexClient.getHistoricalLightChart(
           symbol,
@@ -164,10 +164,10 @@ export function registerForexTools(
     "Access comprehensive historical end-of-day forex price data with the Full Historical Forex Chart API. Gain detailed insights into currency pair movements, including open, high, low, close (OHLC) prices, volume, and percentage changes.",
     {
       symbol: z.string().describe("Forex pair symbol (e.g., EURUSD)"),
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
     },
-    async ({ symbol, from, to }) => {
+    async ({ symbol, from_date: from, to }) => {
       try {
         const results = await forexClient.getHistoricalFullChart(
           symbol,
@@ -198,10 +198,10 @@ export function registerForexTools(
     "Access real-time 1-minute intraday forex data with the 1-Minute Forex Interval Chart API. Track short-term price movements for precise, up-to-the-minute insights on currency pair fluctuations.",
     {
       symbol: z.string().describe("Forex pair symbol (e.g., EURUSD)"),
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
     },
-    async ({ symbol, from, to }) => {
+    async ({ symbol, from_date: from, to }) => {
       try {
         const results = await forexClient.get1MinuteData(symbol, from, to);
         return {
@@ -228,10 +228,10 @@ export function registerForexTools(
     "Track short-term forex trends with the 5-Minute Forex Interval Chart API. Access detailed 5-minute intraday data to monitor currency pair price movements and market conditions in near real-time.",
     {
       symbol: z.string().describe("Forex pair symbol (e.g., EURUSD)"),
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
     },
-    async ({ symbol, from, to }) => {
+    async ({ symbol, from_date: from, to }) => {
       try {
         const results = await forexClient.get5MinuteData(symbol, from, to);
         return {
@@ -258,10 +258,10 @@ export function registerForexTools(
     "Track forex price movements over the trading day with the 1-Hour Forex Interval Chart API. This tool provides hourly intraday data for currency pairs, giving a detailed view of trends and market shifts.",
     {
       symbol: z.string().describe("Forex pair symbol (e.g., EURUSD)"),
-      from: z.string().optional().describe("Start date (YYYY-MM-DD)"),
+      from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
     },
-    async ({ symbol, from, to }) => {
+    async ({ symbol, from_date: from, to }) => {
       try {
         const results = await forexClient.get1HourData(symbol, from, to);
         return {
