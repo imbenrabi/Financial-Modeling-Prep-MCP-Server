@@ -52,6 +52,8 @@ fmp-mcp --fmp-token=YOUR_FMP_API_KEY
 
 ## Installation
 
+**Prerequisites:** Node.js 25.3.0 or higher (for v2.6.0+). For older versions (v2.5.x and below), Node.js 20+ is required.
+
 Choose the method that fits your workflow:
 
 - **NPM** — `npm install -g financial-modeling-prep-mcp-server`

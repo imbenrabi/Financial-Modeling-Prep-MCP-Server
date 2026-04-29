@@ -2,7 +2,7 @@
 
 ## Prerequisites
 
-- Node.js >= 25.3.0
+- Node.js 25.3.0 or higher (for v2.6.0+). For older versions (v2.5.x and below), Node.js 20+ is required.
 - npm >= 11.11.0
 - A Financial Modeling Prep API key
 
