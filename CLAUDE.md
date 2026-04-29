@@ -1,5 +1,7 @@
 # Financial Modeling Prep MCP Server
 
+> For user-facing docs, see README.md and the docs/ directory.
+
 MCP server providing 253+ financial data tools via the Financial Modeling Prep API. HTTP/SSE transport only. Built on toolception + Fastify.
 
 ## Architecture
@@ -31,25 +33,6 @@ src/
 ├── endpoints/              # HTTP endpoints (health, ready)
 ├── prompts/                # MCP prompt definitions
 └── index.ts                # Server entry point
-```
-
-## Server Modes
-
-| Mode | Behavior |
-|------|----------|
-| `ALL_TOOLS` | Load all 253+ tools at startup (default) |
-| `STATIC_TOOL_SETS` | Load specific tool sets at startup |
-| `DYNAMIC_TOOL_DISCOVERY` | Client activates tool sets at runtime |
-
-## Development
-
-```bash
-npm install        # Install dependencies
-npm run dev        # Development server (watch mode)
-npm run build      # Build for production
-npm start          # Start production server
-npm test           # Run tests
-npm run lint       # Lint
 ```
 
 ## Key Invariants
