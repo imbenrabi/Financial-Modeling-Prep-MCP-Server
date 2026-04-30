@@ -1,5 +1,5 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
-import { readFile, writeFile, mkdir, rm } from 'fs/promises';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
+import { writeFile, mkdir, rm } from 'fs/promises';
 import { join } from 'path';
 import { tmpdir } from 'os';
 import { validateServerJsonSchema } from '../../../src/utils/versionSync.js';

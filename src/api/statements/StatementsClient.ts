@@ -29,9 +29,6 @@ import {
 
 
 export class StatementsClient extends FMPClient {
-  constructor(apiKey?: string) {
-    super(apiKey);
-  }
 
   /**
    * Get income statements for a symbol

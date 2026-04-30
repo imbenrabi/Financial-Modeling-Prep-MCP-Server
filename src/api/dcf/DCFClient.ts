@@ -9,9 +9,6 @@ import type {
 
 
 export class DCFClient extends FMPClient {
-  constructor(apiKey?: string) {
-    super(apiKey);
-  }
 
   /**
    * Get DCF(Discounted Cash Flow) valuation for a symbol

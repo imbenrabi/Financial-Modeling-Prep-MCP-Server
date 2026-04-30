@@ -8,8 +8,7 @@
  */
 
 import { spawn } from 'child_process';
-import { existsSync, readFileSync } from 'fs';
-import { join } from 'path';
+import { existsSync } from 'fs';
 
 /**
  * Verification configuration.
@@ -271,7 +270,7 @@ class InstallationVerifier {
     console.log('\n🚀 Verifying server startup...');
     
     try {
-      const { matched, output } = await this.spawnAndWaitForPatterns(
+      const { matched, output: _output } = await this.spawnAndWaitForPatterns(
         'node',
         ['dist/index.js', '--fmp-token', 'test_token', '--port', '8084'],
         //@ts-ignore

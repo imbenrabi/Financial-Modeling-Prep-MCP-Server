@@ -62,10 +62,10 @@ Precedence (highest to lowest): CLI args → env vars → session config → def
 
 When `DYNAMIC_TOOL_DISCOVERY=true`, only five meta-tools are exposed initially:
 
-- `list_tool_sets` — View available tool sets
-- `enable_tool_set` — Activate a tool set
-- `disable_tool_set` — Deactivate a tool set
-- `get_enabled_tools` — List currently active tools
-- `get_tool_catalog` — Show full catalog with descriptions
+- `list_toolsets` — List all available toolsets with their active status and definitions
+- `enable_toolset` — Enable a toolset by name to make its tools available
+- `disable_toolset` — Disable a toolset by name (state tracking only)
+- `describe_toolset` — Describe a toolset with its definition, active status, and tools
+- `list_tools` — List currently registered tool names
 
-Enable a set before calling its tools.
+Enable a toolset before calling its tools.

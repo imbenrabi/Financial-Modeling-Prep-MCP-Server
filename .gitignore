@@ -35,6 +35,9 @@ logs/
 # Local test scripts
 manual-server-tests
 
+# Claude Code worktrees and session state
+.claude/
+
 # MCP registry token files (do not commit)
 .mcpregistry_github_token
 .mcpregistry_registry_token

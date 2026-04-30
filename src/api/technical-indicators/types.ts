@@ -1,5 +1,5 @@
 // Base interface for all technical indicators
-export interface TechnicalIndicatorBase {
+interface TechnicalIndicatorBase {
   date: string;
   open: number;
   high: number;

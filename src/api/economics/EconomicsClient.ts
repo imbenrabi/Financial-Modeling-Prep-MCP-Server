@@ -10,9 +10,6 @@ import type {
 
 
 export class EconomicsClient extends FMPClient {
-  constructor(apiKey?: string) {
-    super(apiKey);
-  }
 
   /**
    * Get treasury rates

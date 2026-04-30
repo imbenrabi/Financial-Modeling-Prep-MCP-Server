@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach, afterEach, vi } from 'vitest';
+import { describe, it, expect, beforeEach, afterEach } from 'vitest';
 import { readFile, writeFile, mkdir, rm } from 'fs/promises';
 import { join } from 'path';
 import { tmpdir } from 'os';
@@ -197,14 +197,14 @@ describe('RegistryApiIntegration', () => {
     });
 
     it('should validate server can be discovered by keywords', async () => {
-      const packageJson = JSON.parse(await readFile(join(testDir, 'package.json'), 'utf-8'));
+      const _packageJson = JSON.parse(await readFile(join(testDir, 'package.json'), 'utf-8'));
       
       // Simulate search by keywords
       const searchKeywords = ['financial', 'mcp', 'api'];
-      const serverKeywords = ['financial', 'modeling', 'prep', 'mcp', 'api', 'data'];
+      const serverKeywords = new Set(['financial', 'modeling', 'prep', 'mcp', 'api', 'data']);
       
       const hasMatchingKeywords = searchKeywords.some(keyword => 
-        serverKeywords.includes(keyword)
+        serverKeywords.has(keyword)
       );
       
       expect(hasMatchingKeywords).toBe(true);

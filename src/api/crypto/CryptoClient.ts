@@ -12,9 +12,6 @@ import type {
 
 
 export class CryptoClient extends FMPClient {
-  constructor(apiKey?: string) {
-    super(apiKey);
-  }
 
   /**
    * Get a list of all cryptocurrencies

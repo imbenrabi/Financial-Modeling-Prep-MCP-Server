@@ -13,9 +13,6 @@ import {
 } from "./types.js";
 
 export class QuotesClient extends FMPClient {
-  constructor(apiKey?: string) {
-    super(apiKey);
-  }
 
   /**
    * Get real-time stock quotes for a symbol

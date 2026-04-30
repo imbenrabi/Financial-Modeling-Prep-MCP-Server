@@ -5,9 +5,8 @@
  * Tests all installation methods and validates registry entry functionality
  */
 
-import { execSync, spawn } from 'child_process';
-import { readFileSync, existsSync, mkdirSync, rmSync } from 'fs';
-import { join } from 'path';
+import { execSync } from 'child_process';
+import { readFileSync, existsSync } from 'fs';
 
 interface VerificationResult {
   success: boolean;
@@ -40,7 +39,7 @@ function executeCommand(command: string, options: { silent?: boolean; cwd?: stri
     });
     return typeof result === 'string' ? result : '';
   } catch (error: any) {
-    throw new Error(`Command failed: ${command}\n${error.message}`);
+    throw new Error(`Command failed: ${command}\n${error.message}`, { cause: error });
   }
 }
 
@@ -280,7 +279,7 @@ async function testHttpTransport(): Promise<VerificationResult> {
         timeout: 10000 
       });
       console.log('   ✅ HTTP transport endpoint is accessible');
-    } catch (error) {
+    } catch {
       console.log('   ⚠️  HTTP transport endpoint test skipped (curl not available or endpoint not responding)');
     }
     

@@ -21,9 +21,6 @@ import type {
 } from "./types.js";
 
 export class SECFilingsClient extends FMPClient {
-  constructor(apiKey?: string) {
-    super(apiKey);
-  }
 
   /**
    * Get latest 8-K SEC filings for a date range

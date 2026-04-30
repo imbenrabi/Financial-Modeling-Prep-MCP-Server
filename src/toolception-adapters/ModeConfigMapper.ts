@@ -1,13 +1,22 @@
 import type { ServerMode, ToolSet } from '../types/index.js';
 import { TOOL_SETS } from '../constants/toolSets.js';
-import type { ServerModeEnforcer } from '../server-mode-enforcer/ServerModeEnforcer.js';
 import type { ModuleLoader } from 'toolception';
+
+/**
+ * Minimal structural view of ServerModeEnforcer required by the mapper.
+ * Defined here to avoid the adapters layer importing the server-mode-enforcer module
+ * (which would invert the architectural layering).
+ */
+interface ModeEnforcerView {
+  readonly serverModeOverride: ServerMode | null;
+  readonly toolSets: ToolSet[];
+}
 
 /**
  * Session context configuration for per-session token support
  * Enables users to provide their own FMP_ACCESS_TOKEN via query param
  */
-export interface SessionContextConfig {
+interface SessionContextConfig {
   enabled: boolean;
   queryParam: {
     name: string;
@@ -21,7 +30,7 @@ export interface SessionContextConfig {
  * Toolception configuration options
  * Based on toolception's CreateMcpServerOptions type
  */
-export interface ToolceptionConfig {
+interface ToolceptionConfig {
   catalog: ToolSetCatalog;
   moduleLoaders: Record<string, ModuleLoader>;
   startup: {
@@ -43,7 +52,7 @@ export interface ToolceptionConfig {
 /**
  * Toolception toolset catalog
  */
-export interface ToolSetCatalog {
+interface ToolSetCatalog {
   [key: string]: {
     name: string;
     description: string;
@@ -70,7 +79,7 @@ export class ModeConfigMapper {
    */
   static toToolceptionConfig(
     mode: ServerMode,
-    enforcer: ServerModeEnforcer,
+    enforcer: ModeEnforcerView,
     accessToken?: string,
     moduleLoaders?: Record<string, ModuleLoader>
   ): ToolceptionConfig {
@@ -178,7 +187,7 @@ export class ModeConfigMapper {
   /**
    * Resolve tool sets from enforcer (server-level configuration only)
    */
-  private static resolveToolSets(enforcer: ServerModeEnforcer): ToolSet[] {
+  private static resolveToolSets(enforcer: ModeEnforcerView): ToolSet[] {
     if (enforcer.serverModeOverride === 'STATIC_TOOL_SETS') {
       return enforcer.toolSets;
     }

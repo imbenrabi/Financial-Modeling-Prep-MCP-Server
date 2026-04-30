@@ -3,9 +3,6 @@ import type { FMPContext } from "../../types/index.js";
 import type { ExchangeMarketHours, HolidayByExchange } from "./types.js";
 
 export class MarketHoursClient extends FMPClient {
-  constructor(apiKey?: string) {
-    super(apiKey);
-  }
 
   /**
    * Get market hours for a specific exchange

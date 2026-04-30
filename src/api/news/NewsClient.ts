@@ -8,9 +8,6 @@ import type {
 } from "./types.js";
 
 export class NewsClient extends FMPClient {
-  constructor(apiKey?: string) {
-    super(apiKey);
-  }
 
   /**
    * Get articles from Financial Modeling Prep

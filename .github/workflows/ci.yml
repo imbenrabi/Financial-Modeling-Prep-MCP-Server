@@ -28,8 +28,20 @@ jobs:
       - name: Security audit (production dependencies)
         run: npm audit --omit=dev --audit-level=critical
 
+      - name: Lint
+        run: npm run lint
+
       - name: Build
         run: npm run build
 
       - name: Run tests
         run: npm run test:run
+
+      - name: Knip (unused code/deps)
+        run: npm run knip
+
+      - name: Install sentrux
+        run: curl -fsSL https://raw.githubusercontent.com/sentrux/sentrux/main/install.sh | sh
+
+      - name: Sentrux architecture gate
+        run: sentrux check .

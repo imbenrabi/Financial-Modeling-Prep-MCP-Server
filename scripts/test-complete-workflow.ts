@@ -25,6 +25,133 @@ function safeExecute(command: string): { success: boolean; output: string } {
 /**
  * Tests the complete publishing workflow
  */
+/**
+ * Validate that server.json metadata is consistent with package.json and
+ * exposes the required fields/packages. Returns true on success.
+ */
+function validateServerJsonMetadata(): boolean {
+  if (!existsSync('server.json')) {
+    console.log('   FAILURE: server.json file not found');
+    return false;
+  }
+  let ok = true;
+  try {
+    const serverJson = JSON.parse(readFileSync('server.json', 'utf-8'));
+    const packageJson = JSON.parse(readFileSync('package.json', 'utf-8'));
+
+    if (serverJson.version === packageJson.version) {
+      console.log('   SUCCESS: server.json version matches package.json');
+    } else {
+      console.log(`   FAILURE: Version mismatch: server.json(${serverJson.version}) vs package.json(${packageJson.version})`);
+      ok = false;
+    }
+
+    const requiredFields = ['name', 'description', 'version', 'packages'];
+    for (const field of requiredFields) {
+      if (serverJson[field]) {
+        console.log(`   SUCCESS: server.json has required field: ${field}`);
+      } else {
+        console.log(`   FAILURE: server.json missing required field: ${field}`);
+        ok = false;
+      }
+    }
+
+    if (serverJson.packages && serverJson.packages.length > 0) {
+      const pkg = serverJson.packages[0];
+      if (pkg.registryType === 'npm' && pkg.identifier === packageJson.name) {
+        console.log('   SUCCESS: NPM package configuration correct');
+      } else {
+        console.log('   FAILURE: NPM package configuration incorrect');
+        ok = false;
+      }
+    } else {
+      console.log('   FAILURE: No packages defined in server.json');
+      ok = false;
+    }
+  } catch {
+    console.log('   FAILURE: server.json is not valid JSON');
+    ok = false;
+  }
+  return ok;
+}
+
+/**
+ * Validate that .github/workflows/release.yml contains the required components,
+ * error handling, and dry-run support. Returns true on success.
+ */
+function validateReleaseWorkflow(): boolean {
+  if (!existsSync('.github/workflows/release.yml')) {
+    console.log('   FAILURE: GitHub Actions workflow file not found');
+    return false;
+  }
+  let ok = true;
+  try {
+    const workflowContent = readFileSync('.github/workflows/release.yml', 'utf-8');
+    const requiredComponents = [
+      'validate:',
+      'publish:',
+      'release:',
+      'notify-failure:',
+      'NPM_TOKEN',
+      'github-oidc',
+      'version:validate',
+      'verify:npm-ready',
+      'verify:registry-submission',
+    ];
+    for (const component of requiredComponents) {
+      if (workflowContent.includes(component)) {
+        console.log(`   SUCCESS: Workflow includes: ${component}`);
+      } else {
+        console.log(`   FAILURE: Workflow missing: ${component}`);
+        ok = false;
+      }
+    }
+    if (workflowContent.includes('if: failure()')) {
+      console.log('   SUCCESS: Error handling configured');
+    } else {
+      console.log('   FAILURE: Error handling missing');
+      ok = false;
+    }
+    if (workflowContent.includes('workflow_dispatch') && workflowContent.includes('dry_run')) {
+      console.log('   SUCCESS: Dry run support configured');
+    } else {
+      console.log('   FAILURE: Dry run support missing');
+      ok = false;
+    }
+  } catch {
+    console.log('   FAILURE: Cannot read workflow file');
+    ok = false;
+  }
+  return ok;
+}
+
+/**
+ * Validate that all required pipeline npm scripts are defined in package.json.
+ * Returns true on success.
+ */
+function validatePipelineScripts(): boolean {
+  const pipelineScripts = [
+    'version:validate',
+    'verify:npm-ready',
+    'verify:registry-submission',
+    'test:complete-workflow',
+    'publish:validate',
+    'publish:dry-run',
+  ];
+  const packageJson = JSON.parse(readFileSync('package.json', 'utf-8'));
+  let ok = true;
+  for (const script of pipelineScripts) {
+    if (packageJson.scripts && packageJson.scripts[script]) {
+      console.log(`   SUCCESS: Pipeline script available: ${script}`);
+    } else {
+      console.log(`   FAILURE: Pipeline script missing: ${script}`);
+      ok = false;
+    }
+  }
+  return ok;
+}
+
+
 async function testCompleteWorkflow(): Promise<void> {
   console.log('Complete Publishing Workflow Integration Test\n');
   
@@ -83,55 +210,7 @@ async function testCompleteWorkflow(): Promise<void> {
   
   // Test 5: Server.json validation
   console.log('\n5. Testing server.json metadata...');
-  if (existsSync('server.json')) {
-    try {
-      const serverJson = JSON.parse(readFileSync('server.json', 'utf-8'));
-      const packageJson = JSON.parse(readFileSync('package.json', 'utf-8'));
-      
-      // Check version consistency
-      if (serverJson.version === packageJson.version) {
-        console.log('   SUCCESS: server.json version matches package.json');
-      } else {
-        console.log(`   FAILURE: Version mismatch: server.json(${serverJson.version}) vs package.json(${packageJson.version})`);
-        allTests = false;
-      }
-      
-      // Check required fields
-      const requiredFields = ['name', 'description', 'version', 'packages'];
-      let fieldsOk = true;
-      for (const field of requiredFields) {
-        if (serverJson[field]) {
-          console.log(`   SUCCESS: server.json has required field: ${field}`);
-        } else {
-          console.log(`   FAILURE: server.json missing required field: ${field}`);
-          fieldsOk = false;
-        }
-      }
-      
-      if (!fieldsOk) {
-        allTests = false;
-      }
-      
-      // Check package configuration
-      if (serverJson.packages && serverJson.packages.length > 0) {
-        const pkg = serverJson.packages[0];
-        if (pkg.registryType === 'npm' && pkg.identifier === packageJson.name) {
-          console.log('   SUCCESS: NPM package configuration correct');
-        } else {
-          console.log('   FAILURE: NPM package configuration incorrect');
-          allTests = false;
-        }
-      } else {
-        console.log('   FAILURE: No packages defined in server.json');
-        allTests = false;
-      }
-      
-    } catch (error) {
-      console.log('   FAILURE: server.json is not valid JSON');
-      allTests = false;
-    }
-  } else {
-    console.log('   FAILURE: server.json file not found');
+  if (!validateServerJsonMetadata()) {
     allTests = false;
   }
   
@@ -205,93 +284,20 @@ async function testCompleteWorkflow(): Promise<void> {
       allTests = false;
     }
     
-  } catch (error) {
+  } catch {
     console.log('   FAILURE: Cannot validate registry entry format');
     allTests = false;
   }
   
   // Test 10: GitHub Actions workflow validation
   console.log('\n10. Testing GitHub Actions workflow...');
-  if (existsSync('.github/workflows/release.yml')) {
-    try {
-      const workflowContent = readFileSync('.github/workflows/release.yml', 'utf-8');
-      
-      // Check for required workflow components
-      const requiredComponents = [
-        'validate:',
-        'publish:',
-        'release:',
-        'notify-failure:',
-        'NPM_TOKEN',
-        'github-oidc',
-        'version:validate',
-        'verify:npm-ready',
-        'verify:registry-submission'
-      ];
-      
-      let workflowOk = true;
-      for (const component of requiredComponents) {
-        if (workflowContent.includes(component)) {
-          console.log(`   SUCCESS: Workflow includes: ${component}`);
-        } else {
-          console.log(`   FAILURE: Workflow missing: ${component}`);
-          workflowOk = false;
-        }
-      }
-      
-      // Check for error handling
-      if (workflowContent.includes('if: failure()')) {
-        console.log('   SUCCESS: Error handling configured');
-      } else {
-        console.log('   FAILURE: Error handling missing');
-        workflowOk = false;
-      }
-      
-      // Check for dry run support
-      if (workflowContent.includes('workflow_dispatch') && workflowContent.includes('dry_run')) {
-        console.log('   SUCCESS: Dry run support configured');
-      } else {
-        console.log('   FAILURE: Dry run support missing');
-        workflowOk = false;
-      }
-      
-      if (!workflowOk) {
-        allTests = false;
-      }
-      
-    } catch (error) {
-      console.log('   FAILURE: Cannot read workflow file');
-      allTests = false;
-    }
-  } else {
-    console.log('   FAILURE: GitHub Actions workflow file not found');
+  if (!validateReleaseWorkflow()) {
     allTests = false;
   }
   
   // Test 11: Automated pipeline validation
   console.log('\n11. Testing automated pipeline components...');
-  const pipelineScripts = [
-    'version:validate',
-    'verify:npm-ready', 
-    'verify:registry-submission',
-    'test:complete-workflow',
-    'publish:validate',
-    'publish:dry-run'
-  ];
-  
-  let pipelineOk = true;
-  const packageJson = JSON.parse(readFileSync('package.json', 'utf-8'));
-  
-  for (const script of pipelineScripts) {
-    if (packageJson.scripts && packageJson.scripts[script]) {
-      console.log(`   SUCCESS: Pipeline script available: ${script}`);
-    } else {
-      console.log(`   FAILURE: Pipeline script missing: ${script}`);
-      pipelineOk = false;
-    }
-  }
-  
-  if (!pipelineOk) {
+  if (!validatePipelineScripts()) {
     allTests = false;
   }
   

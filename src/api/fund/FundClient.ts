@@ -13,9 +13,6 @@ import type {
 } from "./types.js";
 
 export class FundClient extends FMPClient {
-  constructor(apiKey?: string) {
-    super(apiKey);
-  }
 
   /**
    * Get fund(ETF and Mutual Funds) holdings for a symbol

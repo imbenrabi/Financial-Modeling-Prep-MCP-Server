@@ -22,7 +22,7 @@ vi.mock('node:fs');
 const mockedFs = vi.mocked(fs);
 
 // Mock console for showHelp tests (declare at module level)
-const consoleSpy = vi.spyOn(console, 'log');
+const _consoleSpy = vi.spyOn(console, 'log');
 
 describe('getServerVersion', () => {
   beforeEach(() => {

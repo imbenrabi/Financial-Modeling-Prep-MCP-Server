@@ -1,11 +1,11 @@
-import { ToolCollector, type McpToolDefinition, type ToolRegistrar } from './ToolCollector.js';
+import { ToolCollector, type McpToolDefinition } from './ToolCollector.js';
 import type { ModuleLoader } from 'toolception';
 
 /**
  * Context object passed to module loaders by toolception
  * May contain configuration and authentication details
  */
-export interface ModuleLoaderContext {
+interface ModuleLoaderContext {
   /** Optional FMP API access token (from server-level context) */
   accessToken?: string;
   /** Optional FMP API access token (from session context via query param) */
@@ -34,7 +34,7 @@ export interface ModuleLoaderContext {
  * Note: Uses `any` for server parameter due to TypeScript contravariance limitations.
  * The actual implementation must have a .tool() method compatible with ToolRegistrar.
  */
-export type RegisterToolsFunction = (server: any, accessToken?: string) => void;
+type RegisterToolsFunction = (server: any, accessToken?: string) => void;
 
 /**
  * Creates a toolception-compatible module loader from an existing registerXxxTools function
@@ -90,7 +90,7 @@ export function createModuleAdapter(
       throw new Error(
         `Module adapter failed for '${moduleName}': ${
           error instanceof Error ? error.message : String(error)
-        }`
+        }`, { cause: error }
       );
     }
   };

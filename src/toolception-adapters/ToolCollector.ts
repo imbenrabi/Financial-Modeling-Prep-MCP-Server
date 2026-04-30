@@ -23,7 +23,7 @@ export interface McpToolDefinition {
  * Interface for objects that can register tools
  * Used to provide type safety for registerXxxTools functions
  */
-export interface ToolRegistrar {
+interface ToolRegistrar {
   tool(
     name: string,
     description: string,

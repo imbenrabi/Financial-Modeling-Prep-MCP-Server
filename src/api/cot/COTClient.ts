@@ -3,9 +3,6 @@ import type { FMPContext } from "../../types/index.js";
 import { COTReport, COTAnalysis, COTList } from "./types.js";
 
 export class COTClient extends FMPClient {
-  constructor(apiKey?: string) {
-    super(apiKey);
-  }
 
   /**
    * Get COT(Commitment Of Traders) reports for a symbol

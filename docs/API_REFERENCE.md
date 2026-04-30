@@ -16,7 +16,7 @@
 | News | `news` | `getFMPArticles`, `getGeneralNews`, `getStockNews`, `getPressReleases`, `getCryptoNews` |
 | SEC Filings | `sec-filings` | `getLatest8KFilings`, `getFilingsBySymbol`, `getFilingsByCIK`, `searchCompaniesByName` |
 | Insider Trading | `insider-trades` | `getLatestInsiderTrading`, `searchInsiderTrades`, `getInsiderTransactionTypes`, `getInsiderTradeStatistics` |
-| Institutional Holdings | `institutional` | `getLatest13FFilings`, `getSecFilingExtract`, `getHolderPerformanceSummary`, `getPositionsSummary` |
+| Institutional Holdings | `institutional` | `getLatestInstitutionalFilings`, `getSecFilingExtract`, `getHolderPerformanceSummary`, `getPositionsSummary` |
 | ETFs and Funds | `etf-funds` | `getFundHoldings`, `getFundInfo`, `getFundSectorWeighting`, `getLatestCrowdfundingCampaigns` |
 | Government Trading | `senate` | `getLatestSenateDisclosures`, `getLatestHouseDisclosures`, `getSenateTrades`, `getHouseTrades` |
 | Cryptocurrency | `crypto` | `getCryptocurrencyList`, `getCryptocurrencyQuote`, `getCryptocurrencyHistoricalLightChart`, `getCryptocurrencyBatchQuotes` |

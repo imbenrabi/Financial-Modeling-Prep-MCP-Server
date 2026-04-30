@@ -12,9 +12,6 @@ import type {
 
 
 export class ForexClient extends FMPClient {
-  constructor(apiKey?: string) {
-    super(apiKey);
-  }
 
   /**
    * Get a list of all forex currency pairs

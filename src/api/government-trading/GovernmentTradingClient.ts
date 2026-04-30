@@ -8,9 +8,6 @@ import type {
 } from "./types.js";
 
 export class GovernmentTradingClient extends FMPClient {
-  constructor(apiKey?: string) {
-    super(apiKey);
-  }
 
   /**
    * Get latest financial disclosures from U.S. Senate members

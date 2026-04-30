@@ -5,9 +5,6 @@ import type {
 } from "./types.js";
 
 export class CommodityClient extends FMPClient {
-  constructor(apiKey?: string) {
-    super(apiKey);
-  }
 
   /**
    * Get list of commodities

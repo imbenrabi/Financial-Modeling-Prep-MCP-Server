@@ -14,7 +14,7 @@ export function registerForm13FTools(
   const form13fClient = new Form13FClient(accessToken);
 
   server.tool(
-    "getLatest13FFilings",
+    "getLatestInstitutionalFilings",
     "Stay up to date with the most recent SEC filings related to institutional ownership using the Institutional Ownership Filings API. This tool allows you to track the latest reports and disclosures from institutional investors, giving you a real-time view of major holdings and regulatory submissions.",
     {
       page: z.number().optional().describe("Page number (default: 0)"),

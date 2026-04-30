@@ -1,6 +1,6 @@
 export type Period = "Q1" | "Q2" | "Q3" | "Q4" | "FY";
 
-export interface BaseStatement {
+interface BaseStatement {
   date: string;
   symbol: string;
   reportedCurrency: string;
@@ -327,7 +327,7 @@ export interface LatestFinancialStatement {
 }
 
 // Financial Reports Form 10-K JSON API
-export interface FinancialReportItem {
+interface FinancialReportItem {
   [key: string]: string[] | number[] | any[];
 }
 
@@ -363,7 +363,7 @@ export interface RevenueGeographicSegmentation {
 }
 
 // As Reported Statements API
-export interface AsReportedStatement {
+interface AsReportedStatement {
   symbol: string;
   fiscalYear: number;
   period: string;

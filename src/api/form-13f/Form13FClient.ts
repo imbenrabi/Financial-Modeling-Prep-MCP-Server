@@ -14,9 +14,6 @@ import type {
 
 
 export class Form13FClient extends FMPClient {
-  constructor(apiKey?: string) {
-    super(apiKey);
-  }
 
   /**
    * Get latest institutional ownership filings

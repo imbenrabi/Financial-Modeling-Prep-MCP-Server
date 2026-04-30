@@ -4,7 +4,7 @@
 
 import { spawn, ChildProcess } from 'child_process';
 import { join } from 'path';
-import axios, { AxiosResponse } from 'axios';
+import axios from 'axios';
 
 export interface ServerInstance {
   process: ChildProcess;
@@ -85,7 +85,7 @@ export async function startTestServer(options: {
       if (response.status === 200 && response.data.status === 'ok') {
         break;
       }
-    } catch (error) {
+    } catch {
       // Server not ready yet, wait and retry
       await new Promise((resolve) => setTimeout(resolve, 100));
     }
@@ -97,7 +97,7 @@ export async function startTestServer(options: {
   } catch (error) {
     serverProcess.kill();
     throw new Error(
-      `Server failed to start within ${timeout}ms.\nStdout: ${stdout}\nStderr: ${stderr}`
+      `Server failed to start within ${timeout}ms.\nStdout: ${stdout}\nStderr: ${stderr}`, { cause: error }
     );
   }
 

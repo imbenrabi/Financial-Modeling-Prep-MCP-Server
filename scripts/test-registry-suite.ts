@@ -8,7 +8,7 @@
  */
 
 import { execSync } from 'child_process';
-import { readFileSync, existsSync } from 'fs';
+import { existsSync } from 'fs';
 import { join } from 'path';
 import { REGISTRY_TEST_SUITES, REGISTRY_TEST_REPORTING } from '../__tests__/unit/registry-tests/config.js';
 
@@ -160,14 +160,14 @@ function generateTestReport(results: TestResult[], options: {
   const failedTests = results.filter(r => !r.passed);
   if (failedTests.length > 0) {
     console.log(`\nFailed Test Details:`);
-    for (const failed of failedTests) {
-      console.log(`\n❌ ${failed.suite}:`);
-      console.log(`   Duration: ${failed.duration}ms`);
-      if (failed.error) {
-        console.log(`   Error: ${failed.error}`);
+    for (const failedSuite of failedTests) {
+      console.log(`\n❌ ${failedSuite.suite}:`);
+      console.log(`   Duration: ${failedSuite.duration}ms`);
+      if (failedSuite.error) {
+        console.log(`   Error: ${failedSuite.error}`);
       }
-      if (options.verbose && failed.output) {
-        console.log(`   Output: ${failed.output.slice(0, 500)}...`);
+      if (options.verbose && failedSuite.output) {
+        console.log(`   Output: ${failedSuite.output.slice(0, 500)}...`);
       }
     }
   }

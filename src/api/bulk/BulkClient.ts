@@ -8,9 +8,6 @@ import type {
 } from "./types.js";
 
 export class BulkClient extends FMPClient {
-  constructor(apiKey?: string) {
-    super(apiKey);
-  }
 
   /**
    * Get company profiles in bulk (CSV format)
