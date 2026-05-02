@@ -4,8 +4,6 @@ import { FMPClient } from '../../../../src/api/FMPClient.js';
 import type {
   FMPArticle,
   NewsArticle,
-  NewsParams,
-  NewsSearchParams,
 } from '../../../../src/api/news/types.js';
 
 // Mock the FMPClient

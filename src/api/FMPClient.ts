@@ -70,13 +70,13 @@ export class FMPClient {
         throw new Error(
           `FMP API Error: ${
             axiosError.response?.data?.message || axiosError.message
-          }`
+          }`, { cause: error }
         );
       }
       throw new Error(
         `Unexpected error: ${
           error instanceof Error ? error.message : String(error)
-        }`
+        }`, { cause: error }
       );
     }
   }
@@ -113,13 +113,13 @@ export class FMPClient {
         throw new Error(
           `FMP API Error: ${
             axiosError.response?.data?.message || axiosError.message
-          }`
+          }`, { cause: error }
         );
       }
       throw new Error(
         `Unexpected error: ${
           error instanceof Error ? error.message : String(error)
-        }`
+        }`, { cause: error }
       );
     }
   }
@@ -156,13 +156,13 @@ export class FMPClient {
         throw new Error(
           `FMP API Error: ${
             axiosError.response?.data?.message || axiosError.message
-          }`
+          }`, { cause: error }
         );
       }
       throw new Error(
         `Unexpected error: ${
           error instanceof Error ? error.message : String(error)
-        }`
+        }`, { cause: error }
       );
     }
   }

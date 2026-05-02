@@ -1,5 +1,3 @@
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-
 /**
  * FMP Context type
  */
@@ -8,12 +6,6 @@ export type FMPContext = {
     FMP_ACCESS_TOKEN?: string;
   };
 };
-
-/**
- * Type definition for tool registration functions
- * All registration functions follow this pattern: (server, accessToken?) => void
- */
-export type ToolRegistrationFunction = (server: McpServer, accessToken?: string) => void;
 
 /**
  * Tool sets configuration based on Financial Modeling Prep API categories

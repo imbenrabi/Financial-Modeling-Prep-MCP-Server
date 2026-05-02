@@ -11,9 +11,6 @@ import type {
 } from "./types.js";
 
 export class EarningsTranscriptClient extends FMPClient {
-  constructor(apiKey?: string) {
-    super(apiKey);
-  }
 
   /**
    * Get latest earning transcripts with pagination

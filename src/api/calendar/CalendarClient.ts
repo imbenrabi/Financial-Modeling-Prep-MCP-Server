@@ -10,9 +10,6 @@ import type {
 } from "./types.js";
 
 export class CalendarClient extends FMPClient {
-  constructor(apiKey?: string) {
-    super(apiKey);
-  }
 
   /**
    * Get dividend information for a stock symbol

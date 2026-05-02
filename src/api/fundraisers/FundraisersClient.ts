@@ -10,9 +10,6 @@ import type {
 
 
 export class FundraisersClient extends FMPClient {
-  constructor(apiKey?: string) {
-    super(apiKey);
-  }
 
   /**
    * Get latest crowdfunding campaigns

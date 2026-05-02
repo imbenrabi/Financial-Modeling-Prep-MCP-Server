@@ -458,6 +458,19 @@ export function registerStatementsTools(
     }
   );
 
+  registerStatementsExtendedTools(server, statementsClient);
+}
+
+/**
+ * Register the second half of statements tools (financial reports, segmentation,
+ * as-reported statements, key metrics, ratios, financial scores, and owner earnings).
+ * Split out from registerStatementsTools to keep cyclomatic complexity below the
+ * sentrux max_cc=25 ceiling.
+ */
+function registerStatementsExtendedTools(
+  server: McpServer,
+  statementsClient: StatementsClient
+): void {
   server.tool(
     "getFinancialReportJSON",
     "Access comprehensive annual reports with the FMP Annual Reports on Form 10-K API. Obtain detailed information about a company’s financial performance, business operations, and risk factors as reported to the SEC.",

@@ -1,0 +1,38 @@
+# Sentrux architectural rules for the Financial Modeling Prep MCP Server.
+# Mirrors the layered stack documented in CLAUDE.md:
+#   FMP API → API clients → MCP tools → Toolception adapters → Server entry / endpoints
+#
+# Sentrux convention: order 0 is the top of the stack (entry point); higher numbers
+# are deeper / more foundational. Dependencies must flow from top (low order)
+# downward (toward higher order), never the reverse.
+
+[constraints]
+max_cycles   = 0       # No circular dependencies between modules.
+max_coupling = "B"     # B-grade or better on coupling/cohesion balance.
+max_cc       = 25      # Cyclomatic complexity ceiling per file.
+no_god_files = true    # Block oversized "god" modules.
+
+[[layers]]
+name  = "server"
+paths = [
+  "src/index.ts",
+  "src/endpoints/*",
+  "src/server-mode-enforcer/*",
+  "src/prompts/*",
+]
+order = 0
+
+[[layers]]
+name  = "adapters"
+paths = ["src/toolception-adapters/*"]
+order = 1
+
+[[layers]]
+name  = "tools"
+paths = ["src/tools/*"]
+order = 2
+
+[[layers]]
+name  = "api"
+paths = ["src/api/*"]
+order = 3

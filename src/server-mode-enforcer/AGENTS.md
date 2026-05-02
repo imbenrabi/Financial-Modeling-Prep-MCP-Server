@@ -18,4 +18,4 @@ Singleton managing server mode configuration with strict precedence rules.
 
 - Invalid tool set names cause `process.exit(1)` — fail-fast, not graceful error handling
 - `reset()` method exists for testing but isn't discoverable from types
-- Empty strings in comma-separated list are silently ignored: `"search,,company"` → `["search", "company"]`
+- Stray commas count as invalid entries: `"search,,company"` → empty string fails validation → `process.exit(1)`. The trailing `.filter(s => s.length > 0)` in `_parseAndValidateToolSets` looks like it handles this but runs after validation, so it's unreachable for this case.

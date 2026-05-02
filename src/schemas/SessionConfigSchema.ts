@@ -24,7 +24,3 @@ export const SessionConfigSchema = z.object({
       "Enable dynamic toolset management. Set to 'true' to use meta-tools for runtime toolset loading. Default is 'false'."
     ),
 });
-
-export type SessionConfigInput = z.infer<typeof SessionConfigSchema>;
-
-

@@ -5,7 +5,7 @@ import { join } from "path";
 /**
  * Interface representing version information across different files
  */
-export interface VersionInfo {
+interface VersionInfo {
   packageJson: string;
   serverJson: string;
   changelog?: string;
@@ -14,7 +14,7 @@ export interface VersionInfo {
 /**
  * Interface for validation results
  */
-export interface ValidationResult {
+interface ValidationResult {
   isValid: boolean;
   errors: string[];
   warnings: string[];

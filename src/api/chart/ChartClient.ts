@@ -11,9 +11,6 @@ import type {
 
 
 export class ChartClient extends FMPClient {
-  constructor(apiKey?: string) {
-    super(apiKey);
-  }
 
   /**
    * Get light chart data for a stock symbol

@@ -204,24 +204,6 @@ export const TOOL_SETS: Record<ToolSet, ToolSetDefinition> = {
 };
 
 /**
- * Get modules for the specified tool sets
- * @param toolSets Array of tool set names to load
- * @returns Array of module names to register
- */
-export function getModulesForToolSets(toolSets: ToolSet[]): string[] {
-  const modules = new Set<string>();
-
-  for (const toolSet of toolSets) {
-    const definition = TOOL_SETS[toolSet];
-    if (definition) {
-      definition.modules.forEach((module) => modules.add(module));
-    }
-  }
-
-  return Array.from(modules);
-}
-
-/**
  * Get all available tool sets for help/documentation
  */
 export function getAvailableToolSets(): Array<{

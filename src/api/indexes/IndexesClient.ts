@@ -12,9 +12,6 @@ import type {
 } from "./types.js";
 
 export class IndexesClient extends FMPClient {
-  constructor(apiKey?: string) {
-    super(apiKey);
-  }
 
   /**
    * Get a list of all stock market indexes

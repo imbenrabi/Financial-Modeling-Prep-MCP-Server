@@ -471,7 +471,7 @@ npx financial-modeling-prep-mcp-server --fmp-token=YOUR_TOKEN
     });
 
     it('should validate end-to-end discoverability', async () => {
-      const serverJson = JSON.parse(await readFile(join(testDir, 'server.json'), 'utf-8'));
+      const _serverJson = JSON.parse(await readFile(join(testDir, 'server.json'), 'utf-8'));
       
       // Simulate registry search
       const searchResult = simulateCommand(`curl -s "https://registry.modelcontextprotocol.io/api/search?q=financial"`);

@@ -3,9 +3,6 @@ import type { FMPContext } from "../../types/index.js";
 import type { ESGDisclosure, ESGRating, ESGBenchmark } from "./types.js";
 
 export class ESGClient extends FMPClient {
-  constructor(apiKey?: string) {
-    super(apiKey);
-  }
 
   /**
    * Get ESG disclosures for a symbol

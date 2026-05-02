@@ -11,7 +11,7 @@ export interface FundHolding {
   updated: string;
 }
 
-export interface FundSector {
+interface FundSector {
   industry: string;
   exposure: number;
 }

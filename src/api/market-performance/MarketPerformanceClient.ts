@@ -9,9 +9,6 @@ import type {
 } from "./types.js";
 
 export class MarketPerformanceClient extends FMPClient {
-  constructor(apiKey?: string) {
-    super(apiKey);
-  }
 
   /**
    * Get market sector performance snapshot

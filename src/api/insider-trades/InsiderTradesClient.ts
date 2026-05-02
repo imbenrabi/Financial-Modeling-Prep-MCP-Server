@@ -9,9 +9,6 @@ import {
 } from "./types.js";
 
 export class InsiderTradesClient extends FMPClient {
-  constructor(apiKey?: string) {
-    super(apiKey);
-  }
 
   /**
    * Get latest insider trading activities

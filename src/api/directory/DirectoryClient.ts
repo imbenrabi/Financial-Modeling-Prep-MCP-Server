@@ -17,9 +17,6 @@ import type {
 
 
 export class DirectoryClient extends FMPClient {
-  constructor(apiKey?: string) {
-    super(apiKey);
-  }
 
   /**
    * Get a list of all company symbols

@@ -11,9 +11,6 @@ import type {
 } from "./types.js";
 
 export class SearchClient extends FMPClient {
-  constructor(apiKey?: string) {
-    super(apiKey);
-  }
 
   /**
    * Search for stock symbols by query

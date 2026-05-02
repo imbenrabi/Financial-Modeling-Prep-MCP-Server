@@ -4,7 +4,7 @@ import type { ToolSet } from "../types/index.js";
 /**
  * Result type for toolset name validation
  */
-export interface ToolsetNameValidationResult {
+interface ToolsetNameValidationResult {
   isValid: boolean;
   sanitized?: ToolSet;
   error?: string;
@@ -13,7 +13,7 @@ export interface ToolsetNameValidationResult {
 /**
  * Result type for tool sets array validation
  */
-export interface ToolSetsValidationResult {
+interface ToolSetsValidationResult {
   valid: ToolSet[];
   invalid: unknown[];
   errors: string[];
@@ -238,7 +238,7 @@ export function validateToolsetModules(
 export function areStringSetsEqual(a: string[], b: string[]): boolean {
   if (!Array.isArray(a) || !Array.isArray(b)) return false;
   if (a.length !== b.length) return false;
-  const sa = [...a].sort();
-  const sb = [...b].sort();
+  const sa = [...a].toSorted();
+  const sb = [...b].toSorted();
   return sa.every((v, i) => v === sb[i]);
 }

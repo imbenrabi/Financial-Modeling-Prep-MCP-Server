@@ -69,7 +69,7 @@ function main(): void {
     } else {
       console.log("   ✅ Binary configuration present");
     }
-  } catch (error) {
+  } catch {
     console.log("   ❌ Failed to read package.json");
     allChecks = false;
   }

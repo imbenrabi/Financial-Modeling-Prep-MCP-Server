@@ -15,9 +15,6 @@ import type {
 } from "./types.js";
 
 export class CompanyClient extends FMPClient {
-  constructor(apiKey?: string) {
-    super(apiKey);
-  }
 
   /**
    * Get company profile data

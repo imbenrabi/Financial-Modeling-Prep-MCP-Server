@@ -48,7 +48,7 @@ function executeCommand(command: string, options: { silent?: boolean; cwd?: stri
     });
     return typeof result === 'string' ? result : '';
   } catch (error: any) {
-    throw new Error(`Command failed: ${command}\n${error.message}`);
+    throw new Error(`Command failed: ${command}\n${error.message}`, { cause: error });
   }
 }
 
@@ -141,7 +141,7 @@ async function validateEnvironment(options: PublishOptions): Promise<void> {
       executeCommand('npm run version:validate', { silent: true });
       console.log('   ✅ Version consistency validated');
     } catch (error) {
-      throw new Error(`Version validation failed: ${getErrorMessage(error)}`);
+      throw new Error(`Version validation failed: ${getErrorMessage(error)}`, { cause: error });
     }
     
     // Verify NPM readiness
@@ -150,7 +150,7 @@ async function validateEnvironment(options: PublishOptions): Promise<void> {
       executeCommand('npm run verify:npm-ready', { silent: true });
       console.log('   ✅ NPM publishing readiness verified');
     } catch (error) {
-      throw new Error(`NPM readiness check failed: ${getErrorMessage(error)}`);
+      throw new Error(`NPM readiness check failed: ${getErrorMessage(error)}`, { cause: error });
     }
     
     // Check if mcp-publisher is available
@@ -165,7 +165,7 @@ async function validateEnvironment(options: PublishOptions): Promise<void> {
         
         const shouldContinue = await promptConfirmation('Continue without registry publishing?');
         if (!shouldContinue) {
-          throw new Error('MCP publisher CLI not available');
+          throw new Error('MCP publisher CLI not available', { cause: error });
         }
         options.skipRegistry = true;
       }
@@ -185,7 +185,7 @@ async function validateEnvironment(options: PublishOptions): Promise<void> {
         if (shouldLogin) {
           const loginSuccess = await executeInteractive('mcp-publisher', ['login', 'github']);
           if (!loginSuccess) {
-            throw new Error('MCP registry authentication failed');
+            throw new Error('MCP registry authentication failed', { cause: error });
           }
         } else {
           options.skipRegistry = true;
@@ -227,7 +227,7 @@ async function publishToNpm(state: PublishingState, options: PublishOptions): Pr
             throw new Error('Package already published');
           }
         }
-      } catch (error) {
+      } catch {
         // Package doesn't exist, which is good
       }
       
@@ -236,7 +236,7 @@ async function publishToNpm(state: PublishingState, options: PublishOptions): Pr
       console.log('✅ Successfully published to NPM');
     }
   } catch (error) {
-    throw new Error(`NPM publishing failed: ${getErrorMessage(error)}`);
+    throw new Error(`NPM publishing failed: ${getErrorMessage(error)}`, { cause: error });
   }
 }
 
@@ -264,7 +264,7 @@ async function submitToRegistry(state: PublishingState, options: PublishOptions)
         JSON.parse(readFileSync('server.json', 'utf-8'));
         console.log('   ✅ server.json is valid JSON');
       } catch (error) {
-        throw new Error(`server.json is not valid JSON: ${getErrorMessage(error)}`);
+        throw new Error(`server.json is not valid JSON: ${getErrorMessage(error)}`, { cause: error });
       }
     } else {
       executeCommand('mcp-publisher publish server.json');
@@ -272,7 +272,7 @@ async function submitToRegistry(state: PublishingState, options: PublishOptions)
       console.log('✅ Successfully submitted to MCP Registry');
     }
   } catch (error) {
-    throw new Error(`MCP registry submission failed: ${getErrorMessage(error)}`);
+    throw new Error(`MCP registry submission failed: ${getErrorMessage(error)}`, { cause: error });
   }
 }
 

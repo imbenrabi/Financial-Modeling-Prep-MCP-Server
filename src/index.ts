@@ -8,7 +8,7 @@ import { createHash } from 'node:crypto';
 import { getAvailableToolSets, DEFAULT_PORT } from './constants/index.js';
 import { showHelp } from './utils/showHelp.js';
 import { ServerModeEnforcer } from './server-mode-enforcer/index.js';
-import { ModeConfigMapper } from './toolception-adapters/index.js';
+import { ModeConfigMapper } from './toolception-adapters/ModeConfigMapper.js';
 import { MODULE_ADAPTERS } from './toolception-adapters/moduleAdapters.js';
 import { getServerVersion } from './utils/getServerVersion.js';
 import { pingEndpoint, healthCheckEndpoint, serverCardEndpoint } from './endpoints/index.js';

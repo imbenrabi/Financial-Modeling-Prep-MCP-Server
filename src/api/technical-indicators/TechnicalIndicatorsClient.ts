@@ -14,9 +14,6 @@ import type {
 } from "./types.js";
 
 export class TechnicalIndicatorsClient extends FMPClient {
-  constructor(apiKey?: string) {
-    super(apiKey);
-  }
 
   /**
    * Get Simple Moving Average (SMA) indicator

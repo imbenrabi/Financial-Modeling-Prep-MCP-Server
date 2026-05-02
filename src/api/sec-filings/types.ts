@@ -65,7 +65,7 @@ export interface IndustryClassification {
   industryTitle: string;
 }
 
-export interface DateRangeParams {
+interface DateRangeParams {
   from: string;
   to: string;
   page?: number;

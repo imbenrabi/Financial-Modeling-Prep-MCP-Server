@@ -7,9 +7,6 @@ const mockedAxios = vi.mocked(axios);
 
 // Create a test class that extends FMPClient to test protected methods
 class TestFMPClient extends FMPClient {
-  constructor(apiKey?: string) {
-    super(apiKey);
-  }
 
   // Expose protected methods for testing
   public async testGet<T>(

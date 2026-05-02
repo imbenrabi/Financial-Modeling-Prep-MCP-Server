@@ -29,7 +29,7 @@ function executeCommand(command: string): string {
   try {
     return execSync(command, { encoding: 'utf-8', stdio: 'pipe' });
   } catch (error: any) {
-    throw new Error(`Command failed: ${command}\n${error.message}`);
+    throw new Error(`Command failed: ${command}\n${error.message}`, { cause: error });
   }
 }
 
@@ -117,7 +117,7 @@ function testBuildProcess(): void {
     executeCommand('npm run build');
     console.log('✅ Build process completed successfully');
   } catch (error) {
-    throw new Error(`Build process failed: ${error}`);
+    throw new Error(`Build process failed: ${error}`, { cause: error });
   }
 }
 
@@ -145,7 +145,7 @@ function testPackageCreation(): void {
     
     console.log('✅ Package creation test passed');
   } catch (error) {
-    throw new Error(`Package creation failed: ${error}`);
+    throw new Error(`Package creation failed: ${error}`, { cause: error });
   }
 }
 
@@ -159,7 +159,7 @@ function testNpmRegistry(): void {
     // Test if we can reach the NPM registry
     executeCommand('npm ping --registry https://registry.npmjs.org/');
     console.log('✅ NPM registry connectivity test passed');
-  } catch (error) {
+  } catch {
     console.log('⚠️  NPM registry connectivity test failed (this is expected if not logged in)');
   }
 }
@@ -174,7 +174,7 @@ function validateVersionConsistency(): void {
     executeCommand('npm run version:validate');
     console.log('✅ Version consistency validation passed');
   } catch (error) {
-    throw new Error(`Version consistency validation failed: ${error}`);
+    throw new Error(`Version consistency validation failed: ${error}`, { cause: error });
   }
 }
 

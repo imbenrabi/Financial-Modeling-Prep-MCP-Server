@@ -70,7 +70,7 @@ async function testManualPublishWorkflow(): Promise<void> {
         console.log('   ❌ Script missing main workflow function');
         allTests = false;
       }
-    } catch (error) {
+    } catch {
       console.log('   ❌ Cannot read script file');
       allTests = false;
     }
@@ -119,7 +119,7 @@ async function testManualPublishWorkflow(): Promise<void> {
     if (!scriptsOk) {
       allTests = false;
     }
-  } catch (error) {
+  } catch {
     console.log('   ❌ Cannot read package.json');
     allTests = false;
   }
@@ -149,7 +149,7 @@ async function testManualPublishWorkflow(): Promise<void> {
     if (!featuresOk) {
       allTests = false;
     }
-  } catch (error) {
+  } catch {
     console.log('   ❌ Cannot analyze script features');
     allTests = false;
   }
@@ -180,7 +180,7 @@ async function testManualPublishWorkflow(): Promise<void> {
     if (!optionsOk) {
       allTests = false;
     }
-  } catch (error) {
+  } catch {
     console.log('   ❌ Cannot analyze CLI options');
     allTests = false;
   }

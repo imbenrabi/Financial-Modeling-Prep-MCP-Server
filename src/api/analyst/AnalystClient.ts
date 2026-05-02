@@ -13,9 +13,6 @@ import type {
 } from "./types.js";
 
 export class AnalystClient extends FMPClient {
-  constructor(apiKey?: string) {
-    super(apiKey);
-  }
 
   /**
    * Get analyst financial estimates for a stock symbol

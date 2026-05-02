@@ -9,7 +9,6 @@
 
 import { spawn } from 'child_process';
 import { existsSync, readFileSync } from 'fs';
-import { join } from 'path';
 
 /**
  * Verification configuration.
@@ -45,8 +44,7 @@ const VERIFICATION_CONFIG = {
    * Expected server startup patterns.
    */
   STARTUP_PATTERNS: [
-    /MCP Server started successfully/i,
-    /port \d+/i
+    /Server started successfully on port \d+/i,
   ]
 } as const;
 
@@ -271,7 +269,7 @@ class InstallationVerifier {
     console.log('\n🚀 Verifying server startup...');
     
     try {
-      const { matched, output } = await this.spawnAndWaitForPatterns(
+      const { matched, output: _output } = await this.spawnAndWaitForPatterns(
         'node',
         ['dist/index.js', '--fmp-token', 'test_token', '--port', '8084'],
         //@ts-ignore
