@@ -8,7 +8,7 @@
  */
 
 import { spawn } from 'child_process';
-import { existsSync } from 'fs';
+import { existsSync, readFileSync } from 'fs';
 
 /**
  * Verification configuration.
@@ -44,8 +44,7 @@ const VERIFICATION_CONFIG = {
    * Expected server startup patterns.
    */
   STARTUP_PATTERNS: [
-    /MCP Server started successfully/i,
-    /port \d+/i
+    /Server started successfully on port \d+/i,
   ]
 } as const;
 
