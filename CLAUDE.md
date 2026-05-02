@@ -12,7 +12,7 @@ MCP server providing 253+ financial data tools via the Financial Modeling Prep A
 ├─────────────────────────────────────────────┤
 │  Tools Layer (28 modules, 253+ tools)       │
 ├─────────────────────────────────────────────┤
-│  API Layer (FMPClient + 27 domain clients)  │
+│  API Layer (FMPClient + 28 domain clients)  │
 ├─────────────────────────────────────────────┤
 │  Financial Modeling Prep API                │
 └─────────────────────────────────────────────┘
@@ -40,6 +40,6 @@ src/
 1. **API Key as Query Parameter** — FMP requires `?apikey=`, never headers
 2. **Token Precedence** — Context > Instance > Environment
 3. **Fail-Fast Validation** — Invalid tool sets cause `process.exit(1)` at startup
-4. **Session Restrictions** — Only `FMP_ACCESS_TOKEN` allowed in session config
+4. **Session Restrictions** — Only `FMP_ACCESS_TOKEN` takes effect at session level; `FMP_TOOL_SETS` / `DYNAMIC_TOOL_DISCOVERY` exist in the schema but are no-ops (mode is fixed at startup)
 5. **Read-Only Tools** — All tools are read-only data fetchers
 6. **Error Handling** — Tools never throw; return `{ isError: true }`
