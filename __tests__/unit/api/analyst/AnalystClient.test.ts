@@ -71,7 +71,7 @@ describe('AnalystClient', () => {
         period: 'annual',
         page: 0,
         limit: 10
-      });
+      }, undefined);
       expect(result).toEqual(mockData);
     });
 
@@ -86,7 +86,7 @@ describe('AnalystClient', () => {
         period: 'quarter',
         page: undefined,
         limit: undefined
-      });
+      }, undefined);
       expect(result).toEqual(mockData);
     });
 
@@ -121,7 +121,7 @@ describe('AnalystClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/ratings-snapshot', {
         symbol: 'AAPL',
         limit: 1
-      });
+      }, undefined);
       expect(result).toEqual(mockData);
     });
 
@@ -134,7 +134,7 @@ describe('AnalystClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/ratings-snapshot', {
         symbol: 'AAPL',
         limit: undefined
-      });
+      }, undefined);
     });
   });
 
@@ -161,7 +161,7 @@ describe('AnalystClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/ratings-historical', {
         symbol: 'AAPL',
         limit: 100
-      });
+      }, undefined);
       expect(result).toEqual(mockData);
     });
 
@@ -174,7 +174,7 @@ describe('AnalystClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/ratings-historical', {
         symbol: 'AAPL',
         limit: undefined
-      });
+      }, undefined);
     });
   });
 
@@ -200,7 +200,7 @@ describe('AnalystClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/price-target-summary', {
         symbol: 'AAPL'
-      });
+      }, undefined);
       expect(result).toEqual(mockData);
     });
   });
@@ -222,7 +222,7 @@ describe('AnalystClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/price-target-consensus', {
         symbol: 'AAPL'
-      });
+      }, undefined);
       expect(result).toEqual(mockData);
     });
   });
@@ -252,7 +252,7 @@ describe('AnalystClient', () => {
         symbol: 'AAPL',
         page: 0,
         limit: 10
-      });
+      }, undefined);
       expect(result).toEqual(mockData);
     });
 
@@ -266,7 +266,7 @@ describe('AnalystClient', () => {
         symbol: 'AAPL',
         page: undefined,
         limit: undefined
-      });
+      }, undefined);
     });
   });
 
@@ -294,7 +294,7 @@ describe('AnalystClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/price-target-latest-news', {
         page: 0,
         limit: 10
-      });
+      }, undefined);
       expect(result).toEqual(mockData);
     });
 
@@ -307,7 +307,7 @@ describe('AnalystClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/price-target-latest-news', {
         page: undefined,
         limit: undefined
-      });
+      }, undefined);
     });
   });
 
@@ -329,7 +329,7 @@ describe('AnalystClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/grades', {
         symbol: 'AAPL'
-      });
+      }, undefined);
       expect(result).toEqual(mockData);
     });
   });
@@ -353,7 +353,7 @@ describe('AnalystClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/grades-historical', {
         symbol: 'AAPL',
         limit: 100
-      });
+      }, undefined);
       expect(result).toEqual(mockData);
     });
 
@@ -366,7 +366,7 @@ describe('AnalystClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/grades-historical', {
         symbol: 'AAPL',
         limit: undefined
-      });
+      }, undefined);
     });
   });
 
@@ -389,7 +389,7 @@ describe('AnalystClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/grades-consensus', {
         symbol: 'AAPL'
-      });
+      }, undefined);
       expect(result).toEqual(mockData);
     });
   });
@@ -419,7 +419,7 @@ describe('AnalystClient', () => {
         symbol: 'AAPL',
         page: 0,
         limit: 10
-      });
+      }, undefined);
       expect(result).toEqual(mockData);
     });
 
@@ -433,7 +433,7 @@ describe('AnalystClient', () => {
         symbol: 'AAPL',
         page: undefined,
         limit: undefined
-      });
+      }, undefined);
     });
   });
 
@@ -461,7 +461,7 @@ describe('AnalystClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/grades-latest-news', {
         page: 0,
         limit: 10
-      });
+      }, undefined);
       expect(result).toEqual(mockData);
     });
 
@@ -474,7 +474,7 @@ describe('AnalystClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/grades-latest-news', {
         page: undefined,
         limit: undefined
-      });
+      }, undefined);
     });
   });
 

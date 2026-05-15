@@ -57,7 +57,7 @@ describe('SearchClient', () => {
         query: 'Apple',
         limit: 10,
         exchange: 'NASDAQ'
-      }, { context: undefined });
+      }, undefined);
       expect(result).toEqual(mockData);
     });
 
@@ -71,7 +71,7 @@ describe('SearchClient', () => {
         query: 'Tesla',
         limit: undefined,
         exchange: undefined
-      }, { context: undefined });
+      }, undefined);
       expect(result).toEqual(mockData);
     });
 
@@ -80,7 +80,7 @@ describe('SearchClient', () => {
       mockGet.mockResolvedValue(mockData);
       const context = { config: { FMP_ACCESS_TOKEN: 'custom-token' } };
 
-      await searchClient.searchSymbol('Google', 5, 'NYSE', context);
+      await searchClient.searchSymbol('Google', 5, 'NYSE', { context });
 
       expect(mockGet).toHaveBeenCalledWith('/search-symbol', {
         query: 'Google',
@@ -117,7 +117,7 @@ describe('SearchClient', () => {
         query: 'Apple Inc',
         limit: 5,
         exchange: 'NASDAQ'
-      }, { context: undefined });
+      }, undefined);
       expect(result).toEqual(mockData);
     });
 
@@ -131,7 +131,7 @@ describe('SearchClient', () => {
         query: 'Microsoft',
         limit: undefined,
         exchange: undefined
-      }, { context: undefined });
+      }, undefined);
     });
 
     it('should handle context parameter', async () => {
@@ -139,7 +139,7 @@ describe('SearchClient', () => {
       mockGet.mockResolvedValue(mockData);
       const context = { config: { FMP_ACCESS_TOKEN: 'name-token' } };
 
-      await searchClient.searchName('Tesla', 10, 'NYSE', context);
+      await searchClient.searchName('Tesla', 10, 'NYSE', { context });
 
       expect(mockGet).toHaveBeenCalledWith('/search-name', {
         query: 'Tesla',
@@ -168,7 +168,7 @@ describe('SearchClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/search-cik', {
         cik: '0000320193',
         limit: 10
-      }, { context: undefined });
+      }, undefined);
       expect(result).toEqual(mockData);
     });
 
@@ -181,7 +181,7 @@ describe('SearchClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/search-cik', {
         cik: '0000789019',
         limit: undefined
-      }, { context: undefined });
+      }, undefined);
     });
 
     it('should handle context parameter', async () => {
@@ -189,7 +189,7 @@ describe('SearchClient', () => {
       mockGet.mockResolvedValue(mockData);
       const context = { config: { FMP_ACCESS_TOKEN: 'cik-token' } };
 
-      await searchClient.searchCIK('0000051143', 5, context);
+      await searchClient.searchCIK('0000051143', 5, { context });
 
       expect(mockGet).toHaveBeenCalledWith('/search-cik', {
         cik: '0000051143',
@@ -214,7 +214,7 @@ describe('SearchClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/search-cusip', {
         cusip: '037833100'
-      }, { context: undefined });
+      }, undefined);
       expect(result).toEqual(mockData);
     });
 
@@ -223,7 +223,7 @@ describe('SearchClient', () => {
       mockGet.mockResolvedValue(mockData);
       const context = { config: { FMP_ACCESS_TOKEN: 'cusip-token' } };
 
-      await searchClient.searchCUSIP('594918104', context);
+      await searchClient.searchCUSIP('594918104', { context });
 
       expect(mockGet).toHaveBeenCalledWith('/search-cusip', {
         cusip: '594918104'
@@ -247,7 +247,7 @@ describe('SearchClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/search-isin', {
         isin: 'US0378331005'
-      }, { context: undefined });
+      }, undefined);
       expect(result).toEqual(mockData);
     });
 
@@ -256,7 +256,7 @@ describe('SearchClient', () => {
       mockGet.mockResolvedValue(mockData);
       const context = { config: { FMP_ACCESS_TOKEN: 'isin-token' } };
 
-      await searchClient.searchISIN('US5949181045', context);
+      await searchClient.searchISIN('US5949181045', { context });
 
       expect(mockGet).toHaveBeenCalledWith('/search-isin', {
         isin: 'US5949181045'
@@ -311,9 +311,7 @@ describe('SearchClient', () => {
 
       const result = await searchClient.stockScreener(params);
 
-      expect(mockGet).toHaveBeenCalledWith('/company-screener', params, {
-        context: undefined
-      });
+      expect(mockGet).toHaveBeenCalledWith('/company-screener', params, undefined);
       expect(result).toEqual(mockData);
     });
 
@@ -325,7 +323,7 @@ describe('SearchClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/company-screener', {
         sector: 'Technology'
-      }, { context: undefined });
+      }, undefined);
     });
 
     it('should handle context parameter', async () => {
@@ -333,7 +331,7 @@ describe('SearchClient', () => {
       mockGet.mockResolvedValue(mockData);
       const context = { config: { FMP_ACCESS_TOKEN: 'screener-token' } };
 
-      await searchClient.stockScreener({ marketCapMoreThan: 1000000000 }, context);
+      await searchClient.stockScreener({ marketCapMoreThan: 1000000000 }, { context });
 
       expect(mockGet).toHaveBeenCalledWith('/company-screener', {
         marketCapMoreThan: 1000000000
@@ -346,9 +344,7 @@ describe('SearchClient', () => {
 
       await searchClient.stockScreener({});
 
-      expect(mockGet).toHaveBeenCalledWith('/company-screener', {}, {
-        context: undefined
-      });
+      expect(mockGet).toHaveBeenCalledWith('/company-screener', {}, undefined);
     });
   });
 
@@ -400,7 +396,7 @@ describe('SearchClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/search-exchange-variants', {
         symbol: 'AAPL'
-      }, { context: undefined });
+      }, undefined);
       expect(result).toEqual(mockData);
     });
 
@@ -409,7 +405,7 @@ describe('SearchClient', () => {
       mockGet.mockResolvedValue(mockData);
       const context = { config: { FMP_ACCESS_TOKEN: 'variant-token' } };
 
-      await searchClient.searchExchangeVariants('MSFT', context);
+      await searchClient.searchExchangeVariants('MSFT', { context });
 
       expect(mockGet).toHaveBeenCalledWith('/search-exchange-variants', {
         symbol: 'MSFT'
