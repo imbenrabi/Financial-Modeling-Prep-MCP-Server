@@ -31,7 +31,14 @@ import { getModulesForToolSets } from "../constants/index.js";
 import type { ToolSet } from "../types/index.js";
 
 /**
- * Module registration function mapping
+ * Single source of truth: module name -> registration function.
+ *
+ * Insertion order is preserved by ES2015+ object literals and is the
+ * order used by registerAllTools() below. Adding a new domain only
+ * requires adding the import above and one entry here; registerAllTools
+ * picks it up automatically. The toolRegistration smoke test asserts
+ * that registerAllTools and the per-module sum stay equal, which
+ * catches accidental omissions if someone forgets the import.
  */
 const MODULE_REGISTRATIONS = {
   search: registerSearchTools,
@@ -62,7 +69,7 @@ const MODULE_REGISTRATIONS = {
   "sec-filings": registerSECFilingsTools,
   "government-trading": registerGovernmentTradingTools,
   bulk: registerBulkTools,
-} as const;
+} as const satisfies Record<string, (server: McpServer, accessToken?: string) => void>;
 
 /**
  * Register tools based on specified tool sets
@@ -103,7 +110,11 @@ export function registerToolsBySet(
 }
 
 /**
- * Register all tools with the MCP server
+ * Register every tool module with the MCP server.
+ *
+ * Iterates MODULE_REGISTRATIONS so this function cannot drift from the
+ * per-module map - they are the same source of truth.
+ *
  * @param server The MCP server instance
  * @param accessToken The Financial Modeling Prep API access token (optional when using lazy loading)
  */
@@ -111,32 +122,7 @@ export function registerAllTools(
   server: McpServer,
   accessToken?: string
 ): void {
-  registerSearchTools(server, accessToken);
-  registerDirectoryTools(server, accessToken);
-  registerAnalystTools(server, accessToken);
-  registerCalendarTools(server, accessToken);
-  registerChartTools(server, accessToken);
-  registerCompanyTools(server, accessToken);
-  registerCOTTools(server, accessToken);
-  registerESGTools(server, accessToken);
-  registerEconomicsTools(server, accessToken);
-  registerDCFTools(server, accessToken);
-  registerFundTools(server, accessToken);
-  registerCommodityTools(server, accessToken);
-  registerFundraisersTools(server, accessToken);
-  registerCryptoTools(server, accessToken);
-  registerForexTools(server, accessToken);
-  registerStatementsTools(server, accessToken);
-  registerForm13FTools(server, accessToken);
-  registerIndexesTools(server, accessToken);
-  registerInsiderTradesTools(server, accessToken);
-  registerMarketPerformanceTools(server, accessToken);
-  registerMarketHoursTools(server, accessToken);
-  registerNewsTools(server, accessToken);
-  registerTechnicalIndicatorsTools(server, accessToken);
-  registerQuotesTools(server, accessToken);
-  registerEarningsTranscriptTools(server, accessToken);
-  registerSECFilingsTools(server, accessToken);
-  registerGovernmentTradingTools(server, accessToken);
-  registerBulkTools(server, accessToken);
+  for (const register of Object.values(MODULE_REGISTRATIONS)) {
+    register(server, accessToken);
+  }
 }
