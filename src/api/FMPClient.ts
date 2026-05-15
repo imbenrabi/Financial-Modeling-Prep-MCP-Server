@@ -2,7 +2,7 @@ import axios, { type AxiosInstance, type AxiosError, type AxiosRequestConfig } f
 
 interface FMPErrorResponse {
   message: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export class FMPClient {
@@ -126,7 +126,7 @@ export class FMPClient {
 
   protected async post<T>(
     endpoint: string,
-    data: any,
+    data: unknown,
     params: Record<string, any> = {},
     options?: {
       signal?: AbortSignal;
