@@ -5,6 +5,11 @@ interface FMPErrorResponse {
   [key: string]: unknown;
 }
 
+interface RequestOptions {
+  signal?: AbortSignal;
+  context?: { config?: { FMP_ACCESS_TOKEN?: string } };
+}
+
 export class FMPClient {
   private readonly apiKey?: string;
   private readonly baseUrl: string = "https://financialmodelingprep.com/stable";
@@ -18,9 +23,7 @@ export class FMPClient {
   }
 
   // Get the API key from the context or the instance
-  private getApiKey(context?: {
-    config?: { FMP_ACCESS_TOKEN?: string };
-  }): string {
+  private getApiKey(context?: RequestOptions["context"]): string {
     const configApiKey = context?.config?.FMP_ACCESS_TOKEN;
 
     if (configApiKey) {
@@ -39,131 +42,90 @@ export class FMPClient {
     return apiKey;
   }
 
-  protected async get<T>(
-    endpoint: string,
-    params: Record<string, any> = {},
-    options?: {
-      signal?: AbortSignal;
-      context?: { config?: { FMP_ACCESS_TOKEN?: string } };
+  // Build an axios request config with apikey, signal, and any extra fields merged.
+  private buildConfig(
+    params: object,
+    options: RequestOptions | undefined,
+    extra?: Partial<AxiosRequestConfig>
+  ): AxiosRequestConfig {
+    const apiKey = this.getApiKey(options?.context);
+    const config: AxiosRequestConfig = {
+      params: {
+        ...params,
+        apikey: apiKey,
+      },
+      ...extra,
+    };
+    if (options?.signal) {
+      config.signal = options.signal;
     }
-  ): Promise<T> {
-    try {
-      // Try to get API key from context first, fall back to instance API key
-      const apiKey = this.getApiKey(options?.context);
+    return config;
+  }
 
-      const config: AxiosRequestConfig = {
-        params: {
-          ...params,
-          apikey: apiKey,
-        },
-      };
-
-      if (options?.signal) {
-        config.signal = options.signal;
-      }
-
-      const response = await this.client.get<T>(endpoint, config);
-      return response.data;
-    } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
-        const axiosError = error as AxiosError<FMPErrorResponse>;
-        throw new Error(
-          `FMP API Error: ${
-            axiosError.response?.data?.message || axiosError.message
-          }`
-        );
-      }
-      throw new Error(
-        `Unexpected error: ${
-          error instanceof Error ? error.message : String(error)
+  // Normalize axios and unknown errors into a single Error with a stable prefix.
+  private toFmpError(error: unknown): Error {
+    if (axios.isAxiosError(error)) {
+      const axiosError = error as AxiosError<FMPErrorResponse>;
+      return new Error(
+        `FMP API Error: ${
+          axiosError.response?.data?.message || axiosError.message
         }`
       );
+    }
+    return new Error(
+      `Unexpected error: ${
+        error instanceof Error ? error.message : String(error)
+      }`
+    );
+  }
+
+  protected async get<T>(
+    endpoint: string,
+    params: object = {},
+    options?: RequestOptions
+  ): Promise<T> {
+    try {
+      const response = await this.client.get<T>(
+        endpoint,
+        this.buildConfig(params, options)
+      );
+      return response.data;
+    } catch (error: unknown) {
+      throw this.toFmpError(error);
     }
   }
 
   protected async getCSV(
     endpoint: string,
-    params: Record<string, any> = {},
-    options?: {
-      signal?: AbortSignal;
-      context?: { config?: { FMP_ACCESS_TOKEN?: string } };
-    }
+    params: object = {},
+    options?: RequestOptions
   ): Promise<string> {
     try {
-      // Try to get API key from context first, fall back to instance API key
-      const apiKey = this.getApiKey(options?.context);
-
-      const config: AxiosRequestConfig = {
-        params: {
-          ...params,
-          apikey: apiKey,
-        },
-        responseType: 'text', // Important: get response as text for CSV
-      };
-
-      if (options?.signal) {
-        config.signal = options.signal;
-      }
-
-      const response = await this.client.get<string>(endpoint, config);
+      const response = await this.client.get<string>(
+        endpoint,
+        this.buildConfig(params, options, { responseType: "text" })
+      );
       return response.data;
     } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
-        const axiosError = error as AxiosError<FMPErrorResponse>;
-        throw new Error(
-          `FMP API Error: ${
-            axiosError.response?.data?.message || axiosError.message
-          }`
-        );
-      }
-      throw new Error(
-        `Unexpected error: ${
-          error instanceof Error ? error.message : String(error)
-        }`
-      );
+      throw this.toFmpError(error);
     }
   }
 
   protected async post<T>(
     endpoint: string,
     data: unknown,
-    params: Record<string, any> = {},
-    options?: {
-      signal?: AbortSignal;
-      context?: { config?: { FMP_ACCESS_TOKEN?: string } };
-    }
+    params: object = {},
+    options?: RequestOptions
   ): Promise<T> {
     try {
-      // Try to get API key from context first, fall back to instance API key
-      const apiKey = this.getApiKey(options?.context);
-
-      const config: AxiosRequestConfig = {
-        params: {
-          ...params,
-          apikey: apiKey,
-        },
-      };
-
-      if (options?.signal) {
-        config.signal = options.signal;
-      }
-
-      const response = await this.client.post<T>(endpoint, data, config);
+      const response = await this.client.post<T>(
+        endpoint,
+        data,
+        this.buildConfig(params, options)
+      );
       return response.data;
     } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
-        const axiosError = error as AxiosError<FMPErrorResponse>;
-        throw new Error(
-          `FMP API Error: ${
-            axiosError.response?.data?.message || axiosError.message
-          }`
-        );
-      }
-      throw new Error(
-        `Unexpected error: ${
-          error instanceof Error ? error.message : String(error)
-        }`
-      );
+      throw this.toFmpError(error);
     }
   }
 }
