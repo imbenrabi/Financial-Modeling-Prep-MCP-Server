@@ -525,3 +525,99 @@ describe('areStringSetsEqual', () => {
     expect(areStringSetsEqual(['a'], null as any)).toBe(false);
   });
 });
+
+
+describe('showHelp', () => {
+  let localLogSpy: ReturnType<typeof vi.spyOn>;
+
+  beforeEach(() => {
+    localLogSpy = vi.spyOn(console, 'log').mockImplementation(() => undefined);
+  });
+
+  afterEach(() => {
+    localLogSpy.mockRestore();
+  });
+
+  it('writes output to console.log', async () => {
+    const { showHelp } = await import('../../../src/utils/showHelp.js');
+    showHelp([]);
+    expect(localLogSpy).toHaveBeenCalled();
+  });
+
+  it('includes the server name', async () => {
+    const { showHelp } = await import('../../../src/utils/showHelp.js');
+    showHelp([]);
+    const output = localLogSpy.mock.calls.map((c) => c.join(' ')).join('\n');
+    expect(output).toContain('Financial Modeling Prep MCP Server');
+  });
+
+  it('mentions the default port from constants', async () => {
+    const { showHelp } = await import('../../../src/utils/showHelp.js');
+    const { DEFAULT_PORT } = await import('../../../src/constants/index.js');
+    showHelp([]);
+    const output = localLogSpy.mock.calls.map((c) => c.join(' ')).join('\n');
+    expect(output).toContain(String(DEFAULT_PORT));
+  });
+
+  it('lists every supplied toolset key, name, and description', async () => {
+    const { showHelp } = await import('../../../src/utils/showHelp.js');
+    const sets = [
+      {
+        key: 'search' as const,
+        definition: {
+          name: 'Search & Directory',
+          description: 'Find companies and discover investments',
+          decisionCriteria: 'Lookup symbols',
+          modules: ['search'],
+        },
+      },
+      {
+        key: 'company' as const,
+        definition: {
+          name: 'Company Profile & Info',
+          description: 'Company profiles and core business information',
+          decisionCriteria: 'Get company details',
+          modules: ['company'],
+        },
+      },
+    ];
+    showHelp(sets);
+    const output = localLogSpy.mock.calls.map((c) => c.join(' ')).join('\n');
+    for (const s of sets) {
+      expect(output).toContain(s.key);
+      expect(output).toContain(s.definition.name);
+      expect(output).toContain(s.definition.description);
+    }
+  });
+
+  it('handles an empty toolset array without throwing', async () => {
+    const { showHelp } = await import('../../../src/utils/showHelp.js');
+    expect(() => showHelp([])).not.toThrow();
+  });
+
+  it('includes documented CLI flags', async () => {
+    const { showHelp } = await import('../../../src/utils/showHelp.js');
+    showHelp([]);
+    const output = localLogSpy.mock.calls.map((c) => c.join(' ')).join('\n');
+    for (const flag of [
+      '--port',
+      '--fmp-token',
+      '--dynamic-tool-discovery',
+      '--fmp-tool-sets',
+      '--help',
+    ]) {
+      expect(output).toContain(flag);
+    }
+  });
+
+  it('documents configuration precedence and environment variables', async () => {
+    const { showHelp } = await import('../../../src/utils/showHelp.js');
+    showHelp([]);
+    const output = localLogSpy.mock.calls.map((c) => c.join(' ')).join('\n');
+    expect(output).toContain('Configuration Precedence');
+    expect(output).toContain('FMP_ACCESS_TOKEN');
+    expect(output).toContain('DYNAMIC_TOOL_DISCOVERY');
+    expect(output).toContain('FMP_TOOL_SETS');
+    expect(output).toContain('PORT');
+  });
+});

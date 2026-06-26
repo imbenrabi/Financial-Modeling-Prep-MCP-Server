@@ -2,7 +2,12 @@ import axios, { type AxiosInstance, type AxiosError, type AxiosRequestConfig } f
 
 interface FMPErrorResponse {
   message: string;
-  [key: string]: any;
+  [key: string]: unknown;
+}
+
+interface RequestOptions {
+  signal?: AbortSignal;
+  context?: { config?: { FMP_ACCESS_TOKEN?: string } };
 }
 
 export class FMPClient {
@@ -18,9 +23,7 @@ export class FMPClient {
   }
 
   // Get the API key from the context or the instance
-  private getApiKey(context?: {
-    config?: { FMP_ACCESS_TOKEN?: string };
-  }): string {
+  private getApiKey(context?: RequestOptions["context"]): string {
     const configApiKey = context?.config?.FMP_ACCESS_TOKEN;
 
     if (configApiKey) {
@@ -39,131 +42,93 @@ export class FMPClient {
     return apiKey;
   }
 
+  // Build an axios request config with apikey, signal, and any extra fields merged.
+  private buildConfig(
+    params: object,
+    options: RequestOptions | undefined,
+    extra?: Partial<AxiosRequestConfig>
+  ): AxiosRequestConfig {
+    const apiKey = this.getApiKey(options?.context);
+    const config: AxiosRequestConfig = {
+      params: {
+        ...params,
+        apikey: apiKey,
+      },
+      ...extra,
+    };
+    if (options?.signal) {
+      config.signal = options.signal;
+    }
+    return config;
+  }
+
+  // Normalize axios and unknown errors into a single Error with a stable prefix.
+  // Preserves the original error as `cause` for upstream chaining.
+  private toFmpError(error: unknown): Error {
+    if (axios.isAxiosError(error)) {
+      const axiosError = error as AxiosError<FMPErrorResponse>;
+      return new Error(
+        `FMP API Error: ${
+          axiosError.response?.data?.message || axiosError.message
+        }`,
+        { cause: error }
+      );
+    }
+    return new Error(
+      `Unexpected error: ${
+        error instanceof Error ? error.message : String(error)
+      }`,
+      { cause: error }
+    );
+  }
+
   protected async get<T>(
     endpoint: string,
-    params: Record<string, any> = {},
-    options?: {
-      signal?: AbortSignal;
-      context?: { config?: { FMP_ACCESS_TOKEN?: string } };
-    }
+    params: object = {},
+    options?: RequestOptions
   ): Promise<T> {
     try {
-      // Try to get API key from context first, fall back to instance API key
-      const apiKey = this.getApiKey(options?.context);
-
-      const config: AxiosRequestConfig = {
-        params: {
-          ...params,
-          apikey: apiKey,
-        },
-      };
-
-      if (options?.signal) {
-        config.signal = options.signal;
-      }
-
-      const response = await this.client.get<T>(endpoint, config);
+      const response = await this.client.get<T>(
+        endpoint,
+        this.buildConfig(params, options)
+      );
       return response.data;
     } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
-        const axiosError = error as AxiosError<FMPErrorResponse>;
-        throw new Error(
-          `FMP API Error: ${
-            axiosError.response?.data?.message || axiosError.message
-          }`, { cause: error }
-        );
-      }
-      throw new Error(
-        `Unexpected error: ${
-          error instanceof Error ? error.message : String(error)
-        }`, { cause: error }
-      );
+      throw this.toFmpError(error);
     }
   }
 
   protected async getCSV(
     endpoint: string,
-    params: Record<string, any> = {},
-    options?: {
-      signal?: AbortSignal;
-      context?: { config?: { FMP_ACCESS_TOKEN?: string } };
-    }
+    params: object = {},
+    options?: RequestOptions
   ): Promise<string> {
     try {
-      // Try to get API key from context first, fall back to instance API key
-      const apiKey = this.getApiKey(options?.context);
-
-      const config: AxiosRequestConfig = {
-        params: {
-          ...params,
-          apikey: apiKey,
-        },
-        responseType: 'text', // Important: get response as text for CSV
-      };
-
-      if (options?.signal) {
-        config.signal = options.signal;
-      }
-
-      const response = await this.client.get<string>(endpoint, config);
+      const response = await this.client.get<string>(
+        endpoint,
+        this.buildConfig(params, options, { responseType: "text" })
+      );
       return response.data;
     } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
-        const axiosError = error as AxiosError<FMPErrorResponse>;
-        throw new Error(
-          `FMP API Error: ${
-            axiosError.response?.data?.message || axiosError.message
-          }`, { cause: error }
-        );
-      }
-      throw new Error(
-        `Unexpected error: ${
-          error instanceof Error ? error.message : String(error)
-        }`, { cause: error }
-      );
+      throw this.toFmpError(error);
     }
   }
 
   protected async post<T>(
     endpoint: string,
-    data: any,
-    params: Record<string, any> = {},
-    options?: {
-      signal?: AbortSignal;
-      context?: { config?: { FMP_ACCESS_TOKEN?: string } };
-    }
+    data: unknown,
+    params: object = {},
+    options?: RequestOptions
   ): Promise<T> {
     try {
-      // Try to get API key from context first, fall back to instance API key
-      const apiKey = this.getApiKey(options?.context);
-
-      const config: AxiosRequestConfig = {
-        params: {
-          ...params,
-          apikey: apiKey,
-        },
-      };
-
-      if (options?.signal) {
-        config.signal = options.signal;
-      }
-
-      const response = await this.client.post<T>(endpoint, data, config);
+      const response = await this.client.post<T>(
+        endpoint,
+        data,
+        this.buildConfig(params, options)
+      );
       return response.data;
     } catch (error: unknown) {
-      if (axios.isAxiosError(error)) {
-        const axiosError = error as AxiosError<FMPErrorResponse>;
-        throw new Error(
-          `FMP API Error: ${
-            axiosError.response?.data?.message || axiosError.message
-          }`, { cause: error }
-        );
-      }
-      throw new Error(
-        `Unexpected error: ${
-          error instanceof Error ? error.message : String(error)
-        }`, { cause: error }
-      );
+      throw this.toFmpError(error);
     }
   }
 }
