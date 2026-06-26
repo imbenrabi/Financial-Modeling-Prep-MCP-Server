@@ -13,4 +13,4 @@
 ## Pitfalls
 
 - Missing API key throws synchronously from `getApiKey()` — not a rejected promise
-- `response.data.message` contains FMP error details, not `error.message`, only when Axios itself errors
+- FMP error bodies use the key `"Error Message"`; `FMPClient` reads that first, then falls back to `response.data.message`, then to the Axios error message

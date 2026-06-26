@@ -1,14 +1,23 @@
 import axios, { type AxiosInstance, type AxiosError, type AxiosRequestConfig } from "axios";
 
 interface FMPErrorResponse {
-  message: string;
-  [key: string]: any;
+  "Error Message"?: string;
+  message?: string;
+  [key: string]: unknown;
 }
 
 export class FMPClient {
   private readonly apiKey?: string;
   private readonly baseUrl: string = "https://financialmodelingprep.com/stable";
   private readonly client: AxiosInstance;
+
+  private static getErrorMessage(axiosError: AxiosError<FMPErrorResponse>): string {
+    return (
+      axiosError.response?.data?.["Error Message"] ??
+      axiosError.response?.data?.message ??
+      axiosError.message
+    );
+  }
 
   constructor(apiKey?: string) {
     this.apiKey = apiKey;
@@ -68,9 +77,7 @@ export class FMPClient {
       if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError<FMPErrorResponse>;
         throw new Error(
-          `FMP API Error: ${
-            axiosError.response?.data?.message || axiosError.message
-          }`, { cause: error }
+          `FMP API Error: ${FMPClient.getErrorMessage(axiosError)}`, { cause: error }
         );
       }
       throw new Error(
@@ -111,9 +118,7 @@ export class FMPClient {
       if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError<FMPErrorResponse>;
         throw new Error(
-          `FMP API Error: ${
-            axiosError.response?.data?.message || axiosError.message
-          }`, { cause: error }
+          `FMP API Error: ${FMPClient.getErrorMessage(axiosError)}`, { cause: error }
         );
       }
       throw new Error(
@@ -154,9 +159,7 @@ export class FMPClient {
       if (axios.isAxiosError(error)) {
         const axiosError = error as AxiosError<FMPErrorResponse>;
         throw new Error(
-          `FMP API Error: ${
-            axiosError.response?.data?.message || axiosError.message
-          }`, { cause: error }
+          `FMP API Error: ${FMPClient.getErrorMessage(axiosError)}`, { cause: error }
         );
       }
       throw new Error(
