@@ -87,15 +87,14 @@ only** — the readable source and the real API contracts live upstream at the *
 
 **Fetch the source with `gh`, pinned to the installed version:**
 
-1. Read the installed version from `node_modules/toolception/package.json` (`version`). Tags
-   are `v<version>` (e.g. `v0.6.3`).
-2. Pull the relevant source — raw, no base64 decode:
+1. Read the installed version from `node_modules/toolception/package.json` (the `version`
+   field) with the Read tool. The matching tag is `v<version>` (e.g. `v0.6.3`).
+2. Pull the relevant source — raw, no base64 decode. Substitute that version into `ref`:
 
 ```
-V=v$(node -p "require('./node_modules/toolception/package.json').version")  # bare 'toolception/package.json' is blocked by its exports map
-gh api -H "Accept: application/vnd.github.raw" "/repos/code-rabi/toolception/contents/src/index.ts?ref=$V"
-gh api "/repos/code-rabi/toolception/contents/src/<area>?ref=$V" --jq '.[].name'   # list a dir
-gh search code --repo code-rabi/toolception "<symbol>"                              # locate a symbol
+gh api -H "Accept: application/vnd.github.raw" "/repos/code-rabi/toolception/contents/src/index.ts?ref=v<version>"
+gh api "/repos/code-rabi/toolception/contents/src/<area>?ref=v<version>" --jq '.[].name'   # list a dir
+gh search code --repo code-rabi/toolception "<symbol>"                                      # locate a symbol
 ```
 
 Offline fallback for the type contracts: `node_modules/toolception/dist/index.d.ts`.
@@ -119,8 +118,8 @@ Offline fallback for the type contracts: `node_modules/toolception/dist/index.d.
   `exposurePolicy{namespaceToolsWithSetKey, maxActiveToolsets?, allowlist?}`, `createServer`,
   `http`) still matches the upstream `CreateMcpServerOptions` type — flag renamed/removed/
   retyped keys.
-- `ModuleLoader` is still `(context?) => Promise<McpToolDefinition[]>` and the
-  `McpToolDefinition` shape the adapters / `ToolCollector` emit still matches upstream.
+- `ModuleLoader` is still `(context?) => McpToolDefinition[] | Promise<McpToolDefinition[]>`
+  and the `McpToolDefinition` shape the adapters / `ToolCollector` emit still matches upstream.
 - `McpServer.prompt()` still exists upstream — a runtime extension reached via type cast that
   **silently no-ops if dropped** (`list_mcp_assets` then vanishes with no error).
 - **On a `toolception` version bump:** fetch the **new** tag's source and re-verify every
