@@ -1,7 +1,7 @@
 # Guide
 
-> For server configuration, see [docs/CONFIGURATION.md](docs/CONFIGURATION.md).  
-> For usage and session management, see [docs/USAGE.md](docs/USAGE.md).
+> For server configuration, see [CONFIGURATION.md](CONFIGURATION.md).  
+> For usage and session management, see [USAGE.md](USAGE.md).
 
 Teaching and procedural content for the FMP MCP Server.
 

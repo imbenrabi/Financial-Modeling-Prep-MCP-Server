@@ -38,9 +38,11 @@ Score 0-1: Delete. Score 2: Keep gotcha sentence. Score 3-4: FLOW.md. Score 5: I
 
 | Node | Non-obvious Knowledge |
 |------|----------------------|
-| [`src/AGENTS.md`](src/AGENTS.md) | Startup sequence dependencies, custom Fastify app pitfall |
-| [`src/api/AGENTS.md`](src/api/AGENTS.md) | API key as query param (never headers), token precedence |
-| [`src/tools/AGENTS.md`](src/tools/AGENTS.md) | Never-throw pattern, global tool name uniqueness |
-| [`src/toolception-adapters/AGENTS.md`](src/toolception-adapters/AGENTS.md) | Session cache key formula, module adapter constraints |
-| [`src/server-mode-enforcer/AGENTS.md`](src/server-mode-enforcer/AGENTS.md) | Singleton init order, fail-fast on invalid toolsets |
-| [`__tests__/smoke/AGENTS.md`](__tests__/smoke/AGENTS.md) | Smoke test requirements: build first, SSE parsing, global session state |
+| [`docs/src/AGENTS.md`](docs/src/AGENTS.md) | Startup sequence dependencies, custom Fastify app pitfall |
+| [`docs/src/api/AGENTS.md`](docs/src/api/AGENTS.md) | API key as query param (never headers), token precedence |
+| [`docs/src/tools/AGENTS.md`](docs/src/tools/AGENTS.md) | Never-throw pattern, global tool name uniqueness |
+| [`docs/src/toolception-adapters/AGENTS.md`](docs/src/toolception-adapters/AGENTS.md) | Session cache key formula, session-config transport, module adapter constraints |
+| [`docs/src/server-mode-enforcer/AGENTS.md`](docs/src/server-mode-enforcer/AGENTS.md) | Singleton init order, fail-fast on invalid toolsets |
+| [`docs/src/endpoints/AGENTS.md`](docs/src/endpoints/AGENTS.md) | Server-card registry coupling, schema/runtime divergence |
+| [`docs/tests/smoke/AGENTS.md`](docs/tests/smoke/AGENTS.md) | Smoke test requirements: build first, SSE parsing, global session state |
+| [`docs/GUIDE.md`](docs/GUIDE.md) | Procedural guides for adding tools, modules, and tool sets |
