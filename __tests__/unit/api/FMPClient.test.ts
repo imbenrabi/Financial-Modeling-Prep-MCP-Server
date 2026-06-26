@@ -186,19 +186,67 @@ describe('FMPClient', () => {
       });
     });
 
-    it('should handle axios errors', async () => {
+    it('should surface FMP "Error Message" from axios errors', async () => {
+      const axiosError = {
+        response: {
+          data: { "Error Message": 'Invalid API KEY. Feel free to create a Free API Key.' }
+        },
+        message: 'Request failed with status code 401'
+      };
+
+      mockAxiosInstance.get.mockRejectedValue(axiosError);
+      vi.mocked(mockedAxios.isAxiosError).mockReturnValue(true);
+
+      await expect(client.testGet('/test')).rejects.toThrow(
+        'FMP API Error: Invalid API KEY. Feel free to create a Free API Key.'
+      );
+    });
+
+    it('should fall back to legacy message key when Error Message is missing', async () => {
       const axiosError = {
         response: {
           data: { message: 'API rate limit exceeded' }
         },
         message: 'Request failed'
       };
-      
+
       mockAxiosInstance.get.mockRejectedValue(axiosError);
       vi.mocked(mockedAxios.isAxiosError).mockReturnValue(true);
 
       await expect(client.testGet('/test')).rejects.toThrow(
         'FMP API Error: API rate limit exceeded'
+      );
+    });
+
+    it('should prefer Error Message over legacy message key', async () => {
+      const axiosError = {
+        response: {
+          data: {
+            "Error Message": 'Exclusive Endpoint: This endpoint is only for premium members.',
+            message: 'Some generic message'
+          }
+        },
+        message: 'Request failed'
+      };
+
+      mockAxiosInstance.get.mockRejectedValue(axiosError);
+      vi.mocked(mockedAxios.isAxiosError).mockReturnValue(true);
+
+      await expect(client.testGet('/test')).rejects.toThrow(
+        'FMP API Error: Exclusive Endpoint: This endpoint is only for premium members.'
+      );
+    });
+
+    it('should fall back to axios message when no error body is present', async () => {
+      const axiosError = {
+        message: 'Network Error'
+      };
+
+      mockAxiosInstance.get.mockRejectedValue(axiosError);
+      vi.mocked(mockedAxios.isAxiosError).mockReturnValue(true);
+
+      await expect(client.testGet('/test')).rejects.toThrow(
+        'FMP API Error: Network Error'
       );
     });
 
@@ -246,6 +294,22 @@ describe('FMPClient', () => {
         signal: abortController.signal
       });
     });
+
+    it('should surface FMP "Error Message" from CSV axios errors', async () => {
+      const axiosError = {
+        response: {
+          data: { "Error Message": 'Invalid API KEY.' }
+        },
+        message: 'Request failed with status code 401'
+      };
+
+      mockAxiosInstance.get.mockRejectedValue(axiosError);
+      vi.mocked(mockedAxios.isAxiosError).mockReturnValue(true);
+
+      await expect(client.testGetCSV('/test-csv')).rejects.toThrow(
+        'FMP API Error: Invalid API KEY.'
+      );
+    });
   });
 
   describe('POST requests', () => {
@@ -279,6 +343,22 @@ describe('FMPClient', () => {
         params: { apikey: 'test-token' },
         signal: abortController.signal
       });
+    });
+
+    it('should surface FMP "Error Message" from POST axios errors', async () => {
+      const axiosError = {
+        response: {
+          data: { "Error Message": 'Invalid API KEY.' }
+        },
+        message: 'Request failed with status code 401'
+      };
+
+      mockAxiosInstance.post.mockRejectedValue(axiosError);
+      vi.mocked(mockedAxios.isAxiosError).mockReturnValue(true);
+
+      await expect(client.testPost('/test-post', { symbol: 'AAPL' })).rejects.toThrow(
+        'FMP API Error: Invalid API KEY.'
+      );
     });
   });
 
