@@ -3,7 +3,7 @@ import axios, { type AxiosInstance, type AxiosError, type AxiosRequestConfig } f
 interface FMPErrorResponse {
   "Error Message"?: string;
   message?: string;
-  [key: string]: any;
+  [key: string]: unknown;
 }
 
 export class FMPClient {
