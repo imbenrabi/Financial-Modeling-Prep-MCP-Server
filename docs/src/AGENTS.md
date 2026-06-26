@@ -17,6 +17,7 @@ Cross-cutting concerns and startup sequence for the FMP MCP Server.
 
 - `preHandler` hook generates stable client ID from `IP + User-Agent` (`Accept` is intentionally excluded — it varies between requests)
 - `McpServer.prompt()` is a toolception runtime extension, not part of the MCP SDK type — `prompts/` accesses it via type cast and silently no-ops if absent. If toolception drops prompt support, `list_mcp_assets` vanishes with no error.
+- The `list_mcp_assets` prompt tells users server-level tokens take precedence, but actual API calls give session context precedence — keep user-facing docs aligned with runtime behavior
 
 ## Flow Reference
 
@@ -26,5 +27,6 @@ See [FLOW.md](FLOW.md) — ordered startup sequence with non-obvious ordering co
 
 - [`api/AGENTS.md`](api/AGENTS.md) — API key as query param invariant, token precedence
 - [`tools/AGENTS.md`](tools/AGENTS.md) — Never-throw pattern, error handling
-- [`toolception-adapters/AGENTS.md`](toolception-adapters/AGENTS.md) — Session caching gotchas
+- [`toolception-adapters/AGENTS.md`](toolception-adapters/AGENTS.md) — Session caching and transport gotchas
 - [`server-mode-enforcer/AGENTS.md`](server-mode-enforcer/AGENTS.md) — Singleton initialization order
+- [`endpoints/AGENTS.md`](endpoints/AGENTS.md) — Server-card registry coupling and schema divergence

@@ -16,4 +16,3 @@ Integration tests that spawn the full server as a child process and exercise MCP
 
 - Server startup timeout is 30s — slow machines may need adjustment
 - `SIGTERM` is sent on cleanup with 5s grace before `SIGKILL` — leaked processes may accumulate if cleanup fails
-- Session config is base64-encoded in the `config` query param — not a header
