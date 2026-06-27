@@ -81,20 +81,9 @@ describe('CompanyClient', () => {
 
       const result = await companyClient.getProfile('AAPL');
 
-      expect(mockGet).toHaveBeenCalledWith('/profile', { symbol: 'AAPL' }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/profile', { symbol: 'AAPL' });
       expect(result).toEqual(mockData);
     });
-
-    it('should handle options parameter', async () => {
-      const mockData: CompanyProfile[] = [];
-      mockGet.mockResolvedValue(mockData);
-
-      const options = { signal: new AbortController().signal };
-      await companyClient.getProfile('AAPL', options);
-
-      expect(mockGet).toHaveBeenCalledWith('/profile', { symbol: 'AAPL' }, options);
-    });
-
     it('should handle API errors', async () => {
       const errorMessage = 'API Error';
       mockGet.mockRejectedValue(new Error(errorMessage));
@@ -150,7 +139,7 @@ describe('CompanyClient', () => {
 
       const result = await companyClient.getProfileByCIK('0000320193');
 
-      expect(mockGet).toHaveBeenCalledWith('/profile-cik', { cik: '0000320193' }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/profile-cik', { cik: '0000320193' });
       expect(result).toEqual(mockData);
     });
   });
@@ -169,7 +158,7 @@ describe('CompanyClient', () => {
 
       const result = await companyClient.getNotes('AAPL');
 
-      expect(mockGet).toHaveBeenCalledWith('/company-notes', { symbol: 'AAPL' }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/company-notes', { symbol: 'AAPL' });
       expect(result).toEqual(mockData);
     });
   });
@@ -194,7 +183,7 @@ describe('CompanyClient', () => {
 
       const result = await companyClient.getPeers('AAPL');
 
-      expect(mockGet).toHaveBeenCalledWith('/stock-peers', { symbol: 'AAPL' }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/stock-peers', { symbol: 'AAPL' });
       expect(result).toEqual(mockData);
     });
   });
@@ -214,7 +203,7 @@ describe('CompanyClient', () => {
 
       const result = await companyClient.getDelistedCompanies(0, 50);
 
-      expect(mockGet).toHaveBeenCalledWith('/delisted-companies', { page: 0, limit: 50 }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/delisted-companies', { page: 0, limit: 50 });
       expect(result).toEqual(mockData);
     });
 
@@ -224,7 +213,7 @@ describe('CompanyClient', () => {
 
       await companyClient.getDelistedCompanies();
 
-      expect(mockGet).toHaveBeenCalledWith('/delisted-companies', { page: undefined, limit: undefined }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/delisted-companies', { page: undefined, limit: undefined });
     });
   });
 
@@ -247,7 +236,7 @@ describe('CompanyClient', () => {
 
       const result = await companyClient.getEmployeeCount('AAPL', 100);
 
-      expect(mockGet).toHaveBeenCalledWith('/employee-count', { symbol: 'AAPL', limit: 100 }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/employee-count', { symbol: 'AAPL', limit: 100 });
       expect(result).toEqual(mockData);
     });
 
@@ -257,7 +246,7 @@ describe('CompanyClient', () => {
 
       await companyClient.getEmployeeCount('AAPL');
 
-      expect(mockGet).toHaveBeenCalledWith('/employee-count', { symbol: 'AAPL', limit: undefined }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/employee-count', { symbol: 'AAPL', limit: undefined });
     });
   });
 
@@ -280,7 +269,7 @@ describe('CompanyClient', () => {
 
       const result = await companyClient.getHistoricalEmployeeCount('AAPL', 50);
 
-      expect(mockGet).toHaveBeenCalledWith('/historical-employee-count', { symbol: 'AAPL', limit: 50 }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/historical-employee-count', { symbol: 'AAPL', limit: 50 });
       expect(result).toEqual(mockData);
     });
   });
@@ -298,7 +287,7 @@ describe('CompanyClient', () => {
 
       const result = await companyClient.getMarketCap('AAPL');
 
-      expect(mockGet).toHaveBeenCalledWith('/market-capitalization', { symbol: 'AAPL' }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/market-capitalization', { symbol: 'AAPL' });
       expect(result).toEqual(mockData);
     });
   });
@@ -321,7 +310,7 @@ describe('CompanyClient', () => {
 
       const result = await companyClient.getBatchMarketCap('AAPL,MSFT');
 
-      expect(mockGet).toHaveBeenCalledWith('/market-capitalization-batch', { symbols: 'AAPL,MSFT' }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/market-capitalization-batch', { symbols: 'AAPL,MSFT' });
       expect(result).toEqual(mockData);
     });
   });
@@ -349,7 +338,7 @@ describe('CompanyClient', () => {
         limit: 100,
         from: '2023-01-01',
         to: '2024-01-01'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -364,7 +353,7 @@ describe('CompanyClient', () => {
         limit: undefined,
         from: undefined,
         to: undefined
-      }, undefined);
+      });
     });
   });
 
@@ -383,7 +372,7 @@ describe('CompanyClient', () => {
 
       const result = await companyClient.getShareFloat('AAPL');
 
-      expect(mockGet).toHaveBeenCalledWith('/shares-float', { symbol: 'AAPL' }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/shares-float', { symbol: 'AAPL' });
       expect(result).toEqual(mockData);
     });
   });
@@ -403,7 +392,7 @@ describe('CompanyClient', () => {
 
       const result = await companyClient.getAllShareFloat(0, 1000);
 
-      expect(mockGet).toHaveBeenCalledWith('/shares-float-all', { page: 0, limit: 1000 }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/shares-float-all', { page: 0, limit: 1000 });
       expect(result).toEqual(mockData);
     });
 
@@ -413,7 +402,7 @@ describe('CompanyClient', () => {
 
       await companyClient.getAllShareFloat();
 
-      expect(mockGet).toHaveBeenCalledWith('/shares-float-all', { page: undefined, limit: undefined }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/shares-float-all', { page: undefined, limit: undefined });
     });
   });
 
@@ -436,7 +425,7 @@ describe('CompanyClient', () => {
 
       const result = await companyClient.getLatestMergersAcquisitions(0, 50);
 
-      expect(mockGet).toHaveBeenCalledWith('/mergers-acquisitions-latest', { page: 0, limit: 50 }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/mergers-acquisitions-latest', { page: 0, limit: 50 });
       expect(result).toEqual(mockData);
     });
 
@@ -446,7 +435,7 @@ describe('CompanyClient', () => {
 
       await companyClient.getLatestMergersAcquisitions();
 
-      expect(mockGet).toHaveBeenCalledWith('/mergers-acquisitions-latest', { page: undefined, limit: undefined }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/mergers-acquisitions-latest', { page: undefined, limit: undefined });
     });
   });
 
@@ -469,7 +458,7 @@ describe('CompanyClient', () => {
 
       const result = await companyClient.searchMergersAcquisitions('Microsoft');
 
-      expect(mockGet).toHaveBeenCalledWith('/mergers-acquisitions-search', { name: 'Microsoft' }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/mergers-acquisitions-search', { name: 'Microsoft' });
       expect(result).toEqual(mockData);
     });
   });
@@ -500,7 +489,7 @@ describe('CompanyClient', () => {
 
       const result = await companyClient.getExecutives('AAPL', 'true');
 
-      expect(mockGet).toHaveBeenCalledWith('/key-executives', { symbol: 'AAPL', active: 'true' }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/key-executives', { symbol: 'AAPL', active: 'true' });
       expect(result).toEqual(mockData);
     });
 
@@ -510,7 +499,7 @@ describe('CompanyClient', () => {
 
       await companyClient.getExecutives('AAPL');
 
-      expect(mockGet).toHaveBeenCalledWith('/key-executives', { symbol: 'AAPL', active: undefined }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/key-executives', { symbol: 'AAPL', active: undefined });
     });
   });
 
@@ -539,7 +528,7 @@ describe('CompanyClient', () => {
 
       const result = await companyClient.getExecutiveCompensation('AAPL');
 
-      expect(mockGet).toHaveBeenCalledWith('/governance-executive-compensation', { symbol: 'AAPL' }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/governance-executive-compensation', { symbol: 'AAPL' });
       expect(result).toEqual(mockData);
     });
   });
@@ -562,7 +551,7 @@ describe('CompanyClient', () => {
 
       const result = await companyClient.getExecutiveCompensationBenchmark('2023');
 
-      expect(mockGet).toHaveBeenCalledWith('/executive-compensation-benchmark', { year: '2023' }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/executive-compensation-benchmark', { year: '2023' });
       expect(result).toEqual(mockData);
     });
 
@@ -572,7 +561,7 @@ describe('CompanyClient', () => {
 
       await companyClient.getExecutiveCompensationBenchmark();
 
-      expect(mockGet).toHaveBeenCalledWith('/executive-compensation-benchmark', { year: undefined }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/executive-compensation-benchmark', { year: undefined });
     });
   });
 

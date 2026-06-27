@@ -54,41 +54,16 @@ describe('CommodityClient', () => {
 
       const result = await commodityClient.listCommodities();
 
-      expect(mockGet).toHaveBeenCalledWith('/commodity-list', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/commodity-list', {});
       expect(result).toEqual(mockData);
     });
-
-    it('should call get with correct parameters including options', async () => {
-      const mockData: Commodity[] = [
-        {
-          symbol: 'NG',
-          name: 'Natural Gas',
-          exchange: 'NYMEX',
-          tradeMonth: '2024-05',
-          currency: 'USD'
-        }
-      ];
-      mockGet.mockResolvedValue(mockData);
-
-      const abortController = new AbortController();
-      const options = {
-        signal: abortController.signal,
-        context: { config: { FMP_ACCESS_TOKEN: 'test-token' } }
-      };
-
-      const result = await commodityClient.listCommodities(options);
-
-      expect(mockGet).toHaveBeenCalledWith('/commodity-list', {}, options);
-      expect(result).toEqual(mockData);
-    });
-
     it('should handle empty response', async () => {
       const mockData: Commodity[] = [];
       mockGet.mockResolvedValue(mockData);
 
       const result = await commodityClient.listCommodities();
 
-      expect(mockGet).toHaveBeenCalledWith('/commodity-list', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/commodity-list', {});
       expect(result).toEqual(mockData);
     });
 
@@ -107,21 +82,6 @@ describe('CommodityClient', () => {
       await expect(commodityClient.listCommodities())
         .rejects.toThrow('Network Error');
     });
-
-    it('should handle abort signal', async () => {
-      const abortController = new AbortController();
-      const abortError = new Error('Request aborted');
-      abortError.name = 'AbortError';
-      mockGet.mockRejectedValue(abortError);
-
-      const options = {
-        signal: abortController.signal
-      };
-
-      await expect(commodityClient.listCommodities(options))
-        .rejects.toThrow('Request aborted');
-    });
-
     it('should handle large dataset response', async () => {
       const mockData: Commodity[] = Array.from({ length: 100 }, (_, index) => ({
         symbol: `COMM${index + 1}`,
@@ -134,7 +94,7 @@ describe('CommodityClient', () => {
 
       const result = await commodityClient.listCommodities();
 
-      expect(mockGet).toHaveBeenCalledWith('/commodity-list', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/commodity-list', {});
       expect(result).toEqual(mockData);
       expect(result).toHaveLength(100);
     });

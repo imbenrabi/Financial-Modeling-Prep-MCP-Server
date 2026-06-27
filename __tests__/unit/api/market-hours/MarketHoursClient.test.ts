@@ -44,35 +44,9 @@ describe('MarketHoursClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/exchange-market-hours', {
         exchange: 'NASDAQ'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
-
-    it('should call get with correct parameters and options', async () => {
-      const mockData: ExchangeMarketHours[] = [
-        {
-          exchange: 'NYSE',
-          name: 'New York Stock Exchange',
-          openingHour: '09:30',
-          closingHour: '16:00',
-          timezone: 'America/New_York',
-          isMarketOpen: false
-        }
-      ];
-      mockGet.mockResolvedValue(mockData);
-
-      const mockSignal = new AbortController().signal;
-      const mockContext = { config: { FMP_ACCESS_TOKEN: 'test-token-123' } };
-      const options = { signal: mockSignal, context: mockContext };
-
-      const result = await marketHoursClient.getExchangeMarketHours('NYSE', options);
-
-      expect(mockGet).toHaveBeenCalledWith('/exchange-market-hours', {
-        exchange: 'NYSE'
-      }, options);
-      expect(result).toEqual(mockData);
-    });
-
     it('should handle API errors', async () => {
       const errorMessage = 'API Error';
       mockGet.mockRejectedValue(new Error(errorMessage));
@@ -102,7 +76,7 @@ describe('MarketHoursClient', () => {
         exchange: 'NASDAQ',
         from: undefined,
         to: undefined
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -137,7 +111,7 @@ describe('MarketHoursClient', () => {
         exchange: 'NYSE',
         from: '2024-01-01',
         to: '2024-12-31'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -163,42 +137,9 @@ describe('MarketHoursClient', () => {
         exchange: 'NASDAQ',
         from: '2024-12-01',
         to: undefined
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
-
-    it('should call get with correct parameters including options', async () => {
-      const mockData: HolidayByExchange[] = [
-        {
-          exchange: 'LSE',
-          date: '2024-12-26',
-          name: 'Boxing Day',
-          isClosed: false,
-          adjOpenTime: '10:00',
-          adjCloseTime: '14:00'
-        }
-      ];
-      mockGet.mockResolvedValue(mockData);
-
-      const mockSignal = new AbortController().signal;
-      const mockContext = { config: { FMP_ACCESS_TOKEN: 'test-token-456' } };
-      const options = { signal: mockSignal, context: mockContext };
-
-      const result = await marketHoursClient.getHolidaysByExchange(
-        'LSE', 
-        '2024-12-01', 
-        '2024-12-31',
-        options
-      );
-
-      expect(mockGet).toHaveBeenCalledWith('/holidays-by-exchange', {
-        exchange: 'LSE',
-        from: '2024-12-01',
-        to: '2024-12-31'
-      }, options);
-      expect(result).toEqual(mockData);
-    });
-
     it('should handle API errors', async () => {
       const errorMessage = 'Holiday API Error';
       mockGet.mockRejectedValue(new Error(errorMessage));
@@ -240,33 +181,9 @@ describe('MarketHoursClient', () => {
 
       const result = await marketHoursClient.getAllExchangeMarketHours();
 
-      expect(mockGet).toHaveBeenCalledWith('/all-exchange-market-hours', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/all-exchange-market-hours', {});
       expect(result).toEqual(mockData);
     });
-
-    it('should call get with correct parameters including options', async () => {
-      const mockData: ExchangeMarketHours[] = [
-        {
-          exchange: 'TSX',
-          name: 'Toronto Stock Exchange',
-          openingHour: '09:30',
-          closingHour: '16:00',
-          timezone: 'America/Toronto',
-          isMarketOpen: true
-        }
-      ];
-      mockGet.mockResolvedValue(mockData);
-
-      const mockSignal = new AbortController().signal;
-      const mockContext = { config: { FMP_ACCESS_TOKEN: 'test-token-789' } };
-      const options = { signal: mockSignal, context: mockContext };
-
-      const result = await marketHoursClient.getAllExchangeMarketHours(options);
-
-      expect(mockGet).toHaveBeenCalledWith('/all-exchange-market-hours', {}, options);
-      expect(result).toEqual(mockData);
-    });
-
     it('should handle API errors', async () => {
       const errorMessage = 'All Market Hours API Error';
       mockGet.mockRejectedValue(new Error(errorMessage));
@@ -281,7 +198,7 @@ describe('MarketHoursClient', () => {
 
       const result = await marketHoursClient.getAllExchangeMarketHours();
 
-      expect(mockGet).toHaveBeenCalledWith('/all-exchange-market-hours', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/all-exchange-market-hours', {});
       expect(result).toEqual([]);
     });
   });

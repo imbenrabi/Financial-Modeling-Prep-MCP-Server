@@ -1,5 +1,4 @@
 import { FMPClient } from "../FMPClient.js";
-import type { FMPContext } from "../../types/index.js";
 import type {
   DCFValuation,
   CustomDCFInput,
@@ -13,65 +12,37 @@ export class DCFClient extends FMPClient {
   /**
    * Get DCF(Discounted Cash Flow) valuation for a symbol
    * @param symbol The stock symbol
-   * @param options Optional parameters including abort signal and context
    * @returns DCF valuation data
    */
-  async getValuation(
-    symbol: string,
-    options?: {
-      signal?: AbortSignal;
-      context?: FMPContext;
-    }
-  ): Promise<DCFValuation> {
-    return super.get<DCFValuation>("/discounted-cash-flow", { symbol }, options);
+  async getValuation(symbol: string): Promise<DCFValuation> {
+    return super.get<DCFValuation>("/discounted-cash-flow", { symbol });
   }
 
   /**
    * Get levered DCF(Discounted Cash Flow) valuation for a symbol
    * @param symbol The stock symbol
-   * @param options Optional parameters including abort signal and context
    * @returns Levered DCF valuation data
    */
-  async getLeveredValuation(
-    symbol: string,
-    options?: {
-      signal?: AbortSignal;
-      context?: FMPContext;
-    }
-  ): Promise<DCFValuation[]> {
-    return super.get<DCFValuation[]>("/levered-discounted-cash-flow", { symbol }, options);
+  async getLeveredValuation(symbol: string): Promise<DCFValuation[]> {
+    return super.get<DCFValuation[]>("/levered-discounted-cash-flow", { symbol });
   }
 
   /**
    * Calculate custom levered DCF valuation
    * @param input Custom DCF input parameters
-   * @param options Optional parameters including abort signal and context
    * @returns Custom DCF output data
    */
-  async calculateCustomLeveredDCF(
-    input: CustomDCFInput,
-    options?: {
-      signal?: AbortSignal;
-      context?: FMPContext;
-    }
-  ): Promise<CustomDCFOutput> {
-    return super.get<CustomDCFOutput>("/custom-levered-discounted-cash-flow", { ...input }, options);
+  async calculateCustomLeveredDCF(input: CustomDCFInput): Promise<CustomDCFOutput> {
+    return super.get<CustomDCFOutput>("/custom-levered-discounted-cash-flow", { ...input });
   }
 
   /**
    * Calculate custom DCF valuation
    * @param input Custom DCF input parameters
-   * @param options Optional parameters including abort signal and context
    * @returns Custom DCF output data
    */
-  async calculateCustomDCF(
-    input: CustomDCFInput,
-    options?: {
-      signal?: AbortSignal;
-      context?: FMPContext;
-    }
-  ): Promise<CustomDCFOutput> {
-    return super.get<CustomDCFOutput>("/custom-discounted-cash-flow", { ...input }, options);
+  async calculateCustomDCF(input: CustomDCFInput): Promise<CustomDCFOutput> {
+    return super.get<CustomDCFOutput>("/custom-discounted-cash-flow", { ...input });
   }
 }
 

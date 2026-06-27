@@ -1,5 +1,4 @@
 import { FMPClient } from "../FMPClient.js";
-import type { FMPContext } from "../../types/index.js";
 import {
   InsiderTrading,
   InsiderReportingName,
@@ -13,26 +12,16 @@ export class InsiderTradesClient extends FMPClient {
   /**
    * Get latest insider trading activities
    * @param params Optional parameters for date, pagination
-   * @param options Optional parameters including abort signal and context
    */
   async getLatestInsiderTrading(
-    params: { date?: string; page?: number; limit?: number } = {},
-    options?: {
-      signal?: AbortSignal;
-      context?: FMPContext;
-    }
+    params: { date?: string; page?: number; limit?: number } = {}
   ): Promise<InsiderTrading[]> {
-    return super.get<InsiderTrading[]>(
-      "/insider-trading/latest",
-      params,
-      options
-    );
+    return super.get<InsiderTrading[]>("/insider-trading/latest", params);
   }
 
   /**
    * Search insider trades by various criteria
    * @param params Search parameters
-   * @param options Optional parameters including abort signal and context
    */
   async searchInsiderTrades(
     params: {
@@ -42,94 +31,51 @@ export class InsiderTradesClient extends FMPClient {
       reportingCik?: string;
       companyCik?: string;
       transactionType?: string;
-    } = {},
-    options?: {
-      signal?: AbortSignal;
-      context?: FMPContext;
-    }
+    } = {}
   ): Promise<InsiderTrading[]> {
-    return super.get<InsiderTrading[]>(
-      "/insider-trading/search",
-      params,
-      options
-    );
+    return super.get<InsiderTrading[]>("/insider-trading/search", params);
   }
 
   /**
    * Search insider trades by reporting name
    * @param name Name to search for
-   * @param options Optional parameters including abort signal and context
    */
   async searchInsiderTradesByReportingName(
-    name: string,
-    options?: {
-      signal?: AbortSignal;
-      context?: FMPContext;
-    }
+    name: string
   ): Promise<InsiderReportingName[]> {
-    return super.get<InsiderReportingName[]>(
-      "/insider-trading/reporting-name",
-      { name },
-      options
-    );
+    return super.get<InsiderReportingName[]>("/insider-trading/reporting-name", { name });
   }
 
   /**
    * Get all insider transaction types
-   * @param options Optional parameters including abort signal and context
    */
-  async getInsiderTransactionTypes(options?: {
-    signal?: AbortSignal;
-    context?: FMPContext;
-  }): Promise<InsiderTransactionType[]> {
-    return super.get<InsiderTransactionType[]>(
-      "/insider-trading-transaction-type",
-      {},
-      options
-    );
+  async getInsiderTransactionTypes(): Promise<InsiderTransactionType[]> {
+    return super.get<InsiderTransactionType[]>("/insider-trading-transaction-type", {});
   }
 
   /**
    * Get insider trade statistics for a symbol
    * @param symbol Stock symbol
-   * @param options Optional parameters including abort signal and context
    */
   async getInsiderTradeStatistics(
-    symbol: string,
-    options?: {
-      signal?: AbortSignal;
-      context?: FMPContext;
-    }
+    symbol: string
   ): Promise<InsiderTradeStatistics[]> {
-    return super.get<InsiderTradeStatistics[]>(
-      "/insider-trading/statistics",
-      { symbol },
-      options
-    );
+    return super.get<InsiderTradeStatistics[]>("/insider-trading/statistics", { symbol });
   }
 
   /**
    * Get acquisition ownership information for a symbol
    * @param symbol Stock symbol
    * @param limit Optional limit on number of results
-   * @param options Optional parameters including abort signal and context
    */
   async getAcquisitionOwnership(
     symbol: string,
-    limit?: number,
-    options?: {
-      signal?: AbortSignal;
-      context?: FMPContext;
-    }
+    limit?: number
   ): Promise<AcquisitionOwnership[]> {
     const params: Record<string, any> = { symbol };
     if (limit !== undefined) {
       params.limit = limit;
     }
-    return super.get<AcquisitionOwnership[]>(
-      "/acquisition-of-beneficial-ownership",
-      params,
-      options
-    );
+    return super.get<AcquisitionOwnership[]>("/acquisition-of-beneficial-ownership", params);
   }
 }

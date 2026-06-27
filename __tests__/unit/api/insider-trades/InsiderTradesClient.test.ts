@@ -63,7 +63,7 @@ describe('InsiderTradesClient', () => {
         date: '2024-01-15',
         page: 0,
         limit: 10
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -73,7 +73,7 @@ describe('InsiderTradesClient', () => {
 
       const result = await insiderTradesClient.getLatestInsiderTrading();
 
-      expect(mockGet).toHaveBeenCalledWith('/insider-trading/latest', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/insider-trading/latest', {});
       expect(result).toEqual(mockData);
     });
 
@@ -126,7 +126,7 @@ describe('InsiderTradesClient', () => {
         reportingCik: '0001214157',
         companyCik: '0000789019',
         transactionType: 'P-Purchase'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -136,7 +136,7 @@ describe('InsiderTradesClient', () => {
 
       const result = await insiderTradesClient.searchInsiderTrades();
 
-      expect(mockGet).toHaveBeenCalledWith('/insider-trading/search', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/insider-trading/search', {});
       expect(result).toEqual(mockData);
     });
 
@@ -167,7 +167,7 @@ describe('InsiderTradesClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/insider-trading/reporting-name', {
         name: 'Cook Timothy'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -193,7 +193,7 @@ describe('InsiderTradesClient', () => {
 
       const result = await insiderTradesClient.getInsiderTransactionTypes();
 
-      expect(mockGet).toHaveBeenCalledWith('/insider-trading-transaction-type', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/insider-trading-transaction-type', {});
       expect(result).toEqual(mockData);
     });
 
@@ -246,7 +246,7 @@ describe('InsiderTradesClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/insider-trading/statistics', {
         symbol: 'AAPL'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -287,7 +287,7 @@ describe('InsiderTradesClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/acquisition-of-beneficial-ownership', {
         symbol: 'AAPL',
         limit: 50
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -299,7 +299,7 @@ describe('InsiderTradesClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/acquisition-of-beneficial-ownership', {
         symbol: 'MSFT'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
