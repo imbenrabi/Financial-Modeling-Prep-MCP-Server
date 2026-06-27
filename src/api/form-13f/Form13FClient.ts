@@ -1,5 +1,5 @@
 import { FMPClient } from "../FMPClient.js";
-import type { FMPContext } from "../../types/index.js";
+import type { FMPContext } from "../../types.js";
 import type {
   InstitutionalOwnershipFiling,
   SecFilingExtract,

@@ -1,4 +1,4 @@
-import type { SessionConfig } from "../types/index.js";
+import type { SessionConfig } from "../types.js";
 
 /**
  * Resolves access token with precedence: server-level token overrides session config.

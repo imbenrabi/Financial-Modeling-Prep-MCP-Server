@@ -1,5 +1,5 @@
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import type { ServerMode, ToolSet } from "../types/index.js";
+import type { ServerMode, ToolSet } from "../types.js";
 import { registerListMcpAssets, type PromptContext } from "./list-mcp-assets.js";
 
 export function registerPrompts(

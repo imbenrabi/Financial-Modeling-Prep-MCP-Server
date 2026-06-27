@@ -1,4 +1,4 @@
-import type { ToolSet, ToolSetDefinition } from "../types/index.js";
+import type { ToolSet, ToolSetDefinition } from "../types.js";
 import { DEFAULT_PORT } from "../constants/index.js";
 
 /**
