@@ -1,4 +1,4 @@
-import type { ServerMode, ToolSet } from '../types.js';
+import type { ServerMode, ToolSet } from '../types/index.js';
 import { TOOL_SETS } from '../constants/toolSets.js';
 import type { ModuleLoader } from 'toolception';
 

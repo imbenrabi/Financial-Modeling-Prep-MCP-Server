@@ -68,7 +68,7 @@ describe('TechnicalIndicatorsClient', () => {
 
       const result = await technicalIndicatorsClient.getSMA(params);
 
-      expect(mockGet).toHaveBeenCalledWith('/technical-indicators/sma', params, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/technical-indicators/sma', params);
       expect(result).toEqual(mockData);
     });
 
@@ -84,7 +84,7 @@ describe('TechnicalIndicatorsClient', () => {
 
       await technicalIndicatorsClient.getSMA(params);
 
-      expect(mockGet).toHaveBeenCalledWith('/technical-indicators/sma', params, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/technical-indicators/sma', params);
     });
 
     it('should handle API errors', async () => {
@@ -125,26 +125,10 @@ describe('TechnicalIndicatorsClient', () => {
 
       const result = await technicalIndicatorsClient.getEMA(params);
 
-      expect(mockGet).toHaveBeenCalledWith('/technical-indicators/ema', params, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/technical-indicators/ema', params);
       expect(result).toEqual(mockData);
     });
 
-    it('should handle options parameter', async () => {
-      const mockData: EMAIndicator[] = [];
-      mockGet.mockResolvedValue(mockData);
-
-      const params: TechnicalIndicatorParams = {
-        symbol: 'GOOGL',
-        periodLength: 26,
-        timeframe: '4hour'
-      };
-
-      const options = { signal: new AbortController().signal };
-
-      await technicalIndicatorsClient.getEMA(params, options);
-
-      expect(mockGet).toHaveBeenCalledWith('/technical-indicators/ema', params, options);
-    });
   });
 
   describe('getWMA', () => {
@@ -170,7 +154,7 @@ describe('TechnicalIndicatorsClient', () => {
 
       const result = await technicalIndicatorsClient.getWMA(params);
 
-      expect(mockGet).toHaveBeenCalledWith('/technical-indicators/wma', params, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/technical-indicators/wma', params);
       expect(result).toEqual(mockData);
     });
   });
@@ -198,7 +182,7 @@ describe('TechnicalIndicatorsClient', () => {
 
       const result = await technicalIndicatorsClient.getDEMA(params);
 
-      expect(mockGet).toHaveBeenCalledWith('/technical-indicators/dema', params, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/technical-indicators/dema', params);
       expect(result).toEqual(mockData);
     });
   });
@@ -226,7 +210,7 @@ describe('TechnicalIndicatorsClient', () => {
 
       const result = await technicalIndicatorsClient.getTEMA(params);
 
-      expect(mockGet).toHaveBeenCalledWith('/technical-indicators/tema', params, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/technical-indicators/tema', params);
       expect(result).toEqual(mockData);
     });
   });
@@ -265,7 +249,7 @@ describe('TechnicalIndicatorsClient', () => {
 
       const result = await technicalIndicatorsClient.getRSI(params);
 
-      expect(mockGet).toHaveBeenCalledWith('/technical-indicators/rsi', params, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/technical-indicators/rsi', params);
       expect(result).toEqual(mockData);
     });
   });
@@ -293,7 +277,7 @@ describe('TechnicalIndicatorsClient', () => {
 
       const result = await technicalIndicatorsClient.getStandardDeviation(params);
 
-      expect(mockGet).toHaveBeenCalledWith('/technical-indicators/standarddeviation', params, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/technical-indicators/standarddeviation', params);
       expect(result).toEqual(mockData);
     });
   });
@@ -321,7 +305,7 @@ describe('TechnicalIndicatorsClient', () => {
 
       const result = await technicalIndicatorsClient.getWilliams(params);
 
-      expect(mockGet).toHaveBeenCalledWith('/technical-indicators/williams', params, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/technical-indicators/williams', params);
       expect(result).toEqual(mockData);
     });
   });
@@ -349,32 +333,10 @@ describe('TechnicalIndicatorsClient', () => {
 
       const result = await technicalIndicatorsClient.getADX(params);
 
-      expect(mockGet).toHaveBeenCalledWith('/technical-indicators/adx', params, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/technical-indicators/adx', params);
       expect(result).toEqual(mockData);
     });
 
-    it('should handle context in options', async () => {
-      const mockData: ADXIndicator[] = [];
-      mockGet.mockResolvedValue(mockData);
-
-      const params: TechnicalIndicatorParams = {
-        symbol: 'IBM',
-        periodLength: 14,
-        timeframe: '1day'
-      };
-
-      const options = { 
-        context: { 
-          config: {
-            FMP_ACCESS_TOKEN: 'test-token'
-          }
-        }
-      };
-
-      await technicalIndicatorsClient.getADX(params, options);
-
-      expect(mockGet).toHaveBeenCalledWith('/technical-indicators/adx', params, options);
-    });
   });
 
   describe('constructor', () => {

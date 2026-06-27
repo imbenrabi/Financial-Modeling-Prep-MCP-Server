@@ -1,5 +1,4 @@
 import { FMPClient } from "../FMPClient.js";
-import type { FMPContext } from "../../types.js";
 import type { ExchangeMarketHours, HolidayByExchange } from "./types.js";
 
 export class MarketHoursClient extends FMPClient {
@@ -7,19 +6,13 @@ export class MarketHoursClient extends FMPClient {
   /**
    * Get market hours for a specific exchange
    * @param exchange Exchange name/code
-   * @param options Optional parameters including abort signal and context
    */
   async getExchangeMarketHours(
-    exchange: string,
-    options?: {
-      signal?: AbortSignal;
-      context?: FMPContext;
-    }
+    exchange: string
   ): Promise<ExchangeMarketHours[]> {
     return super.get<ExchangeMarketHours[]>(
       "/exchange-market-hours",
-      { exchange },
-      options
+      { exchange }
     );
   }
 
@@ -28,36 +21,25 @@ export class MarketHoursClient extends FMPClient {
    * @param exchange Exchange name/code
    * @param from Optional Start date for the holidays
    * @param to Optional End date for the holidays
-   * @param options Optional parameters including abort signal and context
    */
   async getHolidaysByExchange(
     exchange: string,
     from?: string,
-    to?: string,
-    options?: {
-      signal?: AbortSignal;
-      context?: FMPContext;
-    }
+    to?: string
   ): Promise<HolidayByExchange[]> {
     return super.get<HolidayByExchange[]>(
       "/holidays-by-exchange",
-      { exchange, from, to },
-      options
+      { exchange, from, to }
     );
   }
 
   /**
    * Get market hours for all exchanges
-   * @param options Optional parameters including abort signal and context
    */
-  async getAllExchangeMarketHours(options?: {
-    signal?: AbortSignal;
-    context?: FMPContext;
-  }): Promise<ExchangeMarketHours[]> {
+  async getAllExchangeMarketHours(): Promise<ExchangeMarketHours[]> {
     return super.get<ExchangeMarketHours[]>(
       "/all-exchange-market-hours",
-      {},
-      options
+      {}
     );
   }
 }

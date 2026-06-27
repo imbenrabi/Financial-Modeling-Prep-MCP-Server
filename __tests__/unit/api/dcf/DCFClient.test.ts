@@ -44,32 +44,9 @@ describe('DCFClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/discounted-cash-flow', {
         symbol: 'AAPL'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
-
-    it('should call get with options', async () => {
-      const mockData: DCFValuation = {
-        symbol: 'MSFT',
-        date: '2024-01-01',
-        ["Stock Price"]: 420.75,
-        dcf: 425.50
-      };
-      mockGet.mockResolvedValue(mockData);
-
-      const options = {
-        signal: new AbortController().signal,
-        context: { config: { FMP_ACCESS_TOKEN: 'test-token' } }
-      };
-
-      const result = await dcfClient.getValuation('MSFT', options);
-
-      expect(mockGet).toHaveBeenCalledWith('/discounted-cash-flow', {
-        symbol: 'MSFT'
-      }, options);
-      expect(result).toEqual(mockData);
-    });
-
     it('should handle API errors', async () => {
       const errorMessage = 'API Error';
       mockGet.mockRejectedValue(new Error(errorMessage));
@@ -101,27 +78,9 @@ describe('DCFClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/levered-discounted-cash-flow', {
         symbol: 'AAPL'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
-
-    it('should call get with options', async () => {
-      const mockData: DCFValuation[] = [];
-      mockGet.mockResolvedValue(mockData);
-
-      const options = {
-        signal: new AbortController().signal,
-        context: { config: { FMP_ACCESS_TOKEN: 'test-token' } }
-      };
-
-      const result = await dcfClient.getLeveredValuation('GOOGL', options);
-
-      expect(mockGet).toHaveBeenCalledWith('/levered-discounted-cash-flow', {
-        symbol: 'GOOGL'
-      }, options);
-      expect(result).toEqual(mockData);
-    });
-
     it('should handle API errors', async () => {
       const errorMessage = 'Levered DCF API Error';
       mockGet.mockRejectedValue(new Error(errorMessage));
@@ -198,33 +157,9 @@ describe('DCFClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/custom-levered-discounted-cash-flow', {
         ...input
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
-
-    it('should call get with options', async () => {
-      const input: CustomDCFInput = {
-        symbol: 'TSLA'
-      };
-
-      const mockData: CustomDCFOutput = {
-        symbol: 'TSLA'
-      };
-      mockGet.mockResolvedValue(mockData);
-
-      const options = {
-        signal: new AbortController().signal,
-        context: { config: { FMP_ACCESS_TOKEN: 'test-token' } }
-      };
-
-      const result = await dcfClient.calculateCustomLeveredDCF(input, options);
-
-      expect(mockGet).toHaveBeenCalledWith('/custom-levered-discounted-cash-flow', {
-        ...input
-      }, options);
-      expect(result).toEqual(mockData);
-    });
-
     it('should handle minimal input parameters', async () => {
       const input: CustomDCFInput = {
         symbol: 'MSFT',
@@ -242,7 +177,7 @@ describe('DCFClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/custom-levered-discounted-cash-flow', {
         symbol: 'MSFT',
         taxRate: 25.0
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -329,36 +264,9 @@ describe('DCFClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/custom-discounted-cash-flow', {
         ...input
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
-
-    it('should call get with options', async () => {
-      const input: CustomDCFInput = {
-        symbol: 'AMZN',
-        revenueGrowthPct: 12.0
-      };
-
-      const mockData: CustomDCFOutput = {
-        symbol: 'AMZN',
-        revenuePercentage: 12.0
-      };
-      mockGet.mockResolvedValue(mockData);
-
-      const options = {
-        signal: new AbortController().signal,
-        context: { config: { FMP_ACCESS_TOKEN: 'test-token' } }
-      };
-
-      const result = await dcfClient.calculateCustomDCF(input, options);
-
-      expect(mockGet).toHaveBeenCalledWith('/custom-discounted-cash-flow', {
-        symbol: 'AMZN',
-        revenueGrowthPct: 12.0
-      }, options);
-      expect(result).toEqual(mockData);
-    });
-
     it('should handle full parameter set', async () => {
       const input: CustomDCFInput = {
         symbol: 'META',
@@ -409,7 +317,7 @@ describe('DCFClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/custom-discounted-cash-flow', {
         ...input
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 

@@ -57,7 +57,7 @@ describe('SearchClient', () => {
         query: 'Apple',
         limit: 10,
         exchange: 'NASDAQ'
-      }, { context: undefined });
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -71,24 +71,9 @@ describe('SearchClient', () => {
         query: 'Tesla',
         limit: undefined,
         exchange: undefined
-      }, { context: undefined });
+      });
       expect(result).toEqual(mockData);
     });
-
-    it('should handle context parameter', async () => {
-      const mockData: SymbolSearchResult[] = [];
-      mockGet.mockResolvedValue(mockData);
-      const context = { config: { FMP_ACCESS_TOKEN: 'custom-token' } };
-
-      await searchClient.searchSymbol('Google', 5, 'NYSE', context);
-
-      expect(mockGet).toHaveBeenCalledWith('/search-symbol', {
-        query: 'Google',
-        limit: 5,
-        exchange: 'NYSE'
-      }, { context });
-    });
-
     it('should handle API errors', async () => {
       const errorMessage = 'API Error';
       mockGet.mockRejectedValue(new Error(errorMessage));
@@ -117,7 +102,7 @@ describe('SearchClient', () => {
         query: 'Apple Inc',
         limit: 5,
         exchange: 'NASDAQ'
-      }, { context: undefined });
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -131,22 +116,9 @@ describe('SearchClient', () => {
         query: 'Microsoft',
         limit: undefined,
         exchange: undefined
-      }, { context: undefined });
+      });
     });
 
-    it('should handle context parameter', async () => {
-      const mockData: NameSearchResult[] = [];
-      mockGet.mockResolvedValue(mockData);
-      const context = { config: { FMP_ACCESS_TOKEN: 'name-token' } };
-
-      await searchClient.searchName('Tesla', 10, 'NYSE', context);
-
-      expect(mockGet).toHaveBeenCalledWith('/search-name', {
-        query: 'Tesla',
-        limit: 10,
-        exchange: 'NYSE'
-      }, { context });
-    });
   });
 
   describe('searchCIK', () => {
@@ -168,7 +140,7 @@ describe('SearchClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/search-cik', {
         cik: '0000320193',
         limit: 10
-      }, { context: undefined });
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -181,21 +153,9 @@ describe('SearchClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/search-cik', {
         cik: '0000789019',
         limit: undefined
-      }, { context: undefined });
+      });
     });
 
-    it('should handle context parameter', async () => {
-      const mockData: CIKSearchResult[] = [];
-      mockGet.mockResolvedValue(mockData);
-      const context = { config: { FMP_ACCESS_TOKEN: 'cik-token' } };
-
-      await searchClient.searchCIK('0000051143', 5, context);
-
-      expect(mockGet).toHaveBeenCalledWith('/search-cik', {
-        cik: '0000051143',
-        limit: 5
-      }, { context });
-    });
   });
 
   describe('searchCUSIP', () => {
@@ -214,21 +174,10 @@ describe('SearchClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/search-cusip', {
         cusip: '037833100'
-      }, { context: undefined });
+      });
       expect(result).toEqual(mockData);
     });
 
-    it('should handle context parameter', async () => {
-      const mockData: CUSIPSearchResult[] = [];
-      mockGet.mockResolvedValue(mockData);
-      const context = { config: { FMP_ACCESS_TOKEN: 'cusip-token' } };
-
-      await searchClient.searchCUSIP('594918104', context);
-
-      expect(mockGet).toHaveBeenCalledWith('/search-cusip', {
-        cusip: '594918104'
-      }, { context });
-    });
   });
 
   describe('searchISIN', () => {
@@ -247,21 +196,10 @@ describe('SearchClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/search-isin', {
         isin: 'US0378331005'
-      }, { context: undefined });
+      });
       expect(result).toEqual(mockData);
     });
 
-    it('should handle context parameter', async () => {
-      const mockData: ISINSearchResult[] = [];
-      mockGet.mockResolvedValue(mockData);
-      const context = { config: { FMP_ACCESS_TOKEN: 'isin-token' } };
-
-      await searchClient.searchISIN('US5949181045', context);
-
-      expect(mockGet).toHaveBeenCalledWith('/search-isin', {
-        isin: 'US5949181045'
-      }, { context });
-    });
   });
 
   describe('stockScreener', () => {
@@ -311,9 +249,7 @@ describe('SearchClient', () => {
 
       const result = await searchClient.stockScreener(params);
 
-      expect(mockGet).toHaveBeenCalledWith('/company-screener', params, {
-        context: undefined
-      });
+      expect(mockGet).toHaveBeenCalledWith('/company-screener', params);
       expect(result).toEqual(mockData);
     });
 
@@ -325,30 +261,15 @@ describe('SearchClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/company-screener', {
         sector: 'Technology'
-      }, { context: undefined });
+      });
     });
-
-    it('should handle context parameter', async () => {
-      const mockData: StockScreenerResult[] = [];
-      mockGet.mockResolvedValue(mockData);
-      const context = { config: { FMP_ACCESS_TOKEN: 'screener-token' } };
-
-      await searchClient.stockScreener({ marketCapMoreThan: 1000000000 }, context);
-
-      expect(mockGet).toHaveBeenCalledWith('/company-screener', {
-        marketCapMoreThan: 1000000000
-      }, { context });
-    });
-
     it('should handle empty parameters object', async () => {
       const mockData: StockScreenerResult[] = [];
       mockGet.mockResolvedValue(mockData);
 
       await searchClient.stockScreener({});
 
-      expect(mockGet).toHaveBeenCalledWith('/company-screener', {}, {
-        context: undefined
-      });
+      expect(mockGet).toHaveBeenCalledWith('/company-screener', {});
     });
   });
 
@@ -400,22 +321,9 @@ describe('SearchClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/search-exchange-variants', {
         symbol: 'AAPL'
-      }, { context: undefined });
+      });
       expect(result).toEqual(mockData);
     });
-
-    it('should handle context parameter', async () => {
-      const mockData: ExchangeVariantResult[] = [];
-      mockGet.mockResolvedValue(mockData);
-      const context = { config: { FMP_ACCESS_TOKEN: 'variant-token' } };
-
-      await searchClient.searchExchangeVariants('MSFT', context);
-
-      expect(mockGet).toHaveBeenCalledWith('/search-exchange-variants', {
-        symbol: 'MSFT'
-      }, { context });
-    });
-
     it('should handle API errors', async () => {
       const errorMessage = 'Symbol not found';
       mockGet.mockRejectedValue(new Error(errorMessage));

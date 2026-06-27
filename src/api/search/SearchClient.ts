@@ -1,5 +1,4 @@
 import { FMPClient } from "../FMPClient.js";
-import type { FMPContext } from "../../types.js";
 import type {
   SymbolSearchResult,
   NameSearchResult,
@@ -17,14 +16,12 @@ export class SearchClient extends FMPClient {
    * @param query The search query
    * @param limit Optional limit on number of results (default: 50)
    * @param exchange Optional exchange filter
-   * @param context Optional context containing configuration
    * @returns Array of matching symbols
    */
   async searchSymbol(
     query: string,
     limit?: number,
-    exchange?: string,
-    context?: FMPContext
+    exchange?: string
   ): Promise<SymbolSearchResult[]> {
     return super.get<SymbolSearchResult[]>(
       "/search-symbol",
@@ -32,8 +29,7 @@ export class SearchClient extends FMPClient {
         query,
         limit,
         exchange,
-      },
-      { context }
+      }
     );
   }
 
@@ -42,14 +38,12 @@ export class SearchClient extends FMPClient {
    * @param query The search query
    * @param limit Optional limit on number of results (default: 50)
    * @param exchange Optional exchange filter
-   * @param context Optional context containing configuration
    * @returns Array of matching companies
    */
   async searchName(
     query: string,
     limit?: number,
-    exchange?: string,
-    context?: FMPContext
+    exchange?: string
   ): Promise<NameSearchResult[]> {
     return super.get<NameSearchResult[]>(
       "/search-name",
@@ -57,8 +51,7 @@ export class SearchClient extends FMPClient {
         query,
         limit,
         exchange,
-      },
-      { context }
+      }
     );
   }
 
@@ -66,55 +59,46 @@ export class SearchClient extends FMPClient {
    * Search for companies by CIK number
    * @param cik The CIK number to search for
    * @param limit Optional limit on number of results (default: 50)
-   * @param context Optional context containing configuration
    * @returns Array of matching companies
    */
   async searchCIK(
     cik: string,
-    limit?: number,
-    context?: FMPContext
+    limit?: number
   ): Promise<CIKSearchResult[]> {
     return super.get<CIKSearchResult[]>(
       "/search-cik",
-      { cik, limit },
-      { context }
+      { cik, limit }
     );
   }
 
   /**
    * Search for securities by CUSIP number
    * @param cusip The CUSIP number to search for
-   * @param context Optional context containing configuration
    * @returns Array of matching securities
    */
   async searchCUSIP(
-    cusip: string,
-    context?: FMPContext
+    cusip: string
   ): Promise<CUSIPSearchResult[]> {
     return super.get<CUSIPSearchResult[]>(
       "/search-cusip",
-      { cusip },
-      { context }
+      { cusip }
     );
   }
 
   /**
    * Search for securities by ISIN number
    * @param isin The ISIN number to search for
-   * @param context Optional context containing configuration
    * @returns Array of matching securities
    */
   async searchISIN(
-    isin: string,
-    context?: FMPContext
+    isin: string
   ): Promise<ISINSearchResult[]> {
-    return super.get<ISINSearchResult[]>("/search-isin", { isin }, { context });
+    return super.get<ISINSearchResult[]>("/search-isin", { isin });
   }
 
   /**
    * Search for stocks using various criteria
    * @param params Search criteria
-   * @param context Optional context containing configuration
    * @returns Array of matching stocks
    */
   async stockScreener(
@@ -138,30 +122,24 @@ export class SearchClient extends FMPClient {
       isActivelyTrading?: boolean;
       limit?: number;
       includeAllShareClasses?: boolean;
-    },
-    context?: FMPContext
+    }
   ): Promise<StockScreenerResult[]> {
-    return super.get<StockScreenerResult[]>("/company-screener", params, {
-      context,
-    });
+    return super.get<StockScreenerResult[]>("/company-screener", params);
   }
 
   /**
    * Search for exchange variants of a symbol
    * @param symbol The stock symbol to search for
-   * @param context Optional context containing configuration
    * @returns Array of exchange variants
    */
   async searchExchangeVariants(
-    symbol: string,
-    context?: FMPContext
+    symbol: string
   ): Promise<ExchangeVariantResult[]> {
     return super.get<ExchangeVariantResult[]>(
       "/search-exchange-variants",
       {
         symbol,
-      },
-      { context }
+      }
     );
   }
 }

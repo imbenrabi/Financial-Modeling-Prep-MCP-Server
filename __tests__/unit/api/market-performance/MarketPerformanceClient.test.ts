@@ -56,7 +56,7 @@ describe('MarketPerformanceClient', () => {
         date: '2024-01-01',
         exchange: 'NASDAQ',
         sector: 'Technology'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -68,7 +68,7 @@ describe('MarketPerformanceClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/sector-performance-snapshot', {
         date: '2024-01-01'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -108,7 +108,7 @@ describe('MarketPerformanceClient', () => {
         date: '2024-01-01',
         exchange: 'NASDAQ',
         industry: 'Software'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -120,7 +120,7 @@ describe('MarketPerformanceClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/industry-performance-snapshot', {
         date: '2024-01-01'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -162,7 +162,7 @@ describe('MarketPerformanceClient', () => {
         from: '2023-12-01',
         to: '2024-01-01',
         exchange: 'NASDAQ'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -174,7 +174,7 @@ describe('MarketPerformanceClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/historical-sector-performance', {
         sector: 'Energy'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -216,7 +216,7 @@ describe('MarketPerformanceClient', () => {
         from: '2023-12-01',
         to: '2024-01-01',
         exchange: 'NASDAQ'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -228,7 +228,7 @@ describe('MarketPerformanceClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/historical-industry-performance', {
         industry: 'Biotechnology'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -268,7 +268,7 @@ describe('MarketPerformanceClient', () => {
         date: '2024-01-01',
         exchange: 'NASDAQ',
         sector: 'Technology'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -280,7 +280,7 @@ describe('MarketPerformanceClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/sector-pe-snapshot', {
         date: '2024-01-01'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -320,7 +320,7 @@ describe('MarketPerformanceClient', () => {
         date: '2024-01-01',
         exchange: 'NASDAQ',
         industry: 'Software'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -332,7 +332,7 @@ describe('MarketPerformanceClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/industry-pe-snapshot', {
         date: '2024-01-01'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -374,7 +374,7 @@ describe('MarketPerformanceClient', () => {
         from: '2023-12-01',
         to: '2024-01-01',
         exchange: 'NASDAQ'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -386,7 +386,7 @@ describe('MarketPerformanceClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/historical-sector-pe', {
         sector: 'Energy'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -428,7 +428,7 @@ describe('MarketPerformanceClient', () => {
         from: '2023-12-01',
         to: '2024-01-01',
         exchange: 'NASDAQ'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -440,7 +440,7 @@ describe('MarketPerformanceClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/historical-industry-pe', {
         industry: 'Biotechnology'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -477,7 +477,7 @@ describe('MarketPerformanceClient', () => {
 
       const result = await marketPerformanceClient.getBiggestGainers();
 
-      expect(mockGet).toHaveBeenCalledWith('/biggest-gainers', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/biggest-gainers');
       expect(result).toEqual(mockData);
     });
 
@@ -514,7 +514,7 @@ describe('MarketPerformanceClient', () => {
 
       const result = await marketPerformanceClient.getBiggestLosers();
 
-      expect(mockGet).toHaveBeenCalledWith('/biggest-losers', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/biggest-losers');
       expect(result).toEqual(mockData);
     });
 
@@ -551,7 +551,7 @@ describe('MarketPerformanceClient', () => {
 
       const result = await marketPerformanceClient.getMostActiveStocks();
 
-      expect(mockGet).toHaveBeenCalledWith('/most-actives', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/most-actives');
       expect(result).toEqual(mockData);
     });
 

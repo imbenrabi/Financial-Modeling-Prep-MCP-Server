@@ -1,5 +1,5 @@
 import { TOOL_SETS } from "../constants/toolSets.js";
-import type { ToolSet } from "../types.js";
+import type { ToolSet } from "../types/index.js";
 
 /**
  * Result type for toolset name validation

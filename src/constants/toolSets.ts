@@ -1,4 +1,4 @@
-import type { ToolSet, ToolSetDefinition } from "../types.js";
+import type { ToolSet, ToolSetDefinition } from "../types/index.js";
 
 /**
  * Comprehensive tool sets mapping based on FMP API structure

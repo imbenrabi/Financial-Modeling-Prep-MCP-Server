@@ -53,7 +53,7 @@ describe('Form13FClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/institutional-ownership/latest', {
         page: 0,
         limit: 50
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -63,7 +63,7 @@ describe('Form13FClient', () => {
 
       const result = await form13fClient.getLatestFilings();
 
-      expect(mockGet).toHaveBeenCalledWith('/institutional-ownership/latest', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/institutional-ownership/latest', {});
       expect(result).toEqual(mockData);
     });
 
@@ -75,25 +75,6 @@ describe('Form13FClient', () => {
         .rejects.toThrow(errorMessage);
     });
 
-    it('should pass options correctly', async () => {
-      const mockData: InstitutionalOwnershipFiling[] = [];
-      mockGet.mockResolvedValue(mockData);
-      const abortSignal = new AbortController().signal;
-      const context = { config: { FMP_ACCESS_TOKEN: 'test-token' } };
-
-      await form13fClient.getLatestFilings({ page: 0, limit: 10 }, {
-        signal: abortSignal,
-        context
-      });
-
-      expect(mockGet).toHaveBeenCalledWith('/institutional-ownership/latest', {
-        page: 0,
-        limit: 10
-      }, {
-        signal: abortSignal,
-        context
-      });
-    });
   });
 
   describe('getFilingExtract', () => {
@@ -124,7 +105,7 @@ describe('Form13FClient', () => {
         cik: '0001067983',
         year: 2023,
         quarter: 4
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -138,7 +119,7 @@ describe('Form13FClient', () => {
         cik: '0001067983',
         year: '2023',
         quarter: '4'
-      }, undefined);
+      });
     });
 
     it('should handle API errors', async () => {
@@ -149,26 +130,6 @@ describe('Form13FClient', () => {
         .rejects.toThrow(errorMessage);
     });
 
-    it('should pass options correctly', async () => {
-      const mockData: SecFilingExtract[] = [];
-      mockGet.mockResolvedValue(mockData);
-      const abortSignal = new AbortController().signal;
-      const context = { config: { FMP_ACCESS_TOKEN: 'test-token' } };
-
-      await form13fClient.getFilingExtract('0001067983', 2023, 4, {
-        signal: abortSignal,
-        context
-      });
-
-      expect(mockGet).toHaveBeenCalledWith('/institutional-ownership/extract', {
-        cik: '0001067983',
-        year: 2023,
-        quarter: 4
-      }, {
-        signal: abortSignal,
-        context
-      });
-    });
   });
 
   describe('getFilingDates', () => {
@@ -191,7 +152,7 @@ describe('Form13FClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/institutional-ownership/dates', {
         cik: '0001067983'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -203,24 +164,6 @@ describe('Form13FClient', () => {
         .rejects.toThrow(errorMessage);
     });
 
-    it('should pass options correctly', async () => {
-      const mockData: Form13FFilingDate[] = [];
-      mockGet.mockResolvedValue(mockData);
-      const abortSignal = new AbortController().signal;
-      const context = { config: { FMP_ACCESS_TOKEN: 'test-token' } };
-
-      await form13fClient.getFilingDates('0001067983', {
-        signal: abortSignal,
-        context
-      });
-
-      expect(mockGet).toHaveBeenCalledWith('/institutional-ownership/dates', {
-        cik: '0001067983'
-      }, {
-        signal: abortSignal,
-        context
-      });
-    });
   });
 
   describe('getFilingExtractAnalyticsByHolder', () => {
@@ -278,7 +221,7 @@ describe('Form13FClient', () => {
         quarter: 4,
         page: 0,
         limit: 10
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -292,7 +235,7 @@ describe('Form13FClient', () => {
         symbol: 'AAPL',
         year: 2023,
         quarter: 4
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -351,7 +294,7 @@ describe('Form13FClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/institutional-ownership/holder-performance-summary', {
         cik: '0001067983',
         page: 0
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -363,7 +306,7 @@ describe('Form13FClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/institutional-ownership/holder-performance-summary', {
         cik: '0001067983'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -416,7 +359,7 @@ describe('Form13FClient', () => {
         cik: '0001067983',
         year: 2023,
         quarter: 4
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -430,7 +373,7 @@ describe('Form13FClient', () => {
         cik: '0001067983',
         year: '2023',
         quarter: '4'
-      }, undefined);
+      });
     });
 
     it('should handle API errors', async () => {
@@ -492,7 +435,7 @@ describe('Form13FClient', () => {
         symbol: 'AAPL',
         year: 2023,
         quarter: 4
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -506,7 +449,7 @@ describe('Form13FClient', () => {
         symbol: 'AAPL',
         year: '2023',
         quarter: '4'
-      }, undefined);
+      });
     });
 
     it('should handle API errors', async () => {
@@ -539,7 +482,7 @@ describe('Form13FClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/institutional-ownership/industry-summary', {
         year: 2023,
         quarter: 4
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -552,7 +495,7 @@ describe('Form13FClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/institutional-ownership/industry-summary', {
         year: '2023',
         quarter: '4'
-      }, undefined);
+      });
     });
 
     it('should handle API errors', async () => {
@@ -563,25 +506,6 @@ describe('Form13FClient', () => {
         .rejects.toThrow(errorMessage);
     });
 
-    it('should pass options correctly', async () => {
-      const mockData: IndustryPerformanceSummary[] = [];
-      mockGet.mockResolvedValue(mockData);
-      const abortSignal = new AbortController().signal;
-      const context = { config: { FMP_ACCESS_TOKEN: 'test-token' } };
-
-      await form13fClient.getIndustryPerformanceSummary(2023, 4, {
-        signal: abortSignal,
-        context
-      });
-
-      expect(mockGet).toHaveBeenCalledWith('/institutional-ownership/industry-summary', {
-        year: 2023,
-        quarter: 4
-      }, {
-        signal: abortSignal,
-        context
-      });
-    });
   });
 
   describe('constructor', () => {

@@ -89,7 +89,7 @@ describe('FundraisersClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/crowdfunding-offerings-latest', {
         page: 0,
         limit: 50
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -102,7 +102,7 @@ describe('FundraisersClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/crowdfunding-offerings-latest', {
         page: undefined,
         limit: undefined
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -135,7 +135,7 @@ describe('FundraisersClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/crowdfunding-offerings-search', {
         name: 'Example'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -208,7 +208,7 @@ describe('FundraisersClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/crowdfunding-offerings', {
         cik: '0001234567'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
   });
@@ -270,7 +270,7 @@ describe('FundraisersClient', () => {
         page: 0,
         limit: 20,
         cik: '0001234567'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -284,7 +284,7 @@ describe('FundraisersClient', () => {
         page: undefined,
         limit: undefined,
         cik: undefined
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -317,7 +317,7 @@ describe('FundraisersClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/fundraising-search', {
         name: 'Example Equity'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -385,7 +385,7 @@ describe('FundraisersClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/fundraising', {
         cik: '0001234567'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
   });

@@ -52,7 +52,7 @@ describe('ForexClient', () => {
 
       const result = await forexClient.getList();
 
-      expect(mockGet).toHaveBeenCalledWith('/forex-list', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/forex-list', {});
       expect(result).toEqual(mockData);
     });
 
@@ -64,22 +64,6 @@ describe('ForexClient', () => {
         .rejects.toThrow(errorMessage);
     });
 
-    it('should pass options correctly', async () => {
-      const mockData: ForexPair[] = [];
-      mockGet.mockResolvedValue(mockData);
-      const abortSignal = new AbortController().signal;
-      const context = { config: { FMP_ACCESS_TOKEN: 'test-token' } };
-
-      await forexClient.getList({
-        signal: abortSignal,
-        context
-      });
-
-      expect(mockGet).toHaveBeenCalledWith('/forex-list', {}, {
-        signal: abortSignal,
-        context
-      });
-    });
   });
 
   describe('getQuote', () => {
@@ -111,7 +95,7 @@ describe('ForexClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/quote', {
         symbol: 'EURUSD'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -123,24 +107,6 @@ describe('ForexClient', () => {
         .rejects.toThrow(errorMessage);
     });
 
-    it('should pass options correctly', async () => {
-      const mockData: ForexQuote[] = [];
-      mockGet.mockResolvedValue(mockData);
-      const abortSignal = new AbortController().signal;
-      const context = { config: { FMP_ACCESS_TOKEN: 'test-token' } };
-
-      await forexClient.getQuote('EURUSD', {
-        signal: abortSignal,
-        context
-      });
-
-      expect(mockGet).toHaveBeenCalledWith('/quote', {
-        symbol: 'EURUSD'
-      }, {
-        signal: abortSignal,
-        context
-      });
-    });
   });
 
   describe('getShortQuote', () => {
@@ -159,7 +125,7 @@ describe('ForexClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/quote-short', {
         symbol: 'GBPUSD'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -171,24 +137,6 @@ describe('ForexClient', () => {
         .rejects.toThrow(errorMessage);
     });
 
-    it('should pass options correctly', async () => {
-      const mockData: ForexShortQuote[] = [];
-      mockGet.mockResolvedValue(mockData);
-      const abortSignal = new AbortController().signal;
-      const context = { config: { FMP_ACCESS_TOKEN: 'test-token' } };
-
-      await forexClient.getShortQuote('GBPUSD', {
-        signal: abortSignal,
-        context
-      });
-
-      expect(mockGet).toHaveBeenCalledWith('/quote-short', {
-        symbol: 'GBPUSD'
-      }, {
-        signal: abortSignal,
-        context
-      });
-    });
   });
 
   describe('getBatchQuotes', () => {
@@ -213,7 +161,7 @@ describe('ForexClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/batch-forex-quotes', {
         short: true
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -225,7 +173,7 @@ describe('ForexClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/batch-forex-quotes', {
         short: undefined
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -237,24 +185,6 @@ describe('ForexClient', () => {
         .rejects.toThrow(errorMessage);
     });
 
-    it('should pass options correctly', async () => {
-      const mockData: ForexShortQuote[] = [];
-      mockGet.mockResolvedValue(mockData);
-      const abortSignal = new AbortController().signal;
-      const context = { config: { FMP_ACCESS_TOKEN: 'test-token' } };
-
-      await forexClient.getBatchQuotes(true, {
-        signal: abortSignal,
-        context
-      });
-
-      expect(mockGet).toHaveBeenCalledWith('/batch-forex-quotes', {
-        short: true
-      }, {
-        signal: abortSignal,
-        context
-      });
-    });
   });
 
   describe('getHistoricalLightChart', () => {
@@ -281,7 +211,7 @@ describe('ForexClient', () => {
         symbol: 'EURUSD',
         from: '2024-01-01',
         to: '2024-01-31'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -295,7 +225,7 @@ describe('ForexClient', () => {
         symbol: 'EURUSD',
         from: undefined,
         to: undefined
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -332,7 +262,7 @@ describe('ForexClient', () => {
         symbol: 'EURUSD',
         from: '2024-01-01',
         to: '2024-01-31'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -346,7 +276,7 @@ describe('ForexClient', () => {
         symbol: 'EURUSD',
         from: undefined,
         to: undefined
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -387,7 +317,7 @@ describe('ForexClient', () => {
         symbol: 'EURUSD',
         from: '2024-01-01',
         to: '2024-01-01'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -401,7 +331,7 @@ describe('ForexClient', () => {
         symbol: 'EURUSD',
         from: undefined,
         to: undefined
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -434,7 +364,7 @@ describe('ForexClient', () => {
         symbol: 'EURUSD',
         from: '2024-01-01',
         to: '2024-01-01'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -448,7 +378,7 @@ describe('ForexClient', () => {
         symbol: 'EURUSD',
         from: undefined,
         to: undefined
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -481,7 +411,7 @@ describe('ForexClient', () => {
         symbol: 'EURUSD',
         from: '2024-01-01',
         to: '2024-01-02'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -495,7 +425,7 @@ describe('ForexClient', () => {
         symbol: 'EURUSD',
         from: undefined,
         to: undefined
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -507,26 +437,6 @@ describe('ForexClient', () => {
         .rejects.toThrow(errorMessage);
     });
 
-    it('should pass options correctly', async () => {
-      const mockData: ForexIntradayChart[] = [];
-      mockGet.mockResolvedValue(mockData);
-      const abortSignal = new AbortController().signal;
-      const context = { config: { FMP_ACCESS_TOKEN: 'test-token' } };
-
-      await forexClient.get1HourData('EURUSD', '2024-01-01', '2024-01-02', {
-        signal: abortSignal,
-        context
-      });
-
-      expect(mockGet).toHaveBeenCalledWith('/historical-chart/1hour', {
-        symbol: 'EURUSD',
-        from: '2024-01-01',
-        to: '2024-01-02'
-      }, {
-        signal: abortSignal,
-        context
-      });
-    });
   });
 
   describe('constructor', () => {

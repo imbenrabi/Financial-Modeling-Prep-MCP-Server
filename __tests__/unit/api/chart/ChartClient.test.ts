@@ -53,7 +53,7 @@ describe('ChartClient', () => {
         symbol: 'AAPL',
         from: '2024-01-01',
         to: '2024-01-31'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -67,7 +67,7 @@ describe('ChartClient', () => {
         symbol: 'MSFT',
         from: undefined,
         to: undefined
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -79,23 +79,6 @@ describe('ChartClient', () => {
         .rejects.toThrow(errorMessage);
     });
 
-    it('should pass options to get method', async () => {
-      const mockData: LightChartData[] = [];
-      mockGet.mockResolvedValue(mockData);
-      
-      const options = { 
-        signal: new AbortController().signal,
-        context: { config: { FMP_ACCESS_TOKEN: 'test-token' } }
-      };
-
-      await chartClient.getLightChart('AAPL', '2024-01-01', '2024-01-31', options);
-
-      expect(mockGet).toHaveBeenCalledWith('/historical-price-eod/light', {
-        symbol: 'AAPL',
-        from: '2024-01-01',
-        to: '2024-01-31'
-      }, options);
-    });
   });
 
   describe('getFullChart', () => {
@@ -122,7 +105,7 @@ describe('ChartClient', () => {
         symbol: 'AAPL',
         from: '2024-01-01',
         to: '2024-01-31'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -136,7 +119,7 @@ describe('ChartClient', () => {
         symbol: 'TSLA',
         from: undefined,
         to: undefined
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -170,7 +153,7 @@ describe('ChartClient', () => {
         symbol: 'AAPL',
         from: '2024-01-01',
         to: '2024-01-31'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -184,7 +167,7 @@ describe('ChartClient', () => {
         symbol: 'GOOGL',
         from: undefined,
         to: undefined
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -218,7 +201,7 @@ describe('ChartClient', () => {
         symbol: 'AAPL',
         from: '2024-01-01',
         to: '2024-01-31'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -232,7 +215,7 @@ describe('ChartClient', () => {
         symbol: 'IBM',
         from: undefined,
         to: undefined
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -273,7 +256,7 @@ describe('ChartClient', () => {
         symbol: 'AAPL',
         from: '2024-01-01',
         to: '2024-01-01'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -290,7 +273,7 @@ describe('ChartClient', () => {
           symbol: 'AAPL',
           from: undefined,
           to: undefined
-        }, undefined);
+        });
       }
     });
 
@@ -304,7 +287,7 @@ describe('ChartClient', () => {
         symbol: 'NVDA',
         from: undefined,
         to: undefined
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -316,23 +299,6 @@ describe('ChartClient', () => {
         .rejects.toThrow(errorMessage);
     });
 
-    it('should pass options to get method', async () => {
-      const mockData: IntradayChartData[] = [];
-      mockGet.mockResolvedValue(mockData);
-      
-      const options = { 
-        signal: new AbortController().signal,
-        context: { config: { FMP_ACCESS_TOKEN: 'test-token' } }
-      };
-
-      await chartClient.getIntradayChart('AAPL', '15min', '2024-01-01', '2024-01-01', options);
-
-      expect(mockGet).toHaveBeenCalledWith('/historical-chart/15min', {
-        symbol: 'AAPL',
-        from: '2024-01-01',
-        to: '2024-01-01'
-      }, options);
-    });
   });
 
   describe('constructor', () => {

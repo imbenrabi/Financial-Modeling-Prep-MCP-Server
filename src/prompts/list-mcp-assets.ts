@@ -1,5 +1,5 @@
 import { TOOL_SETS } from "../constants/toolSets.js";
-import type { ServerMode, ToolSet } from "../types.js";
+import type { ServerMode, ToolSet } from "../types/index.js";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 
 export interface PromptContext {

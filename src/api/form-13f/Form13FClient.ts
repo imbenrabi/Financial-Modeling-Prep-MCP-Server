@@ -1,5 +1,4 @@
 import { FMPClient } from "../FMPClient.js";
-import type { FMPContext } from "../../types.js";
 import type {
   InstitutionalOwnershipFiling,
   SecFilingExtract,
@@ -18,19 +17,13 @@ export class Form13FClient extends FMPClient {
   /**
    * Get latest institutional ownership filings
    * @param params Optional pagination parameters
-   * @param options Optional parameters including abort signal and context
    */
   async getLatestFilings(
-    params: { page?: number; limit?: number } = {},
-    options?: {
-      signal?: AbortSignal;
-      context?: FMPContext;
-    }
+    params: { page?: number; limit?: number } = {}
   ): Promise<InstitutionalOwnershipFiling[]> {
     return super.get<InstitutionalOwnershipFiling[]>(
       "/institutional-ownership/latest",
-      params,
-      options
+      params
     );
   }
 
@@ -39,16 +32,11 @@ export class Form13FClient extends FMPClient {
    * @param cik CIK number
    * @param year Year of filing
    * @param quarter Quarter of filing
-   * @param options Optional parameters including abort signal and context
    */
   async getFilingExtract(
     cik: string,
     year: string | number,
-    quarter: string | number,
-    options?: {
-      signal?: AbortSignal;
-      context?: FMPContext;
-    }
+    quarter: string | number
   ): Promise<SecFilingExtract[]> {
     return super.get<SecFilingExtract[]>(
       "/institutional-ownership/extract",
@@ -56,29 +44,22 @@ export class Form13FClient extends FMPClient {
         cik,
         year,
         quarter,
-      },
-      options
+      }
     );
   }
 
   /**
    * Get filing dates for a CIK
    * @param cik CIK number
-   * @param options Optional parameters including abort signal and context
    */
   async getFilingDates(
-    cik: string,
-    options?: {
-      signal?: AbortSignal;
-      context?: FMPContext;
-    }
+    cik: string
   ): Promise<Form13FFilingDate[]> {
     return super.get<Form13FFilingDate[]>(
       "/institutional-ownership/dates",
       {
         cik,
-      },
-      options
+      }
     );
   }
 
@@ -88,17 +69,12 @@ export class Form13FClient extends FMPClient {
    * @param year Year of filing
    * @param quarter Quarter of filing
    * @param params Optional pagination parameters
-   * @param options Optional parameters including abort signal and context
    */
   async getFilingExtractAnalyticsByHolder(
     symbol: string,
     year: string | number,
     quarter: string | number,
-    params: { page?: number; limit?: number } = {},
-    options?: {
-      signal?: AbortSignal;
-      context?: FMPContext;
-    }
+    params: { page?: number; limit?: number } = {}
   ): Promise<FilingExtractAnalytics[]> {
     return super.get<FilingExtractAnalytics[]>(
       "/institutional-ownership/extract-analytics/holder",
@@ -107,8 +83,7 @@ export class Form13FClient extends FMPClient {
         year,
         quarter,
         ...params,
-      },
-      options
+      }
     );
   }
 
@@ -116,23 +91,17 @@ export class Form13FClient extends FMPClient {
    * Get holder performance summary
    * @param cik CIK number
    * @param params Optional pagination parameters
-   * @param options Optional parameters including abort signal and context
    */
   async getHolderPerformanceSummary(
     cik: string,
-    params: { page?: number } = {},
-    options?: {
-      signal?: AbortSignal;
-      context?: FMPContext;
-    }
+    params: { page?: number } = {}
   ): Promise<HolderPerformanceSummary[]> {
     return super.get<HolderPerformanceSummary[]>(
       "/institutional-ownership/holder-performance-summary",
       {
         cik,
         ...params,
-      },
-      options
+      }
     );
   }
 
@@ -141,16 +110,11 @@ export class Form13FClient extends FMPClient {
    * @param cik CIK number
    * @param year Year of filing
    * @param quarter Quarter of filing
-   * @param options Optional parameters including abort signal and context
    */
   async getHolderIndustryBreakdown(
     cik: string,
     year: string | number,
-    quarter: string | number,
-    options?: {
-      signal?: AbortSignal;
-      context?: FMPContext;
-    }
+    quarter: string | number
   ): Promise<HolderIndustryBreakdown[]> {
     return super.get<HolderIndustryBreakdown[]>(
       "/institutional-ownership/holder-industry-breakdown",
@@ -158,8 +122,7 @@ export class Form13FClient extends FMPClient {
         cik,
         year,
         quarter,
-      },
-      options
+      }
     );
   }
 
@@ -168,16 +131,11 @@ export class Form13FClient extends FMPClient {
    * @param symbol Stock symbol
    * @param year Year of filing
    * @param quarter Quarter of filing
-   * @param options Optional parameters including abort signal and context
    */
   async getPositionsSummary(
     symbol: string,
     year: string | number,
-    quarter: string | number,
-    options?: {
-      signal?: AbortSignal;
-      context?: FMPContext;
-    }
+    quarter: string | number
   ): Promise<PositionsSummary[]> {
     return super.get<PositionsSummary[]>(
       "/institutional-ownership/symbol-positions-summary",
@@ -185,8 +143,7 @@ export class Form13FClient extends FMPClient {
         symbol,
         year,
         quarter,
-      },
-      options
+      }
     );
   }
 
@@ -194,23 +151,17 @@ export class Form13FClient extends FMPClient {
    * Get industry performance summary
    * @param year Year of filing
    * @param quarter Quarter of filing
-   * @param options Optional parameters including abort signal and context
    */
   async getIndustryPerformanceSummary(
     year: string | number,
-    quarter: string | number,
-    options?: {
-      signal?: AbortSignal;
-      context?: FMPContext;
-    }
+    quarter: string | number
   ): Promise<IndustryPerformanceSummary[]> {
     return super.get<IndustryPerformanceSummary[]>(
       "/institutional-ownership/industry-summary",
       {
         year,
         quarter,
-      },
-      options
+      }
     );
   }
 }

@@ -1,7 +1,5 @@
 import { describe, it, expect } from 'vitest';
 import { SessionConfigSchema } from '../../../src/schemas/SessionConfigSchema.js';
-import { QuotesClient } from '../../../src/api/quotes/QuotesClient.js';
-import type { FMPContext } from '../../../src/types/index.js';
 
 describe('SessionConfigSchema', () => {
   it('accepts configuration without FMP_ACCESS_TOKEN', () => {
@@ -19,15 +17,4 @@ describe('SessionConfigSchema', () => {
     expect(parsed.DYNAMIC_TOOL_DISCOVERY).toBe('true');
   });
 });
-
-describe('FMP token requirement at call time', () => {
-  it('throws when calling a client operation without a token', async () => {
-    const client = new QuotesClient();
-    const context: FMPContext = { config: {} };
-    await expect(
-      client.getQuote({ symbol: 'AAPL' }, { context })
-    ).rejects.toThrow(/FMP_ACCESS_TOKEN is required/);
-  });
-});
-
 

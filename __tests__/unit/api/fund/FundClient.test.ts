@@ -65,24 +65,9 @@ describe('FundClient', () => {
 
       const result = await fundClient.getHoldings('SPY');
 
-      expect(mockGet).toHaveBeenCalledWith('/etf/holdings', { symbol: 'SPY' }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/etf/holdings', { symbol: 'SPY' });
       expect(result).toEqual(mockData);
     });
-
-    it('should handle options parameter', async () => {
-      const mockData: FundHolding[] = [];
-      mockGet.mockResolvedValue(mockData);
-
-      const options = { 
-        signal: new AbortController().signal,
-        context: { config: { FMP_ACCESS_TOKEN: 'test-token' } }
-      };
-
-      await fundClient.getHoldings('VTI', options);
-
-      expect(mockGet).toHaveBeenCalledWith('/etf/holdings', { symbol: 'VTI' }, options);
-    });
-
     it('should handle API errors', async () => {
       const errorMessage = 'API Error';
       mockGet.mockRejectedValue(new Error(errorMessage));
@@ -122,23 +107,10 @@ describe('FundClient', () => {
 
       const result = await fundClient.getInfo('SPY');
 
-      expect(mockGet).toHaveBeenCalledWith('/etf/info', { symbol: 'SPY' }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/etf/info', { symbol: 'SPY' });
       expect(result).toEqual(mockData);
     });
 
-    it('should handle options parameter', async () => {
-      const mockData: FundInfo = {} as FundInfo;
-      mockGet.mockResolvedValue(mockData);
-
-      const options = { 
-        signal: new AbortController().signal,
-        context: { config: { FMP_ACCESS_TOKEN: 'test-token' } }
-      };
-
-      await fundClient.getInfo('VTI', options);
-
-      expect(mockGet).toHaveBeenCalledWith('/etf/info', { symbol: 'VTI' }, options);
-    });
   });
 
   describe('getCountryAllocation', () => {
@@ -154,23 +126,10 @@ describe('FundClient', () => {
 
       const result = await fundClient.getCountryAllocation('VEA');
 
-      expect(mockGet).toHaveBeenCalledWith('/etf/country-weightings', { symbol: 'VEA' }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/etf/country-weightings', { symbol: 'VEA' });
       expect(result).toEqual(mockData);
     });
 
-    it('should handle options parameter', async () => {
-      const mockData: FundCountryAllocation[] = [];
-      mockGet.mockResolvedValue(mockData);
-
-      const options = { 
-        signal: new AbortController().signal,
-        context: { config: { FMP_ACCESS_TOKEN: 'test-token' } }
-      };
-
-      await fundClient.getCountryAllocation('VEA', options);
-
-      expect(mockGet).toHaveBeenCalledWith('/etf/country-weightings', { symbol: 'VEA' }, options);
-    });
   });
 
   describe('getAssetExposure', () => {
@@ -202,23 +161,10 @@ describe('FundClient', () => {
 
       const result = await fundClient.getAssetExposure('QQQ');
 
-      expect(mockGet).toHaveBeenCalledWith('/etf/asset-exposure', { symbol: 'QQQ' }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/etf/asset-exposure', { symbol: 'QQQ' });
       expect(result).toEqual(mockData);
     });
 
-    it('should handle options parameter', async () => {
-      const mockData: FundAssetExposure[] = [];
-      mockGet.mockResolvedValue(mockData);
-
-      const options = { 
-        signal: new AbortController().signal,
-        context: { config: { FMP_ACCESS_TOKEN: 'test-token' } }
-      };
-
-      await fundClient.getAssetExposure('QQQ', options);
-
-      expect(mockGet).toHaveBeenCalledWith('/etf/asset-exposure', { symbol: 'QQQ' }, options);
-    });
   });
 
   describe('getSectorWeighting', () => {
@@ -234,23 +180,10 @@ describe('FundClient', () => {
 
       const result = await fundClient.getSectorWeighting('XLK');
 
-      expect(mockGet).toHaveBeenCalledWith('/etf/sector-weightings', { symbol: 'XLK' }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/etf/sector-weightings', { symbol: 'XLK' });
       expect(result).toEqual(mockData);
     });
 
-    it('should handle options parameter', async () => {
-      const mockData: FundSectorWeighting[] = [];
-      mockGet.mockResolvedValue(mockData);
-
-      const options = { 
-        signal: new AbortController().signal,
-        context: { config: { FMP_ACCESS_TOKEN: 'test-token' } }
-      };
-
-      await fundClient.getSectorWeighting('XLK', options);
-
-      expect(mockGet).toHaveBeenCalledWith('/etf/sector-weightings', { symbol: 'XLK' }, options);
-    });
   });
 
   describe('getDisclosure', () => {
@@ -285,23 +218,10 @@ describe('FundClient', () => {
 
       const result = await fundClient.getDisclosure('SPY');
 
-      expect(mockGet).toHaveBeenCalledWith('/funds/disclosure-holders-latest', { symbol: 'SPY' }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/funds/disclosure-holders-latest', { symbol: 'SPY' });
       expect(result).toEqual(mockData);
     });
 
-    it('should handle options parameter', async () => {
-      const mockData: FundDisclosureHolder[] = [];
-      mockGet.mockResolvedValue(mockData);
-
-      const options = { 
-        signal: new AbortController().signal,
-        context: { config: { FMP_ACCESS_TOKEN: 'test-token' } }
-      };
-
-      await fundClient.getDisclosure('SPY', options);
-
-      expect(mockGet).toHaveBeenCalledWith('/funds/disclosure-holders-latest', { symbol: 'SPY' }, options);
-    });
   });
 
   describe('searchDisclosures', () => {
@@ -342,23 +262,10 @@ describe('FundClient', () => {
 
       const result = await fundClient.searchDisclosures('Vanguard');
 
-      expect(mockGet).toHaveBeenCalledWith('/funds/disclosure-holders-search', { name: 'Vanguard' }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/funds/disclosure-holders-search', { name: 'Vanguard' });
       expect(result).toEqual(mockData);
     });
 
-    it('should handle options parameter', async () => {
-      const mockData: FundDisclosureSearch[] = [];
-      mockGet.mockResolvedValue(mockData);
-
-      const options = { 
-        signal: new AbortController().signal,
-        context: { config: { FMP_ACCESS_TOKEN: 'test-token' } }
-      };
-
-      await fundClient.searchDisclosures('Fidelity', options);
-
-      expect(mockGet).toHaveBeenCalledWith('/funds/disclosure-holders-search', { name: 'Fidelity' }, options);
-    });
   });
 
   describe('getDisclosureDates', () => {
@@ -373,7 +280,7 @@ describe('FundClient', () => {
 
       const result = await fundClient.getDisclosureDates('SPY');
 
-      expect(mockGet).toHaveBeenCalledWith('/funds/disclosure-dates', { symbol: 'SPY', cik: undefined }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/funds/disclosure-dates', { symbol: 'SPY', cik: undefined });
       expect(result).toEqual(mockData);
     });
 
@@ -386,24 +293,9 @@ describe('FundClient', () => {
 
       const result = await fundClient.getDisclosureDates('SPY', '0000315066');
 
-      expect(mockGet).toHaveBeenCalledWith('/funds/disclosure-dates', { symbol: 'SPY', cik: '0000315066' }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/funds/disclosure-dates', { symbol: 'SPY', cik: '0000315066' });
       expect(result).toEqual(mockData);
     });
-
-    it('should handle options parameter', async () => {
-      const mockData: FundDisclosureDate[] = [];
-      mockGet.mockResolvedValue(mockData);
-
-      const options = { 
-        signal: new AbortController().signal,
-        context: { config: { FMP_ACCESS_TOKEN: 'test-token' } }
-      };
-
-      await fundClient.getDisclosureDates('SPY', '0000315066', options);
-
-      expect(mockGet).toHaveBeenCalledWith('/funds/disclosure-dates', { symbol: 'SPY', cik: '0000315066' }, options);
-    });
-
     it('should handle API errors', async () => {
       const errorMessage = 'API Error';
       mockGet.mockRejectedValue(new Error(errorMessage));
@@ -446,7 +338,7 @@ describe('FundClient', () => {
 
       const result = await fundClient.getFundDisclosure('SPY', 2024, 1);
 
-      expect(mockGet).toHaveBeenCalledWith('/funds/disclosure', { symbol: 'SPY', year: 2024, quarter: 1, cik: undefined }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/funds/disclosure', { symbol: 'SPY', year: 2024, quarter: 1, cik: undefined });
       expect(result).toEqual(mockData);
     });
 
@@ -456,23 +348,10 @@ describe('FundClient', () => {
 
       const result = await fundClient.getFundDisclosure('SPY', 2024, 1, '0000315066');
 
-      expect(mockGet).toHaveBeenCalledWith('/funds/disclosure', { symbol: 'SPY', year: 2024, quarter: 1, cik: '0000315066' }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/funds/disclosure', { symbol: 'SPY', year: 2024, quarter: 1, cik: '0000315066' });
       expect(result).toEqual(mockData);
     });
 
-    it('should handle options parameter', async () => {
-      const mockData: FundDisclosure[] = [];
-      mockGet.mockResolvedValue(mockData);
-
-      const options = { 
-        signal: new AbortController().signal,
-        context: { config: { FMP_ACCESS_TOKEN: 'test-token' } }
-      };
-
-      await fundClient.getFundDisclosure('SPY', 2024, 1, '0000315066', options);
-
-      expect(mockGet).toHaveBeenCalledWith('/funds/disclosure', { symbol: 'SPY', year: 2024, quarter: 1, cik: '0000315066' }, options);
-    });
   });
 
   describe('constructor', () => {
