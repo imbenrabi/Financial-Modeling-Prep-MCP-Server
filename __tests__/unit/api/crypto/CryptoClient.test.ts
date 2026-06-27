@@ -54,7 +54,7 @@ describe('CryptoClient', () => {
 
       const result = await cryptoClient.getList();
 
-      expect(mockGet).toHaveBeenCalledWith('/cryptocurrency-list', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/cryptocurrency-list', {});
       expect(result).toEqual(mockData);
     });
 
@@ -64,16 +64,6 @@ describe('CryptoClient', () => {
 
       await expect(cryptoClient.getList())
         .rejects.toThrow(errorMessage);
-    });
-
-    it('should call get with options', async () => {
-      const mockData: Cryptocurrency[] = [];
-      mockGet.mockResolvedValue(mockData);
-
-      const options = { signal: new AbortController().signal };
-      await cryptoClient.getList(options);
-
-      expect(mockGet).toHaveBeenCalledWith('/cryptocurrency-list', {}, options);
     });
   });
 
@@ -104,7 +94,7 @@ describe('CryptoClient', () => {
 
       const result = await cryptoClient.getQuote('BTCUSD');
 
-      expect(mockGet).toHaveBeenCalledWith('/quote', { symbol: 'BTCUSD' }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/quote', { symbol: 'BTCUSD' });
       expect(result).toEqual(mockData);
     });
 
@@ -114,16 +104,6 @@ describe('CryptoClient', () => {
 
       await expect(cryptoClient.getQuote('BTCUSD'))
         .rejects.toThrow(errorMessage);
-    });
-
-    it('should call get with options', async () => {
-      const mockData: CryptocurrencyQuote[] = [];
-      mockGet.mockResolvedValue(mockData);
-
-      const options = { signal: new AbortController().signal };
-      await cryptoClient.getQuote('BTCUSD', options);
-
-      expect(mockGet).toHaveBeenCalledWith('/quote', { symbol: 'BTCUSD' }, options);
     });
   });
 
@@ -141,7 +121,7 @@ describe('CryptoClient', () => {
 
       const result = await cryptoClient.getShortQuote('BTCUSD');
 
-      expect(mockGet).toHaveBeenCalledWith('/quote-short', { symbol: 'BTCUSD' }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/quote-short', { symbol: 'BTCUSD' });
       expect(result).toEqual(mockData);
     });
 
@@ -151,16 +131,6 @@ describe('CryptoClient', () => {
 
       await expect(cryptoClient.getShortQuote('BTCUSD'))
         .rejects.toThrow(errorMessage);
-    });
-
-    it('should call get with options', async () => {
-      const mockData: CryptocurrencyShortQuote[] = [];
-      mockGet.mockResolvedValue(mockData);
-
-      const options = { signal: new AbortController().signal };
-      await cryptoClient.getShortQuote('ETHUSD', options);
-
-      expect(mockGet).toHaveBeenCalledWith('/quote-short', { symbol: 'ETHUSD' }, options);
     });
   });
 
@@ -184,7 +154,7 @@ describe('CryptoClient', () => {
 
       const result = await cryptoClient.getBatchQuotes();
 
-      expect(mockGet).toHaveBeenCalledWith('/batch-crypto-quotes', { short: undefined }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/batch-crypto-quotes', { short: undefined });
       expect(result).toEqual(mockData);
     });
 
@@ -194,7 +164,7 @@ describe('CryptoClient', () => {
 
       const result = await cryptoClient.getBatchQuotes(true);
 
-      expect(mockGet).toHaveBeenCalledWith('/batch-crypto-quotes', { short: true }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/batch-crypto-quotes', { short: true });
       expect(result).toEqual(mockData);
     });
 
@@ -204,7 +174,7 @@ describe('CryptoClient', () => {
 
       const result = await cryptoClient.getBatchQuotes(false);
 
-      expect(mockGet).toHaveBeenCalledWith('/batch-crypto-quotes', { short: false }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/batch-crypto-quotes', { short: false });
       expect(result).toEqual(mockData);
     });
 
@@ -214,16 +184,6 @@ describe('CryptoClient', () => {
 
       await expect(cryptoClient.getBatchQuotes())
         .rejects.toThrow(errorMessage);
-    });
-
-    it('should call get with options', async () => {
-      const mockData: CryptocurrencyShortQuote[] = [];
-      mockGet.mockResolvedValue(mockData);
-
-      const options = { signal: new AbortController().signal };
-      await cryptoClient.getBatchQuotes(true, options);
-
-      expect(mockGet).toHaveBeenCalledWith('/batch-crypto-quotes', { short: true }, options);
     });
   });
 
@@ -251,7 +211,7 @@ describe('CryptoClient', () => {
         symbol: 'BTCUSD',
         from: '2024-01-01',
         to: '2024-01-02'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -265,7 +225,7 @@ describe('CryptoClient', () => {
         symbol: 'BTCUSD',
         from: undefined,
         to: undefined
-      }, undefined);
+      });
     });
 
     it('should handle API errors', async () => {
@@ -274,20 +234,6 @@ describe('CryptoClient', () => {
 
       await expect(cryptoClient.getHistoricalLightChart('BTCUSD'))
         .rejects.toThrow(errorMessage);
-    });
-
-    it('should call get with options', async () => {
-      const mockData: CryptocurrencyLightChart[] = [];
-      mockGet.mockResolvedValue(mockData);
-
-      const options = { signal: new AbortController().signal };
-      await cryptoClient.getHistoricalLightChart('BTCUSD', undefined, undefined, options);
-
-      expect(mockGet).toHaveBeenCalledWith('/historical-price-eod/light', {
-        symbol: 'BTCUSD',
-        from: undefined,
-        to: undefined
-      }, options);
     });
   });
 
@@ -315,7 +261,7 @@ describe('CryptoClient', () => {
         symbol: 'BTCUSD',
         from: '2024-01-01',
         to: '2024-01-02'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -329,7 +275,7 @@ describe('CryptoClient', () => {
         symbol: 'BTCUSD',
         from: undefined,
         to: undefined
-      }, undefined);
+      });
     });
 
     it('should handle API errors', async () => {
@@ -369,7 +315,7 @@ describe('CryptoClient', () => {
         symbol: 'BTCUSD',
         from: '2024-01-01',
         to: '2024-01-02'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -383,7 +329,7 @@ describe('CryptoClient', () => {
         symbol: 'BTCUSD',
         from: undefined,
         to: undefined
-      }, undefined);
+      });
     });
 
     it('should handle API errors', async () => {
@@ -415,7 +361,7 @@ describe('CryptoClient', () => {
         symbol: 'ETHUSD',
         from: '2024-01-01',
         to: '2024-01-02'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -429,7 +375,7 @@ describe('CryptoClient', () => {
         symbol: 'ETHUSD',
         from: undefined,
         to: undefined
-      }, undefined);
+      });
     });
 
     it('should handle API errors', async () => {
@@ -461,7 +407,7 @@ describe('CryptoClient', () => {
         symbol: 'BTCUSD',
         from: '2024-01-01',
         to: '2024-01-02'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -475,7 +421,7 @@ describe('CryptoClient', () => {
         symbol: 'BTCUSD',
         from: undefined,
         to: undefined
-      }, undefined);
+      });
     });
 
     it('should handle API errors', async () => {
@@ -484,20 +430,6 @@ describe('CryptoClient', () => {
 
       await expect(cryptoClient.get1HourData('BTCUSD'))
         .rejects.toThrow(errorMessage);
-    });
-
-    it('should call get with options', async () => {
-      const mockData: CryptocurrencyIntradayPrice[] = [];
-      mockGet.mockResolvedValue(mockData);
-
-      const options = { signal: new AbortController().signal };
-      await cryptoClient.get1HourData('BTCUSD', '2024-01-01', '2024-01-02', options);
-
-      expect(mockGet).toHaveBeenCalledWith('/historical-chart/1hour', {
-        symbol: 'BTCUSD',
-        from: '2024-01-01',
-        to: '2024-01-02'
-      }, options);
     });
   });
 

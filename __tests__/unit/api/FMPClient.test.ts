@@ -11,36 +11,24 @@ class TestFMPClient extends FMPClient {
   // Expose protected methods for testing
   public async testGet<T>(
     endpoint: string,
-    params: Record<string, any> = {},
-    options?: {
-      signal?: AbortSignal;
-      context?: { config?: { FMP_ACCESS_TOKEN?: string } };
-    }
+    params: Record<string, any> = {}
   ): Promise<T> {
-    return super.get<T>(endpoint, params, options);
+    return super.get<T>(endpoint, params);
   }
 
   public async testGetCSV(
     endpoint: string,
-    params: Record<string, any> = {},
-    options?: {
-      signal?: AbortSignal;
-      context?: { config?: { FMP_ACCESS_TOKEN?: string } };
-    }
+    params: Record<string, any> = {}
   ): Promise<string> {
-    return super.getCSV(endpoint, params, options);
+    return super.getCSV(endpoint, params);
   }
 
   public async testPost<T>(
     endpoint: string,
     data: any,
-    params: Record<string, any> = {},
-    options?: {
-      signal?: AbortSignal;
-      context?: { config?: { FMP_ACCESS_TOKEN?: string } };
-    }
+    params: Record<string, any> = {}
   ): Promise<T> {
-    return super.post<T>(endpoint, data, params, options);
+    return super.post<T>(endpoint, data, params);
   }
 }
 
@@ -92,36 +80,7 @@ describe('FMPClient', () => {
   });
 
   describe('API Key Resolution Priority', () => {
-    it('should prioritize context config over constructor parameter', async () => {
-      client = new TestFMPClient('constructor-token');
-      
-      mockAxiosInstance.get.mockResolvedValue({ data: { result: 'success' } });
-      
-      await client.testGet('/test', {}, {
-        context: { config: { FMP_ACCESS_TOKEN: 'context-token' } }
-      });
-      
-      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/test', {
-        params: { apikey: 'context-token' }
-      });
-    });
-
-    it('should prioritize context config over environment variable', async () => {
-      process.env.FMP_ACCESS_TOKEN = 'env-token';
-      client = new TestFMPClient();
-      
-      mockAxiosInstance.get.mockResolvedValue({ data: { result: 'success' } });
-      
-      await client.testGet('/test', {}, {
-        context: { config: { FMP_ACCESS_TOKEN: 'context-token' } }
-      });
-      
-      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/test', {
-        params: { apikey: 'context-token' }
-      });
-    });
-
-    it('should fall back to constructor parameter when no context', async () => {
+    it('should use constructor parameter', async () => {
       client = new TestFMPClient('constructor-token');
       
       mockAxiosInstance.get.mockResolvedValue({ data: { result: 'success' } });
@@ -133,7 +92,7 @@ describe('FMPClient', () => {
       });
     });
 
-    it('should fall back to environment variable when no context or constructor parameter', async () => {
+    it('should fall back to environment variable when no constructor parameter', async () => {
       process.env.FMP_ACCESS_TOKEN = 'env-token';
       client = new TestFMPClient();
       
@@ -169,20 +128,6 @@ describe('FMPClient', () => {
       expect(result).toEqual(mockData);
       expect(mockAxiosInstance.get).toHaveBeenCalledWith('/test', {
         params: { symbol: 'AAPL', apikey: 'test-token' }
-      });
-    });
-
-    it('should include abort signal in request config', async () => {
-      const mockData = { result: 'success' };
-      mockAxiosInstance.get.mockResolvedValue({ data: mockData });
-      
-      const abortController = new AbortController();
-      
-      await client.testGet('/test', {}, { signal: abortController.signal });
-
-      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/test', {
-        params: { apikey: 'test-token' },
-        signal: abortController.signal
       });
     });
 
@@ -280,21 +225,6 @@ describe('FMPClient', () => {
       });
     });
 
-    it('should include abort signal in CSV request config', async () => {
-      const mockCsvData = 'data';
-      mockAxiosInstance.get.mockResolvedValue({ data: mockCsvData });
-      
-      const abortController = new AbortController();
-      
-      await client.testGetCSV('/test-csv', {}, { signal: abortController.signal });
-
-      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/test-csv', {
-        params: { apikey: 'test-token' },
-        responseType: 'text',
-        signal: abortController.signal
-      });
-    });
-
     it('should surface FMP "Error Message" from CSV axios errors', async () => {
       const axiosError = {
         response: {
@@ -330,21 +260,6 @@ describe('FMPClient', () => {
       });
     });
 
-    it('should include abort signal in POST request config', async () => {
-      const mockData = { success: true };
-      const postData = { symbol: 'AAPL' };
-      mockAxiosInstance.post.mockResolvedValue({ data: mockData });
-      
-      const abortController = new AbortController();
-      
-      await client.testPost('/test-post', postData, {}, { signal: abortController.signal });
-
-      expect(mockAxiosInstance.post).toHaveBeenCalledWith('/test-post', postData, {
-        params: { apikey: 'test-token' },
-        signal: abortController.signal
-      });
-    });
-
     it('should surface FMP "Error Message" from POST axios errors', async () => {
       const axiosError = {
         response: {
@@ -377,23 +292,6 @@ describe('FMPClient', () => {
       });
     });
 
-    it('should work with Smithery SDK context (Docker + Smithery)', async () => {
-      // Simulate Docker environment with Smithery SDK providing context
-      process.env.FMP_ACCESS_TOKEN = 'docker-token';
-      client = new TestFMPClient();
-      
-      mockAxiosInstance.get.mockResolvedValue({ data: { result: 'success' } });
-      
-      // Smithery SDK passes the token via context
-      await client.testGet('/test', {}, {
-        context: { config: { FMP_ACCESS_TOKEN: 'smithery-provided-token' } }
-      });
-      
-      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/test', {
-        params: { apikey: 'smithery-provided-token' }
-      });
-    });
-
     it('should handle tool discovery mode (no token)', async () => {
       client = new TestFMPClient();
       
@@ -419,33 +317,6 @@ describe('FMPClient', () => {
       await expect(client.testGet('/test')).rejects.toThrow(
         'FMP_ACCESS_TOKEN is required for this operation. Please provide it in the configuration.'
       );
-    });
-
-    it('should handle empty string API key in context', async () => {
-      client = new TestFMPClient('fallback-token');
-      
-      mockAxiosInstance.get.mockResolvedValue({ data: { result: 'success' } });
-      
-      // Empty context token should fall back to constructor/env
-      await client.testGet('/test', {}, {
-        context: { config: { FMP_ACCESS_TOKEN: '' } }
-      });
-      
-      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/test', {
-        params: { apikey: 'fallback-token' }
-      });
-    });
-
-    it('should handle undefined context config', async () => {
-      client = new TestFMPClient('fallback-token');
-      
-      mockAxiosInstance.get.mockResolvedValue({ data: { result: 'success' } });
-      
-      await client.testGet('/test', {}, { context: {} });
-      
-      expect(mockAxiosInstance.get).toHaveBeenCalledWith('/test', {
-        params: { apikey: 'fallback-token' }
-      });
     });
   });
 }); 
