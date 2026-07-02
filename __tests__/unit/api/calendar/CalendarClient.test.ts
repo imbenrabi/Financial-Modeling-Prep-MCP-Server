@@ -52,7 +52,7 @@ describe('CalendarClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/dividends', {
         symbol: 'AAPL',
         limit: 100
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -65,7 +65,7 @@ describe('CalendarClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/dividends', {
         symbol: 'AAPL',
         limit: undefined
-      }, undefined);
+      });
     });
 
     it('should handle API errors', async () => {
@@ -99,7 +99,7 @@ describe('CalendarClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/dividends-calendar', {
         from: '2024-01-01',
         to: '2024-12-31'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -112,7 +112,7 @@ describe('CalendarClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/dividends-calendar', {
         from: undefined,
         to: undefined
-      }, undefined);
+      });
     });
   });
 
@@ -136,7 +136,7 @@ describe('CalendarClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/earnings', {
         symbol: 'AAPL',
         limit: 50
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -149,7 +149,7 @@ describe('CalendarClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/earnings', {
         symbol: 'AAPL',
         limit: undefined
-      }, undefined);
+      });
     });
 
     it('should handle API errors', async () => {
@@ -181,7 +181,7 @@ describe('CalendarClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/earnings-calendar', {
         from: '2024-01-01',
         to: '2024-03-31'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -194,7 +194,7 @@ describe('CalendarClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/earnings-calendar', {
         from: undefined,
         to: undefined
-      }, undefined);
+      });
     });
   });
 
@@ -220,7 +220,7 @@ describe('CalendarClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/ipos-calendar', {
         from: '2024-03-01',
         to: '2024-03-31'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -233,7 +233,7 @@ describe('CalendarClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/ipos-calendar', {
         from: undefined,
         to: undefined
-      }, undefined);
+      });
     });
   });
 
@@ -257,7 +257,7 @@ describe('CalendarClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/ipos-disclosure', {
         from: '2024-02-01',
         to: '2024-02-29'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -270,7 +270,7 @@ describe('CalendarClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/ipos-disclosure', {
         from: undefined,
         to: undefined
-      }, undefined);
+      });
     });
   });
 
@@ -300,7 +300,7 @@ describe('CalendarClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/ipos-prospectus', {
         from: '2024-02-01',
         to: '2024-02-29'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -313,7 +313,7 @@ describe('CalendarClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/ipos-prospectus', {
         from: undefined,
         to: undefined
-      }, undefined);
+      });
     });
   });
 
@@ -334,7 +334,7 @@ describe('CalendarClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/splits', {
         symbol: 'AAPL',
         limit: 25
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -347,7 +347,7 @@ describe('CalendarClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/splits', {
         symbol: 'AAPL',
         limit: undefined
-      }, undefined);
+      });
     });
 
     it('should handle API errors', async () => {
@@ -376,7 +376,7 @@ describe('CalendarClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/splits-calendar', {
         from: '2022-08-01',
         to: '2022-08-31'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -389,7 +389,7 @@ describe('CalendarClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/splits-calendar', {
         from: undefined,
         to: undefined
-      }, undefined);
+      });
     });
   });
 

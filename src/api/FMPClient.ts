@@ -26,17 +26,8 @@ export class FMPClient {
     });
   }
 
-  // Get the API key from the context or the instance
-  private getApiKey(context?: {
-    config?: { FMP_ACCESS_TOKEN?: string };
-  }): string {
-    const configApiKey = context?.config?.FMP_ACCESS_TOKEN;
-
-    if (configApiKey) {
-      return configApiKey;
-    }
-
-    // Fall back to constructor parameter or environment variable
+  // Get the API key from the instance or the environment
+  private getApiKey(): string {
     const apiKey = this.apiKey || process.env.FMP_ACCESS_TOKEN;
 
     if (!apiKey) {
@@ -50,15 +41,10 @@ export class FMPClient {
 
   protected async get<T>(
     endpoint: string,
-    params: Record<string, any> = {},
-    options?: {
-      signal?: AbortSignal;
-      context?: { config?: { FMP_ACCESS_TOKEN?: string } };
-    }
+    params: Record<string, any> = {}
   ): Promise<T> {
     try {
-      // Try to get API key from context first, fall back to instance API key
-      const apiKey = this.getApiKey(options?.context);
+      const apiKey = this.getApiKey();
 
       const config: AxiosRequestConfig = {
         params: {
@@ -66,10 +52,6 @@ export class FMPClient {
           apikey: apiKey,
         },
       };
-
-      if (options?.signal) {
-        config.signal = options.signal;
-      }
 
       const response = await this.client.get<T>(endpoint, config);
       return response.data;
@@ -90,15 +72,10 @@ export class FMPClient {
 
   protected async getCSV(
     endpoint: string,
-    params: Record<string, any> = {},
-    options?: {
-      signal?: AbortSignal;
-      context?: { config?: { FMP_ACCESS_TOKEN?: string } };
-    }
+    params: Record<string, any> = {}
   ): Promise<string> {
     try {
-      // Try to get API key from context first, fall back to instance API key
-      const apiKey = this.getApiKey(options?.context);
+      const apiKey = this.getApiKey();
 
       const config: AxiosRequestConfig = {
         params: {
@@ -107,10 +84,6 @@ export class FMPClient {
         },
         responseType: 'text', // Important: get response as text for CSV
       };
-
-      if (options?.signal) {
-        config.signal = options.signal;
-      }
 
       const response = await this.client.get<string>(endpoint, config);
       return response.data;
@@ -132,15 +105,10 @@ export class FMPClient {
   protected async post<T>(
     endpoint: string,
     data: any,
-    params: Record<string, any> = {},
-    options?: {
-      signal?: AbortSignal;
-      context?: { config?: { FMP_ACCESS_TOKEN?: string } };
-    }
+    params: Record<string, any> = {}
   ): Promise<T> {
     try {
-      // Try to get API key from context first, fall back to instance API key
-      const apiKey = this.getApiKey(options?.context);
+      const apiKey = this.getApiKey();
 
       const config: AxiosRequestConfig = {
         params: {
@@ -148,10 +116,6 @@ export class FMPClient {
           apikey: apiKey,
         },
       };
-
-      if (options?.signal) {
-        config.signal = options.signal;
-      }
 
       const response = await this.client.post<T>(endpoint, data, config);
       return response.data;

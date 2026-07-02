@@ -15,7 +15,6 @@ import {
 } from '../../../src/utils/validation.js';
 import { areStringSetsEqual } from '../../../src/utils/validation.js';
 import { computeClientId } from '../../../src/utils/computeClientId.js';
-import { resolveAccessToken } from '../../../src/utils/resolveAccessToken.js';
 
 // Mock fs for getServerVersion tests
 vi.mock('node:fs');
@@ -92,26 +91,6 @@ describe('computeClientId', () => {
     vi.spyOn(crypto, 'randomUUID').mockReturnValue(fakeUuid as any);
     const id = computeClientId('');
     expect(id).toBe(`anon:${fakeUuid}`);
-  });
-});
-
-describe('resolveAccessToken', () => {
-  it('should prefer server token over session config token', () => {
-    const serverToken = 'server-123';
-    const sessionConfig = { FMP_ACCESS_TOKEN: 'session-456' } as any;
-    const resolved = resolveAccessToken(serverToken, sessionConfig);
-    expect(resolved).toBe('server-123');
-  });
-
-  it('should use session config token when server token is not provided', () => {
-    const sessionConfig = { FMP_ACCESS_TOKEN: 'session-456' } as any;
-    const resolved = resolveAccessToken(undefined, sessionConfig);
-    expect(resolved).toBe('session-456');
-  });
-
-  it('should return undefined when neither is provided', () => {
-    const resolved = resolveAccessToken(undefined, undefined);
-    expect(resolved).toBeUndefined();
   });
 });
 

@@ -17,7 +17,7 @@ Cross-cutting concerns and startup sequence for the FMP MCP Server.
 
 - `preHandler` hook generates stable client ID from `IP + User-Agent` (`Accept` is intentionally excluded — it varies between requests)
 - `McpServer.prompt()` is a toolception runtime extension, not part of the MCP SDK type — `prompts/` accesses it via type cast and silently no-ops if absent. If toolception drops prompt support, `list_mcp_assets` vanishes with no error.
-- The `list_mcp_assets` prompt tells users server-level tokens take precedence, but actual API calls give session context precedence — keep user-facing docs aligned with runtime behavior
+- The `list_mcp_assets` prompt tells users server-level tokens take precedence, but the session token injected via the client constructor at session creation actually overrides the server token — keep user-facing docs aligned with runtime behavior
 
 ## Flow Reference
 

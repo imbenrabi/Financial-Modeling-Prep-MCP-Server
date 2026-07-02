@@ -102,7 +102,7 @@ describe('StatementsClient', () => {
         symbol: 'AAPL',
         limit: 10,
         period: 'FY'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -114,7 +114,7 @@ describe('StatementsClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/income-statement', {
         symbol: 'AAPL'
-      }, undefined);
+      });
     });
 
     it('should handle API errors', async () => {
@@ -203,7 +203,7 @@ describe('StatementsClient', () => {
         symbol: 'AAPL',
         limit: 5,
         period: 'Q4'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -215,7 +215,7 @@ describe('StatementsClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/balance-sheet-statement', {
         symbol: 'MSFT'
-      }, undefined);
+      });
     });
   });
 
@@ -283,7 +283,7 @@ describe('StatementsClient', () => {
         symbol: 'AAPL',
         limit: 3,
         period: 'Q1'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
   });
@@ -309,7 +309,7 @@ describe('StatementsClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/latest-financial-statements', {
         page: 0,
         limit: 100
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -319,7 +319,7 @@ describe('StatementsClient', () => {
 
       await statementsClient.getLatestFinancialStatements();
 
-      expect(mockGet).toHaveBeenCalledWith('/latest-financial-statements', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/latest-financial-statements', {});
     });
   });
 
@@ -387,7 +387,7 @@ describe('StatementsClient', () => {
         symbol: 'AAPL',
         limit: 10,
         period: 'annual'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -399,7 +399,7 @@ describe('StatementsClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/key-metrics', {
         symbol: 'AAPL'
-      }, undefined);
+      });
     });
   });
 
@@ -483,7 +483,7 @@ describe('StatementsClient', () => {
         symbol: 'AAPL',
         limit: 5,
         period: 'quarter'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
   });
@@ -543,7 +543,7 @@ describe('StatementsClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/key-metrics-ttm', {
         symbol: 'AAPL'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
   });
@@ -623,7 +623,7 @@ describe('StatementsClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/ratios-ttm', {
         symbol: 'AAPL'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
   });
@@ -654,7 +654,7 @@ describe('StatementsClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/financial-scores', {
         symbol: 'AAPL',
         limit: 5
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -666,7 +666,7 @@ describe('StatementsClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/financial-scores', {
         symbol: 'AAPL'
-      }, undefined);
+      });
     });
   });
 
@@ -692,7 +692,7 @@ describe('StatementsClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/owner-earnings', {
         symbol: 'AAPL'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
   });
@@ -714,7 +714,7 @@ describe('StatementsClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/financial-reports-dates', {
         symbol: 'AAPL'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
   });
@@ -736,7 +736,7 @@ describe('StatementsClient', () => {
         symbol: 'AAPL',
         year: 2023,
         period: 'FY'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
   });
@@ -769,7 +769,7 @@ describe('StatementsClient', () => {
         symbol: 'AAPL',
         period: 'annual',
         structure: 'flat'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -781,7 +781,7 @@ describe('StatementsClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/revenue-product-segmentation', {
         symbol: 'AAPL'
-      }, undefined);
+      });
     });
   });
 
@@ -812,7 +812,7 @@ describe('StatementsClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/revenue-geographic-segmentation', {
         symbol: 'AAPL',
         period: 'quarter'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
   });
@@ -871,7 +871,7 @@ describe('StatementsClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/income-statement-ttm', {
         symbol: 'AAPL',
         limit: 5
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -883,7 +883,7 @@ describe('StatementsClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/income-statement-ttm', {
         symbol: 'MSFT'
-      }, undefined);
+      });
     });
   });
 
@@ -962,7 +962,7 @@ describe('StatementsClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/balance-sheet-statement-ttm', {
         symbol: 'AAPL',
         limit: 3
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -974,7 +974,7 @@ describe('StatementsClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/balance-sheet-statement-ttm', {
         symbol: 'GOOGL'
-      }, undefined);
+      });
     });
   });
 
@@ -1040,7 +1040,7 @@ describe('StatementsClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/cash-flow-statement-ttm', {
         symbol: 'AAPL',
         limit: 8
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
   });
@@ -1099,7 +1099,7 @@ describe('StatementsClient', () => {
         symbol: 'AAPL',
         limit: 5,
         period: 'FY'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -1111,7 +1111,7 @@ describe('StatementsClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/income-statement-growth', {
         symbol: 'TSLA'
-      }, undefined);
+      });
     });
   });
 
@@ -1191,7 +1191,7 @@ describe('StatementsClient', () => {
         symbol: 'AAPL',
         limit: 10,
         period: 'Q4'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
   });
@@ -1258,7 +1258,7 @@ describe('StatementsClient', () => {
         symbol: 'AAPL',
         limit: 7,
         period: 'Q1'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
   });
@@ -1327,7 +1327,7 @@ describe('StatementsClient', () => {
         symbol: 'AAPL',
         limit: 15,
         period: 'Q2'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
   });
@@ -1345,7 +1345,7 @@ describe('StatementsClient', () => {
         symbol: 'AAPL',
         year: 2023,
         period: 'FY'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
   });
@@ -1378,7 +1378,7 @@ describe('StatementsClient', () => {
         symbol: 'AAPL',
         limit: 5,
         period: 'annual'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -1390,7 +1390,7 @@ describe('StatementsClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/balance-sheet-statement-as-reported', {
         symbol: 'MSFT'
-      }, undefined);
+      });
     });
   });
 
@@ -1422,7 +1422,7 @@ describe('StatementsClient', () => {
         symbol: 'AAPL',
         limit: 8,
         period: 'quarter'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
   });
@@ -1457,7 +1457,7 @@ describe('StatementsClient', () => {
         symbol: 'AAPL',
         limit: 3,
         period: 'annual'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -1469,7 +1469,7 @@ describe('StatementsClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/financial-statement-full-as-reported', {
         symbol: 'NVDA'
-      }, undefined);
+      });
     });
   });
 
@@ -1500,7 +1500,7 @@ describe('StatementsClient', () => {
         symbol: 'AAPL',
         limit: 10,
         period: 'annual'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
   });

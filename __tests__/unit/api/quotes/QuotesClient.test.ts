@@ -58,7 +58,7 @@ describe('QuotesClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/quote', {
         symbol: 'AAPL'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -87,7 +87,7 @@ describe('QuotesClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/quote-short', {
         symbol: 'AAPL'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -116,7 +116,7 @@ describe('QuotesClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/aftermarket-trade', {
         symbol: 'AAPL'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -148,7 +148,7 @@ describe('QuotesClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/aftermarket-quote', {
         symbol: 'AAPL'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -185,7 +185,7 @@ describe('QuotesClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/stock-price-change', {
         symbol: 'AAPL'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -227,7 +227,7 @@ describe('QuotesClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/batch-quote', {
         symbols: 'AAPL,MSFT,GOOGL'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -262,7 +262,7 @@ describe('QuotesClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/batch-quote-short', {
         symbols: 'AAPL,MSFT'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -291,7 +291,7 @@ describe('QuotesClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/batch-aftermarket-trade', {
         symbols: 'AAPL,MSFT'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -323,7 +323,7 @@ describe('QuotesClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/batch-aftermarket-quote', {
         symbols: 'AAPL,MSFT'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -356,7 +356,7 @@ describe('QuotesClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/batch-exchange-quote', {
         exchange: 'NASDAQ',
         short: true
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -369,7 +369,7 @@ describe('QuotesClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/batch-exchange-quote', {
         exchange: 'NYSE',
         short: undefined
-      }, undefined);
+      });
     });
 
     it('should handle API errors', async () => {
@@ -397,7 +397,7 @@ describe('QuotesClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/batch-mutualfund-quotes', {
         short: true
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -409,7 +409,7 @@ describe('QuotesClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/batch-mutualfund-quotes', {
         short: undefined
-      }, undefined);
+      });
     });
 
     it('should handle API errors', async () => {
@@ -437,7 +437,7 @@ describe('QuotesClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/batch-etf-quotes', {
         short: true
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -449,7 +449,7 @@ describe('QuotesClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/batch-etf-quotes', {
         short: undefined
-      }, undefined);
+      });
     });
 
     it('should handle API errors', async () => {
@@ -477,7 +477,7 @@ describe('QuotesClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/batch-commodity-quotes', {
         short: false
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -489,7 +489,7 @@ describe('QuotesClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/batch-commodity-quotes', {
         short: undefined
-      }, undefined);
+      });
     });
 
     it('should handle API errors', async () => {
@@ -517,7 +517,7 @@ describe('QuotesClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/batch-crypto-quotes', {
         short: true
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -529,7 +529,7 @@ describe('QuotesClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/batch-crypto-quotes', {
         short: undefined
-      }, undefined);
+      });
     });
 
     it('should handle API errors', async () => {
@@ -557,7 +557,7 @@ describe('QuotesClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/batch-forex-quotes', {
         short: false
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -569,7 +569,7 @@ describe('QuotesClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/batch-forex-quotes', {
         short: undefined
-      }, undefined);
+      });
     });
 
     it('should handle API errors', async () => {
@@ -597,7 +597,7 @@ describe('QuotesClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/batch-index-quotes', {
         short: true
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -609,7 +609,7 @@ describe('QuotesClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/batch-index-quotes', {
         short: undefined
-      }, undefined);
+      });
     });
 
     it('should handle API errors', async () => {

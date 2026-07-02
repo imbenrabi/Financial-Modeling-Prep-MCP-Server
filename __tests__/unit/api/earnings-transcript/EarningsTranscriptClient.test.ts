@@ -54,7 +54,7 @@ describe('EarningsTranscriptClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/earning-call-transcript-latest', {
         limit: 10,
         page: 0
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -67,28 +67,9 @@ describe('EarningsTranscriptClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/earning-call-transcript-latest', {
         limit: undefined,
         page: undefined
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
-
-    it('should call get with options including signal and context', async () => {
-      const mockData: LatestEarningTranscript[] = [];
-      mockGet.mockResolvedValue(mockData);
-      const abortController = new AbortController();
-      const context = { config: { FMP_ACCESS_TOKEN: 'test-token' } };
-
-      const result = await earningsTranscriptClient.getLatestTranscripts(
-        { limit: 5 },
-        { signal: abortController.signal, context }
-      );
-
-      expect(mockGet).toHaveBeenCalledWith('/earning-call-transcript-latest', {
-        limit: 5,
-        page: undefined
-      }, { signal: abortController.signal, context });
-      expect(result).toEqual(mockData);
-    });
-
     it('should handle API errors', async () => {
       const errorMessage = 'API Error';
       mockGet.mockRejectedValue(new Error(errorMessage));
@@ -123,7 +104,7 @@ describe('EarningsTranscriptClient', () => {
         year: '2024',
         quarter: '4',
         limit: 1
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -142,34 +123,9 @@ describe('EarningsTranscriptClient', () => {
         year: '2023',
         quarter: '3',
         limit: undefined
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
-
-    it('should call get with options including signal and context', async () => {
-      const mockData: EarningTranscript[] = [];
-      mockGet.mockResolvedValue(mockData);
-      const abortController = new AbortController();
-      const context = { config: { FMP_ACCESS_TOKEN: 'test-token' } };
-
-      const result = await earningsTranscriptClient.getTranscript(
-        {
-          symbol: 'GOOGL',
-          year: '2024',
-          quarter: '1'
-        },
-        { signal: abortController.signal, context }
-      );
-
-      expect(mockGet).toHaveBeenCalledWith('/earning-call-transcript', {
-        symbol: 'GOOGL',
-        year: '2024',
-        quarter: '1',
-        limit: undefined
-      }, { signal: abortController.signal, context });
-      expect(result).toEqual(mockData);
-    });
-
     it('should handle API errors', async () => {
       const errorMessage = 'Transcript not found';
       mockGet.mockRejectedValue(new Error(errorMessage));
@@ -209,27 +165,9 @@ describe('EarningsTranscriptClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/earning-call-transcript-dates', {
         symbol: 'AAPL'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
-
-    it('should call get with options including signal and context', async () => {
-      const mockData: TranscriptDate[] = [];
-      mockGet.mockResolvedValue(mockData);
-      const abortController = new AbortController();
-      const context = { config: { FMP_ACCESS_TOKEN: 'test-token' } };
-
-      const result = await earningsTranscriptClient.getTranscriptDates(
-        { symbol: 'TSLA' },
-        { signal: abortController.signal, context }
-      );
-
-      expect(mockGet).toHaveBeenCalledWith('/earning-call-transcript-dates', {
-        symbol: 'TSLA'
-      }, { signal: abortController.signal, context });
-      expect(result).toEqual(mockData);
-    });
-
     it('should handle API errors', async () => {
       const errorMessage = 'Symbol not found';
       mockGet.mockRejectedValue(new Error(errorMessage));
@@ -263,28 +201,9 @@ describe('EarningsTranscriptClient', () => {
 
       const result = await earningsTranscriptClient.getAvailableTranscriptSymbols();
 
-      expect(mockGet).toHaveBeenCalledWith('/earnings-transcript-list', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/earnings-transcript-list', {});
       expect(result).toEqual(mockData);
     });
-
-    it('should call get with options including signal and context', async () => {
-      const mockData: AvailableTranscriptSymbol[] = [];
-      mockGet.mockResolvedValue(mockData);
-      const abortController = new AbortController();
-      const context = { config: { FMP_ACCESS_TOKEN: 'test-token' } };
-
-      const result = await earningsTranscriptClient.getAvailableTranscriptSymbols({
-        signal: abortController.signal,
-        context
-      });
-
-      expect(mockGet).toHaveBeenCalledWith('/earnings-transcript-list', {}, {
-        signal: abortController.signal,
-        context
-      });
-      expect(result).toEqual(mockData);
-    });
-
     it('should handle API errors', async () => {
       const errorMessage = 'Service unavailable';
       mockGet.mockRejectedValue(new Error(errorMessage));

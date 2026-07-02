@@ -54,7 +54,7 @@ describe('EconomicsClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/treasury-rates', {
         from: '2024-01-01',
         to: '2024-01-31'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -67,7 +67,7 @@ describe('EconomicsClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/treasury-rates', {
         from: undefined,
         to: undefined
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -80,7 +80,7 @@ describe('EconomicsClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/treasury-rates', {
         from: '2024-01-01',
         to: undefined
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -92,25 +92,6 @@ describe('EconomicsClient', () => {
         .rejects.toThrow(errorMessage);
     });
 
-    it('should pass options correctly', async () => {
-      const mockData: TreasuryRate[] = [];
-      mockGet.mockResolvedValue(mockData);
-      const abortSignal = new AbortController().signal;
-      const context = { config: { FMP_ACCESS_TOKEN: 'test-token' } };
-
-      await economicsClient.getTreasuryRates('2024-01-01', '2024-01-31', {
-        signal: abortSignal,
-        context
-      });
-
-      expect(mockGet).toHaveBeenCalledWith('/treasury-rates', {
-        from: '2024-01-01',
-        to: '2024-01-31'
-      }, {
-        signal: abortSignal,
-        context
-      });
-    });
   });
 
   describe('getEconomicIndicators', () => {
@@ -130,7 +111,7 @@ describe('EconomicsClient', () => {
         name: 'GDP',
         from: '2024-01-01',
         to: '2024-01-31'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -150,7 +131,7 @@ describe('EconomicsClient', () => {
         name: 'CPI',
         from: undefined,
         to: undefined
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -164,7 +145,7 @@ describe('EconomicsClient', () => {
         name: 'Unemployment Rate',
         from: '2024-01-01',
         to: undefined
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -176,26 +157,6 @@ describe('EconomicsClient', () => {
         .rejects.toThrow(errorMessage);
     });
 
-    it('should pass options correctly', async () => {
-      const mockData: EconomicIndicator[] = [];
-      mockGet.mockResolvedValue(mockData);
-      const abortSignal = new AbortController().signal;
-      const context = { config: { FMP_ACCESS_TOKEN: 'test-token' } };
-
-      await economicsClient.getEconomicIndicators('GDP', '2024-01-01', '2024-01-31', {
-        signal: abortSignal,
-        context
-      });
-
-      expect(mockGet).toHaveBeenCalledWith('/economic-indicator', {
-        name: 'GDP',
-        from: '2024-01-01',
-        to: '2024-01-31'
-      }, {
-        signal: abortSignal,
-        context
-      });
-    });
   });
 
   describe('getEconomicCalendar', () => {
@@ -221,7 +182,7 @@ describe('EconomicsClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/economic-calendar', {
         from: '2024-01-01',
         to: '2024-01-31'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -234,7 +195,7 @@ describe('EconomicsClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/economic-calendar', {
         from: undefined,
         to: undefined
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -247,7 +208,7 @@ describe('EconomicsClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/economic-calendar', {
         from: '2024-01-01',
         to: undefined
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -259,25 +220,6 @@ describe('EconomicsClient', () => {
         .rejects.toThrow(errorMessage);
     });
 
-    it('should pass options correctly', async () => {
-      const mockData: EconomicCalendar[] = [];
-      mockGet.mockResolvedValue(mockData);
-      const abortSignal = new AbortController().signal;
-      const context = { config: { FMP_ACCESS_TOKEN: 'test-token' } };
-
-      await economicsClient.getEconomicCalendar('2024-01-01', '2024-01-31', {
-        signal: abortSignal,
-        context
-      });
-
-      expect(mockGet).toHaveBeenCalledWith('/economic-calendar', {
-        from: '2024-01-01',
-        to: '2024-01-31'
-      }, {
-        signal: abortSignal,
-        context
-      });
-    });
   });
 
   describe('getMarketRiskPremium', () => {
@@ -300,7 +242,7 @@ describe('EconomicsClient', () => {
 
       const result = await economicsClient.getMarketRiskPremium();
 
-      expect(mockGet).toHaveBeenCalledWith('/market-risk-premium', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/market-risk-premium', {});
       expect(result).toEqual(mockData);
     });
 
@@ -312,22 +254,6 @@ describe('EconomicsClient', () => {
         .rejects.toThrow(errorMessage);
     });
 
-    it('should pass options correctly', async () => {
-      const mockData: MarketRiskPremium[] = [];
-      mockGet.mockResolvedValue(mockData);
-      const abortSignal = new AbortController().signal;
-      const context = { config: { FMP_ACCESS_TOKEN: 'test-token' } };
-
-      await economicsClient.getMarketRiskPremium({
-        signal: abortSignal,
-        context
-      });
-
-      expect(mockGet).toHaveBeenCalledWith('/market-risk-premium', {}, {
-        signal: abortSignal,
-        context
-      });
-    });
   });
 
   describe('constructor', () => {

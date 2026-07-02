@@ -1,5 +1,4 @@
 import { FMPClient } from "../FMPClient.js";
-import type { FMPContext } from "../../types/index.js";
 import type {
   Cryptocurrency,
   CryptocurrencyQuote,
@@ -18,11 +17,8 @@ export class CryptoClient extends FMPClient {
    * @param context Optional context containing configuration
    * @returns Array of cryptocurrency information
    */
-  async getList(options?: {
-    signal?: AbortSignal;
-    context?: FMPContext;
-  }): Promise<Cryptocurrency[]> {
-    return super.get<Cryptocurrency[]>("/cryptocurrency-list", {}, options);
+  async getList(): Promise<Cryptocurrency[]> {
+    return super.get<Cryptocurrency[]>("/cryptocurrency-list", {});
   }
 
   /**
@@ -33,12 +29,8 @@ export class CryptoClient extends FMPClient {
    */
   async getQuote(
     symbol: string,
-    options?: {
-      signal?: AbortSignal;
-      context?: FMPContext;
-    }
   ): Promise<CryptocurrencyQuote[]> {
-    return super.get<CryptocurrencyQuote[]>("/quote", { symbol }, options);
+    return super.get<CryptocurrencyQuote[]>("/quote", { symbol });
   }
 
   /**
@@ -49,15 +41,10 @@ export class CryptoClient extends FMPClient {
    */
   async getShortQuote(
     symbol: string,
-    options?: {
-      signal?: AbortSignal;
-      context?: FMPContext;
-    }
   ): Promise<CryptocurrencyShortQuote[]> {
     return super.get<CryptocurrencyShortQuote[]>(
       "/quote-short",
-      { symbol },
-      options
+      { symbol }
     );
   }
 
@@ -69,14 +56,10 @@ export class CryptoClient extends FMPClient {
    */
   async getBatchQuotes(
     short?: boolean,
-    options?: {
-    signal?: AbortSignal;
-    context?: FMPContext;
-  }): Promise<CryptocurrencyShortQuote[]> {
+  ): Promise<CryptocurrencyShortQuote[]> {
     return super.get<CryptocurrencyShortQuote[]>(
       "/batch-crypto-quotes",
-      { short },
-      options
+      { short }
     );
   }
 
@@ -92,15 +75,10 @@ export class CryptoClient extends FMPClient {
     symbol: string,
     from?: string,
     to?: string,
-    options?: {
-      signal?: AbortSignal;
-      context?: FMPContext;
-    }
   ): Promise<CryptocurrencyLightChart[]> {
     return super.get<CryptocurrencyLightChart[]>(
       "/historical-price-eod/light",
-      { symbol, from, to },
-      options
+      { symbol, from, to }
     );
   }
 
@@ -116,15 +94,10 @@ export class CryptoClient extends FMPClient {
     symbol: string,
     from?: string,
     to?: string,
-    options?: {
-      signal?: AbortSignal;
-      context?: FMPContext;
-    }
   ): Promise<CryptocurrencyHistoricalChart[]> {
     return super.get<CryptocurrencyHistoricalChart[]>(
       "/historical-price-eod/full",
-      { symbol, from, to },
-      options
+      { symbol, from, to }
     );
   }
 
@@ -140,15 +113,10 @@ export class CryptoClient extends FMPClient {
     symbol: string,
     from?: string,
     to?: string,
-    options?: {
-      signal?: AbortSignal;
-      context?: FMPContext;
-    }
   ): Promise<CryptocurrencyIntradayPrice[]> {
     return super.get<CryptocurrencyIntradayPrice[]>(
       "/historical-chart/1min",
-      { symbol, from, to },
-      options
+      { symbol, from, to }
     );
   }
 
@@ -164,15 +132,10 @@ export class CryptoClient extends FMPClient {
     symbol: string,
     from?: string,
     to?: string,
-    options?: {
-      signal?: AbortSignal;
-      context?: FMPContext;
-    }
   ): Promise<CryptocurrencyIntradayPrice[]> {
     return super.get<CryptocurrencyIntradayPrice[]>(
       "/historical-chart/5min",
-      { symbol, from, to },
-      options
+      { symbol, from, to }
     );
   }
 
@@ -188,15 +151,10 @@ export class CryptoClient extends FMPClient {
     symbol: string,
     from?: string,
     to?: string,
-    options?: {
-      signal?: AbortSignal;
-      context?: FMPContext;
-    }
   ): Promise<CryptocurrencyIntradayPrice[]> {
     return super.get<CryptocurrencyIntradayPrice[]>(
       "/historical-chart/1hour",
-      { symbol, from, to },
-      options
+      { symbol, from, to }
     );
   }
 }

@@ -3,7 +3,7 @@
 ## Key Rules
 
 - API key ALWAYS goes as `?apikey=` query parameter — never in headers (FMP API requirement)
-- Token precedence for API calls: Context > Instance > Environment (session can override server token)
+- Token precedence for API calls: Instance > Environment; the session token is injected via the client constructor at session creation, so the session still effectively overrides the server token at construction time, not per request
 
 ## Anti-patterns
 

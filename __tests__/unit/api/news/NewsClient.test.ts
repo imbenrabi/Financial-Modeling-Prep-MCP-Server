@@ -47,7 +47,7 @@ describe('NewsClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/fmp-articles', {
         page: 0,
         limit: 10
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -57,7 +57,7 @@ describe('NewsClient', () => {
 
       const result = await newsClient.getFMPArticles();
 
-      expect(mockGet).toHaveBeenCalledWith('/fmp-articles', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/fmp-articles', {});
       expect(result).toEqual(mockData);
     });
 
@@ -98,7 +98,7 @@ describe('NewsClient', () => {
         to: '2024-01-31',
         page: 0,
         limit: 20
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -108,7 +108,7 @@ describe('NewsClient', () => {
 
       const result = await newsClient.getGeneralNews();
 
-      expect(mockGet).toHaveBeenCalledWith('/news/general-latest', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/news/general-latest', {});
       expect(result).toEqual(mockData);
     });
 
@@ -149,7 +149,7 @@ describe('NewsClient', () => {
         to: '2024-01-31',
         page: 1,
         limit: 50
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -159,7 +159,7 @@ describe('NewsClient', () => {
 
       await newsClient.getPressReleases();
 
-      expect(mockGet).toHaveBeenCalledWith('/news/press-releases-latest', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/news/press-releases-latest', {});
     });
   });
 
@@ -187,7 +187,7 @@ describe('NewsClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/news/stock-latest', {
         from: '2024-01-01',
         limit: 25
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -197,7 +197,7 @@ describe('NewsClient', () => {
 
       await newsClient.getStockNews();
 
-      expect(mockGet).toHaveBeenCalledWith('/news/stock-latest', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/news/stock-latest', {});
     });
   });
 
@@ -227,7 +227,7 @@ describe('NewsClient', () => {
         to: '2024-01-31',
         page: 2,
         limit: 15
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -237,7 +237,7 @@ describe('NewsClient', () => {
 
       await newsClient.getCryptoNews();
 
-      expect(mockGet).toHaveBeenCalledWith('/news/crypto-latest', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/news/crypto-latest', {});
     });
   });
 
@@ -269,7 +269,7 @@ describe('NewsClient', () => {
         to: '2024-01-31',
         page: 0,
         limit: 30
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -279,7 +279,7 @@ describe('NewsClient', () => {
 
       await newsClient.getForexNews();
 
-      expect(mockGet).toHaveBeenCalledWith('/news/forex-latest', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/news/forex-latest', {});
     });
   });
 
@@ -313,7 +313,7 @@ describe('NewsClient', () => {
         to: '2024-01-31',
         page: 0,
         limit: 20
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -325,7 +325,7 @@ describe('NewsClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/news/press-releases', {
         symbols: 'AAPL'
-      }, undefined);
+      });
     });
   });
 
@@ -355,7 +355,7 @@ describe('NewsClient', () => {
         symbols: 'TSLA,NVDA,AMD',
         from: '2024-01-01',
         limit: 50
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -367,7 +367,7 @@ describe('NewsClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/news/stock', {
         symbols: 'GOOGL'
-      }, undefined);
+      });
     });
   });
 
@@ -399,7 +399,7 @@ describe('NewsClient', () => {
         to: '2024-01-31',
         page: 1,
         limit: 25
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -411,7 +411,7 @@ describe('NewsClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/news/crypto', {
         symbols: 'ETH'
-      }, undefined);
+      });
     });
   });
 
@@ -445,7 +445,7 @@ describe('NewsClient', () => {
         to: '2024-01-31',
         page: 0,
         limit: 40
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -457,7 +457,7 @@ describe('NewsClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/news/forex', {
         symbols: 'EURUSD'
-      }, undefined);
+      });
     });
   });
 

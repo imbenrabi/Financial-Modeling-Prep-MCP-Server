@@ -50,7 +50,7 @@ describe('ESGClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/esg-disclosure', {
         symbol: 'AAPL'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -62,24 +62,6 @@ describe('ESGClient', () => {
         .rejects.toThrow(errorMessage);
     });
 
-    it('should pass options correctly', async () => {
-      const mockData: ESGDisclosure[] = [];
-      mockGet.mockResolvedValue(mockData);
-      const abortSignal = new AbortController().signal;
-      const context = { config: { FMP_ACCESS_TOKEN: 'test-token' } };
-
-      await esgClient.getDisclosures('AAPL', {
-        signal: abortSignal,
-        context
-      });
-
-      expect(mockGet).toHaveBeenCalledWith('/esg-disclosure', {
-        symbol: 'AAPL'
-      }, {
-        signal: abortSignal,
-        context
-      });
-    });
   });
 
   describe('getRatings', () => {
@@ -101,7 +83,7 @@ describe('ESGClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/esg-ratings', {
         symbol: 'MSFT'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -113,24 +95,6 @@ describe('ESGClient', () => {
         .rejects.toThrow(errorMessage);
     });
 
-    it('should pass options correctly', async () => {
-      const mockData: ESGRating[] = [];
-      mockGet.mockResolvedValue(mockData);
-      const abortSignal = new AbortController().signal;
-      const context = { config: { FMP_ACCESS_TOKEN: 'test-token' } };
-
-      await esgClient.getRatings('MSFT', {
-        signal: abortSignal,
-        context
-      });
-
-      expect(mockGet).toHaveBeenCalledWith('/esg-ratings', {
-        symbol: 'MSFT'
-      }, {
-        signal: abortSignal,
-        context
-      });
-    });
   });
 
   describe('getBenchmarks', () => {
@@ -159,7 +123,7 @@ describe('ESGClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/esg-benchmark', {
         year: '2024'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -171,7 +135,7 @@ describe('ESGClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/esg-benchmark', {
         year: undefined
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -183,24 +147,6 @@ describe('ESGClient', () => {
         .rejects.toThrow(errorMessage);
     });
 
-    it('should pass options correctly', async () => {
-      const mockData: ESGBenchmark[] = [];
-      mockGet.mockResolvedValue(mockData);
-      const abortSignal = new AbortController().signal;
-      const context = { config: { FMP_ACCESS_TOKEN: 'test-token' } };
-
-      await esgClient.getBenchmarks('2024', {
-        signal: abortSignal,
-        context
-      });
-
-      expect(mockGet).toHaveBeenCalledWith('/esg-benchmark', {
-        year: '2024'
-      }, {
-        signal: abortSignal,
-        context
-      });
-    });
   });
 
   describe('constructor', () => {

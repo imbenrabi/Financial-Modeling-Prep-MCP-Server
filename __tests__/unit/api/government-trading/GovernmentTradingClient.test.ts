@@ -73,7 +73,7 @@ describe('GovernmentTradingClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/senate-latest', {
         page: 0,
         limit: 50
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -86,7 +86,7 @@ describe('GovernmentTradingClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/senate-latest', {
         page: undefined,
         limit: undefined
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -128,7 +128,7 @@ describe('GovernmentTradingClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/house-latest', {
         page: 1,
         limit: 25
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -141,7 +141,7 @@ describe('GovernmentTradingClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/house-latest', {
         page: undefined,
         limit: undefined
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -198,7 +198,7 @@ describe('GovernmentTradingClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/senate-trades', {
         symbol: 'GOOGL'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -256,7 +256,7 @@ describe('GovernmentTradingClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/senate-trades-by-name', {
         name: 'Davis'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -298,7 +298,7 @@ describe('GovernmentTradingClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/house-trades', {
         symbol: 'META'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -356,7 +356,7 @@ describe('GovernmentTradingClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/house-trades-by-name', {
         name: 'Miller'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 

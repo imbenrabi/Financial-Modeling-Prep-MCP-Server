@@ -51,20 +51,9 @@ describe('DirectoryClient', () => {
 
       const result = await directoryClient.getCompanySymbols();
 
-      expect(mockGet).toHaveBeenCalledWith('/stock-list', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/stock-list', {});
       expect(result).toEqual(mockData);
     });
-
-    it('should handle options parameter', async () => {
-      const mockData: CompanySymbol[] = [];
-      mockGet.mockResolvedValue(mockData);
-
-      const options = { signal: new AbortController().signal };
-      await directoryClient.getCompanySymbols(options);
-
-      expect(mockGet).toHaveBeenCalledWith('/stock-list', {}, options);
-    });
-
     it('should handle API errors', async () => {
       const errorMessage = 'API Error';
       mockGet.mockRejectedValue(new Error(errorMessage));
@@ -94,19 +83,10 @@ describe('DirectoryClient', () => {
 
       const result = await directoryClient.getFinancialStatementSymbols();
 
-      expect(mockGet).toHaveBeenCalledWith('/financial-statement-symbol-list', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/financial-statement-symbol-list', {});
       expect(result).toEqual(mockData);
     });
 
-    it('should handle options parameter', async () => {
-      const mockData: FinancialStatementSymbol[] = [];
-      mockGet.mockResolvedValue(mockData);
-
-      const options = { signal: new AbortController().signal };
-      await directoryClient.getFinancialStatementSymbols(options);
-
-      expect(mockGet).toHaveBeenCalledWith('/financial-statement-symbol-list', {}, options);
-    });
   });
 
   describe('getCIKList', () => {
@@ -125,7 +105,7 @@ describe('DirectoryClient', () => {
 
       const result = await directoryClient.getCIKList(500);
 
-      expect(mockGet).toHaveBeenCalledWith('/cik-list', { limit: 500 }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/cik-list', { limit: 500 });
       expect(result).toEqual(mockData);
     });
 
@@ -135,18 +115,9 @@ describe('DirectoryClient', () => {
 
       await directoryClient.getCIKList();
 
-      expect(mockGet).toHaveBeenCalledWith('/cik-list', { limit: undefined }, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/cik-list', { limit: undefined });
     });
 
-    it('should handle options parameter', async () => {
-      const mockData: CIKEntry[] = [];
-      mockGet.mockResolvedValue(mockData);
-
-      const options = { signal: new AbortController().signal };
-      await directoryClient.getCIKList(1000, options);
-
-      expect(mockGet).toHaveBeenCalledWith('/cik-list', { limit: 1000 }, options);
-    });
   });
 
   describe('getSymbolChanges', () => {
@@ -166,7 +137,7 @@ describe('DirectoryClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/symbol-change', {
         invalid: true,
         limit: 50
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -179,21 +150,9 @@ describe('DirectoryClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/symbol-change', {
         invalid: undefined,
         limit: undefined
-      }, undefined);
+      });
     });
 
-    it('should handle options parameter', async () => {
-      const mockData: SymbolChange[] = [];
-      mockGet.mockResolvedValue(mockData);
-
-      const options = { signal: new AbortController().signal };
-      await directoryClient.getSymbolChanges(false, 25, options);
-
-      expect(mockGet).toHaveBeenCalledWith('/symbol-change', {
-        invalid: false,
-        limit: 25
-      }, options);
-    });
   });
 
   describe('getETFList', () => {
@@ -212,19 +171,10 @@ describe('DirectoryClient', () => {
 
       const result = await directoryClient.getETFList();
 
-      expect(mockGet).toHaveBeenCalledWith('/etf-list', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/etf-list', {});
       expect(result).toEqual(mockData);
     });
 
-    it('should handle options parameter', async () => {
-      const mockData: ETFEntry[] = [];
-      mockGet.mockResolvedValue(mockData);
-
-      const options = { signal: new AbortController().signal };
-      await directoryClient.getETFList(options);
-
-      expect(mockGet).toHaveBeenCalledWith('/etf-list', {}, options);
-    });
   });
 
   describe('getActivelyTradingList', () => {
@@ -243,19 +193,10 @@ describe('DirectoryClient', () => {
 
       const result = await directoryClient.getActivelyTradingList();
 
-      expect(mockGet).toHaveBeenCalledWith('/actively-trading-list', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/actively-trading-list', {});
       expect(result).toEqual(mockData);
     });
 
-    it('should handle options parameter', async () => {
-      const mockData: ActivelyTradingEntry[] = [];
-      mockGet.mockResolvedValue(mockData);
-
-      const options = { signal: new AbortController().signal };
-      await directoryClient.getActivelyTradingList(options);
-
-      expect(mockGet).toHaveBeenCalledWith('/actively-trading-list', {}, options);
-    });
   });
 
   describe('getEarningsTranscriptList', () => {
@@ -276,19 +217,10 @@ describe('DirectoryClient', () => {
 
       const result = await directoryClient.getEarningsTranscriptList();
 
-      expect(mockGet).toHaveBeenCalledWith('/earnings-transcript-list', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/earnings-transcript-list', {});
       expect(result).toEqual(mockData);
     });
 
-    it('should handle options parameter', async () => {
-      const mockData: EarningsTranscriptEntry[] = [];
-      mockGet.mockResolvedValue(mockData);
-
-      const options = { signal: new AbortController().signal };
-      await directoryClient.getEarningsTranscriptList(options);
-
-      expect(mockGet).toHaveBeenCalledWith('/earnings-transcript-list', {}, options);
-    });
   });
 
   describe('getAvailableExchanges', () => {
@@ -315,19 +247,10 @@ describe('DirectoryClient', () => {
 
       const result = await directoryClient.getAvailableExchanges();
 
-      expect(mockGet).toHaveBeenCalledWith('/available-exchanges', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/available-exchanges', {});
       expect(result).toEqual(mockData);
     });
 
-    it('should handle options parameter', async () => {
-      const mockData: ExchangeEntry[] = [];
-      mockGet.mockResolvedValue(mockData);
-
-      const options = { signal: new AbortController().signal };
-      await directoryClient.getAvailableExchanges(options);
-
-      expect(mockGet).toHaveBeenCalledWith('/available-exchanges', {}, options);
-    });
   });
 
   describe('getAvailableSectors', () => {
@@ -347,19 +270,10 @@ describe('DirectoryClient', () => {
 
       const result = await directoryClient.getAvailableSectors();
 
-      expect(mockGet).toHaveBeenCalledWith('/available-sectors', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/available-sectors', {});
       expect(result).toEqual(mockData);
     });
 
-    it('should handle options parameter', async () => {
-      const mockData: SectorEntry[] = [];
-      mockGet.mockResolvedValue(mockData);
-
-      const options = { signal: new AbortController().signal };
-      await directoryClient.getAvailableSectors(options);
-
-      expect(mockGet).toHaveBeenCalledWith('/available-sectors', {}, options);
-    });
   });
 
   describe('getAvailableIndustries', () => {
@@ -379,19 +293,10 @@ describe('DirectoryClient', () => {
 
       const result = await directoryClient.getAvailableIndustries();
 
-      expect(mockGet).toHaveBeenCalledWith('/available-industries', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/available-industries', {});
       expect(result).toEqual(mockData);
     });
 
-    it('should handle options parameter', async () => {
-      const mockData: IndustryEntry[] = [];
-      mockGet.mockResolvedValue(mockData);
-
-      const options = { signal: new AbortController().signal };
-      await directoryClient.getAvailableIndustries(options);
-
-      expect(mockGet).toHaveBeenCalledWith('/available-industries', {}, options);
-    });
   });
 
   describe('getAvailableCountries', () => {
@@ -411,19 +316,10 @@ describe('DirectoryClient', () => {
 
       const result = await directoryClient.getAvailableCountries();
 
-      expect(mockGet).toHaveBeenCalledWith('/available-countries', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/available-countries', {});
       expect(result).toEqual(mockData);
     });
 
-    it('should handle options parameter', async () => {
-      const mockData: CountryEntry[] = [];
-      mockGet.mockResolvedValue(mockData);
-
-      const options = { signal: new AbortController().signal };
-      await directoryClient.getAvailableCountries(options);
-
-      expect(mockGet).toHaveBeenCalledWith('/available-countries', {}, options);
-    });
   });
 
   describe('constructor', () => {

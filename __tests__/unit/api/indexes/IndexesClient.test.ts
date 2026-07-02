@@ -58,7 +58,7 @@ describe('IndexesClient', () => {
 
       const result = await indexesClient.getIndexList();
 
-      expect(mockGet).toHaveBeenCalledWith('/index-list', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/index-list', {});
       expect(result).toEqual(mockData);
     });
 
@@ -100,7 +100,7 @@ describe('IndexesClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/quote', {
         symbol: '^GSPC'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -129,7 +129,7 @@ describe('IndexesClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/quote-short', {
         symbol: '^DJI'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -164,7 +164,7 @@ describe('IndexesClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/batch-index-quotes', {
         short: true
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -176,7 +176,7 @@ describe('IndexesClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/batch-index-quotes', {
         short: undefined
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
   });
@@ -208,7 +208,7 @@ describe('IndexesClient', () => {
         symbol: '^GSPC',
         from: '2024-01-15',
         to: '2024-01-16'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -220,7 +220,7 @@ describe('IndexesClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/historical-price-eod/light', {
         symbol: '^GSPC'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
   });
@@ -252,7 +252,7 @@ describe('IndexesClient', () => {
         symbol: '^IXIC',
         from: '2024-01-15',
         to: '2024-01-15'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -264,7 +264,7 @@ describe('IndexesClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/historical-price-eod/full', {
         symbol: '^IXIC'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
   });
@@ -300,7 +300,7 @@ describe('IndexesClient', () => {
         symbol: '^GSPC',
         from: '2024-01-15',
         to: '2024-01-15'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -312,7 +312,7 @@ describe('IndexesClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/historical-chart/1min', {
         symbol: '^GSPC'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
   });
@@ -338,7 +338,7 @@ describe('IndexesClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/historical-chart/5min', {
         symbol: '^DJI',
         from: '2024-01-15'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
   });
@@ -364,7 +364,7 @@ describe('IndexesClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/historical-chart/1hour', {
         symbol: '^IXIC',
         to: '2024-01-15'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
   });
@@ -397,7 +397,7 @@ describe('IndexesClient', () => {
 
       const result = await indexesClient.getSP500Constituents();
 
-      expect(mockGet).toHaveBeenCalledWith('/sp500-constituent', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/sp500-constituent', {});
       expect(result).toEqual(mockData);
     });
 
@@ -428,7 +428,7 @@ describe('IndexesClient', () => {
 
       const result = await indexesClient.getNasdaqConstituents();
 
-      expect(mockGet).toHaveBeenCalledWith('/nasdaq-constituent', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/nasdaq-constituent', {});
       expect(result).toEqual(mockData);
     });
   });
@@ -451,7 +451,7 @@ describe('IndexesClient', () => {
 
       const result = await indexesClient.getDowJonesConstituents();
 
-      expect(mockGet).toHaveBeenCalledWith('/dowjones-constituent', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/dowjones-constituent', {});
       expect(result).toEqual(mockData);
     });
   });
@@ -482,7 +482,7 @@ describe('IndexesClient', () => {
 
       const result = await indexesClient.getHistoricalSP500Changes();
 
-      expect(mockGet).toHaveBeenCalledWith('/historical-sp500-constituent', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/historical-sp500-constituent', {});
       expect(result).toEqual(mockData);
     });
 
@@ -512,7 +512,7 @@ describe('IndexesClient', () => {
 
       const result = await indexesClient.getHistoricalNasdaqChanges();
 
-      expect(mockGet).toHaveBeenCalledWith('/historical-nasdaq-constituent', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/historical-nasdaq-constituent', {});
       expect(result).toEqual(mockData);
     });
   });
@@ -534,7 +534,7 @@ describe('IndexesClient', () => {
 
       const result = await indexesClient.getHistoricalDowJonesChanges();
 
-      expect(mockGet).toHaveBeenCalledWith('/historical-dowjones-constituent', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/historical-dowjones-constituent', {});
       expect(result).toEqual(mockData);
     });
   });

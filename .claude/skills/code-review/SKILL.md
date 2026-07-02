@@ -143,7 +143,7 @@ makes the skill a complete reviewer, not just an overlay.
 **B. Intent-layer invariants & toolception pitfalls.** Validate the diff against the rules
 in the docs loaded in step 3. The recurring high-cost ones to anchor on:
 - **API key** travels as the `?apikey=` query param — never a header (`docs/src/api/AGENTS.md`).
-- **Token precedence** is Context > Instance > Environment; don't invert it.
+- **Token precedence** is Instance (constructor-injected session token) > Environment; don't invert it, and don't reintroduce a per-request "context" tier.
 - **Tools never throw** — handlers return `{ content: [...], isError: true }`, message
   formatted `Error: ${message}` (`docs/src/tools/AGENTS.md`).
 - **Tool names are globally unique** across all modules — a duplicate silently overwrites.

@@ -38,7 +38,7 @@ src/
 ## Key Invariants
 
 1. **API Key as Query Parameter** — FMP requires `?apikey=`, never headers
-2. **Token Precedence** — Context > Instance > Environment
+2. **Token Precedence** — Instance > Environment; the session token is injected via the client constructor at construction time
 3. **Fail-Fast Validation** — Invalid tool sets cause `process.exit(1)` at startup
 4. **Session Restrictions** — Only `FMP_ACCESS_TOKEN` takes effect at session level; `FMP_TOOL_SETS` / `DYNAMIC_TOOL_DISCOVERY` exist in the schema but are no-ops (mode is fixed at startup)
 5. **Read-Only Tools** — All tools are read-only data fetchers

@@ -71,7 +71,7 @@ describe('SECFilingsClient', () => {
         to: '2024-01-31',
         page: 0,
         limit: 10
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -91,7 +91,7 @@ describe('SECFilingsClient', () => {
         to: '2024-01-31',
         page: undefined,
         limit: undefined
-      }, undefined);
+      });
     });
 
     it('should handle API errors', async () => {
@@ -138,7 +138,7 @@ describe('SECFilingsClient', () => {
         to: '2024-01-31',
         page: 0,
         limit: 20
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
   });
@@ -174,7 +174,7 @@ describe('SECFilingsClient', () => {
         to: '2024-01-31',
         page: 0,
         limit: 15
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
   });
@@ -210,7 +210,7 @@ describe('SECFilingsClient', () => {
         to: '2024-01-31',
         page: 0,
         limit: 25
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
   });
@@ -246,7 +246,7 @@ describe('SECFilingsClient', () => {
         to: '2024-01-31',
         page: 0,
         limit: 30
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
   });
@@ -274,7 +274,7 @@ describe('SECFilingsClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/sec-filings-company-search/name', {
         company: 'Apple'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
   });
@@ -302,7 +302,7 @@ describe('SECFilingsClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/sec-filings-company-search/symbol', {
         symbol: 'MSFT'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
   });
@@ -330,7 +330,7 @@ describe('SECFilingsClient', () => {
 
       expect(mockGet).toHaveBeenCalledWith('/sec-filings-company-search/cik', {
         cik: '0001652044'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
   });
@@ -387,7 +387,7 @@ describe('SECFilingsClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/sec-profile', {
         symbol: 'AAPL',
         cik: undefined
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -404,7 +404,7 @@ describe('SECFilingsClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/sec-profile', {
         symbol: undefined,
         cik: '0000320193'
-      }, undefined);
+      });
     });
 
     it('should call get with correct parameters with both symbol and cik', async () => {
@@ -421,7 +421,7 @@ describe('SECFilingsClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/sec-profile', {
         symbol: 'AAPL',
         cik: '0000320193'
-      }, undefined);
+      });
     });
   });
 
@@ -446,7 +446,7 @@ describe('SECFilingsClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/standard-industrial-classification-list', {
         industryTitle: 'Electronic',
         sicCode: '3571'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -459,7 +459,7 @@ describe('SECFilingsClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/standard-industrial-classification-list', {
         industryTitle: undefined,
         sicCode: undefined
-      }, undefined);
+      });
     });
   });
 
@@ -490,7 +490,7 @@ describe('SECFilingsClient', () => {
         symbol: 'AAPL',
         cik: '0000320193',
         sicCode: '3571'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -504,7 +504,7 @@ describe('SECFilingsClient', () => {
         symbol: undefined,
         cik: undefined,
         sicCode: undefined
-      }, undefined);    });
+      });    });
   });
 
   describe('getAllIndustryClassification', () => {
@@ -532,7 +532,7 @@ describe('SECFilingsClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/all-industry-classification', {
         page: 0,
         limit: 50
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -545,7 +545,7 @@ describe('SECFilingsClient', () => {
       expect(mockGet).toHaveBeenCalledWith('/all-industry-classification', {
         page: undefined,
         limit: undefined
-      }, undefined);
+      });
     });
   });
 

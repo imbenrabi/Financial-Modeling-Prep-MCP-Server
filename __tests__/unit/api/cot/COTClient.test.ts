@@ -169,7 +169,7 @@ describe('COTClient', () => {
         symbol: 'GC',
         from: undefined,
         to: undefined
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -183,24 +183,9 @@ describe('COTClient', () => {
         symbol: 'GC',
         from: '2024-01-01',
         to: '2024-01-31'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
-
-    it('should handle options parameter', async () => {
-      const mockData: COTReport[] = [];
-      mockGet.mockResolvedValue(mockData);
-
-      const options = { signal: new AbortController().signal };
-      await cotClient.getReports('GC', undefined, undefined, options);
-
-      expect(mockGet).toHaveBeenCalledWith('/commitment-of-traders-report', {
-        symbol: 'GC',
-        from: undefined,
-        to: undefined
-      }, options);
-    });
-
     it('should handle API errors', async () => {
       const errorMessage = 'API Error';
       mockGet.mockRejectedValue(new Error(errorMessage));
@@ -240,7 +225,7 @@ describe('COTClient', () => {
         symbol: 'GC',
         from: undefined,
         to: undefined
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
 
@@ -254,24 +239,9 @@ describe('COTClient', () => {
         symbol: 'CL',
         from: '2024-01-01',
         to: '2024-01-31'
-      }, undefined);
+      });
       expect(result).toEqual(mockData);
     });
-
-    it('should handle options parameter', async () => {
-      const mockData: COTAnalysis[] = [];
-      mockGet.mockResolvedValue(mockData);
-
-      const options = { signal: new AbortController().signal };
-      await cotClient.getAnalysis('GC', '2024-01-01', undefined, options);
-
-      expect(mockGet).toHaveBeenCalledWith('/commitment-of-traders-analysis', {
-        symbol: 'GC',
-        from: '2024-01-01',
-        to: undefined
-      }, options);
-    });
-
     it('should handle API errors', async () => {
       const errorMessage = 'API Error';
       mockGet.mockRejectedValue(new Error(errorMessage));
@@ -309,20 +279,9 @@ describe('COTClient', () => {
 
       const result = await cotClient.getList();
 
-      expect(mockGet).toHaveBeenCalledWith('/commitment-of-traders-list', {}, undefined);
+      expect(mockGet).toHaveBeenCalledWith('/commitment-of-traders-list', {});
       expect(result).toEqual(mockData);
     });
-
-    it('should handle options parameter', async () => {
-      const mockData: COTList[] = [];
-      mockGet.mockResolvedValue(mockData);
-
-      const options = { signal: new AbortController().signal };
-      await cotClient.getList(options);
-
-      expect(mockGet).toHaveBeenCalledWith('/commitment-of-traders-list', {}, options);
-    });
-
     it('should handle API errors', async () => {
       const errorMessage = 'API Error';
       mockGet.mockRejectedValue(new Error(errorMessage));

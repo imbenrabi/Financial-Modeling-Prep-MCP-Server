@@ -42,29 +42,9 @@ MSFT,300.50,2200000000000,0.9,Microsoft Corporation,Technology,Software`;
         `/profile-bulk`,
         {
           part: '1',
-        },
-        undefined
+        }
       );
       expect(result).toEqual(mockCSVData);
-    });
-
-    it('should handle options parameter', async () => {
-      const mockCSVData = 'symbol,companyName\nAAPL,Apple Inc.';
-      mockGetCSV.mockResolvedValue(mockCSVData);
-
-      const params: PartParams = { part: '2' };
-      const options = {
-        signal: new AbortController().signal,
-        context: { config: { FMP_ACCESS_TOKEN: 'test-token' } }
-      };
-
-      await bulkClient.getCompanyProfilesBulk(params, options);
-
-      expect(mockGetCSV).toHaveBeenCalledWith(
-        `/profile-bulk`,
-        { part: '2' },
-        options
-      );
     });
 
     it('should handle API errors', async () => {
@@ -86,18 +66,8 @@ MSFT,2024-01-01,4.2,Buy`;
 
       const result = await bulkClient.getStockRatingsBulk();
 
-      expect(mockGetCSV).toHaveBeenCalledWith(`/rating-bulk`, {}, undefined);
+      expect(mockGetCSV).toHaveBeenCalledWith(`/rating-bulk`, {});
       expect(result).toEqual(mockCSVData);
-    });
-
-    it('should handle options parameter', async () => {
-      const mockCSVData = 'symbol,rating\nAAPL,4.5';
-      mockGetCSV.mockResolvedValue(mockCSVData);
-
-      const options = { signal: new AbortController().signal };
-      await bulkClient.getStockRatingsBulk(options);
-
-      expect(mockGetCSV).toHaveBeenCalledWith(`/rating-bulk`, {}, options);
     });
   });
 
@@ -110,7 +80,7 @@ MSFT,2024-01-01,285.75,-5.1`;
 
       const result = await bulkClient.getDCFValuationsBulk();
 
-      expect(mockGetCSV).toHaveBeenCalledWith(`/dcf-bulk`, {}, undefined);
+      expect(mockGetCSV).toHaveBeenCalledWith(`/dcf-bulk`, {});
       expect(result).toEqual(mockCSVData);
     });
   });
@@ -124,7 +94,7 @@ MSFT,2.8,7,75000000`;
 
       const result = await bulkClient.getFinancialScoresBulk();
 
-      expect(mockGetCSV).toHaveBeenCalledWith(`/scores-bulk`, {}, undefined);
+      expect(mockGetCSV).toHaveBeenCalledWith(`/scores-bulk`, {});
       expect(result).toEqual(mockCSVData);
     });
   });
@@ -140,8 +110,7 @@ MSFT,8,285.75,20,280.50`;
 
       expect(mockGetCSV).toHaveBeenCalledWith(
         `/price-target-summary-bulk`,
-        {},
-        undefined
+        {}
       );
       expect(result).toEqual(mockCSVData);
     });
@@ -161,8 +130,7 @@ QQQ,800000,MSFT,10.2,Microsoft Corporation`;
         `/etf-holder-bulk`,
         {
           part: '1',
-        },
-        undefined
+        }
       );
       expect(result).toEqual(mockCSVData);
     });
@@ -179,8 +147,7 @@ MSFT,8,12,8,1,1,Buy`;
 
       expect(mockGetCSV).toHaveBeenCalledWith(
         `/upgrades-downgrades-consensus-bulk`,
-        {},
-        undefined
+        {}
       );
       expect(result).toEqual(mockCSVData);
     });
@@ -195,7 +162,7 @@ MSFT,2200000000000,2180000000000,12.5`;
 
       const result = await bulkClient.getKeyMetricsTTMBulk();
 
-      expect(mockGetCSV).toHaveBeenCalledWith(`/key-metrics-ttm-bulk`, {}, undefined);
+      expect(mockGetCSV).toHaveBeenCalledWith(`/key-metrics-ttm-bulk`, {});
       expect(result).toEqual(mockCSVData);
     });
   });
@@ -209,7 +176,7 @@ MSFT,0.69,0.42,0.36`;
 
       const result = await bulkClient.getRatiosTTMBulk();
 
-      expect(mockGetCSV).toHaveBeenCalledWith(`/ratios-ttm-bulk`, {}, undefined);
+      expect(mockGetCSV).toHaveBeenCalledWith(`/ratios-ttm-bulk`, {});
       expect(result).toEqual(mockCSVData);
     });
   });
@@ -223,7 +190,7 @@ MSFT,"AAPL,GOOGL,ORCL,CRM"`;
 
       const result = await bulkClient.getStockPeersBulk();
 
-      expect(mockGetCSV).toHaveBeenCalledWith(`/peers-bulk`, {}, undefined);
+      expect(mockGetCSV).toHaveBeenCalledWith(`/peers-bulk`, {});
       expect(result).toEqual(mockCSVData);
     });
   });
@@ -242,8 +209,7 @@ MSFT,2024-01-01,2.95,2.87,2024-01-02`;
         `/earnings-surprises-bulk`,
         {
           year: '2024',
-        },
-        undefined
+        }
       );
       expect(result).toEqual(mockCSVData);
     });
@@ -264,8 +230,7 @@ MSFT,2024-01-01,211915000000,65525000000,146390000000,72361000000`;
         {
           year: '2024',
           period: 'annual',
-        },
-        undefined
+        }
       );
       expect(result).toEqual(mockCSVData);
     });
@@ -286,8 +251,7 @@ MSFT,2024-01-01,0.15,0.08,0.18`;
         {
           year: '2024',
           period: 'quarter',
-        },
-        undefined
+        }
       );
       expect(result).toEqual(mockCSVData);
     });
@@ -308,8 +272,7 @@ MSFT,2024-01-01,169684000000,411976000000,95082000000,205753000000`;
         {
           year: '2024',
           period: 'annual',
-        },
-        undefined
+        }
       );
       expect(result).toEqual(mockCSVData);
     });
@@ -330,8 +293,7 @@ MSFT,2024-01-01,0.08,0.12,0.06`;
         {
           year: '2024',
           period: 'annual',
-        },
-        undefined
+        }
       );
       expect(result).toEqual(mockCSVData);
     });
@@ -352,8 +314,7 @@ MSFT,2024-01-01,72361000000,87582000000,-28107000000,59475000000`;
         {
           year: '2024',
           period: 'annual',
-        },
-        undefined
+        }
       );
       expect(result).toEqual(mockCSVData);
     });
@@ -374,8 +335,7 @@ MSFT,2024-01-01,0.15,0.12,0.20`;
         {
           year: '2024',
           period: 'annual',
-        },
-        undefined
+        }
       );
       expect(result).toEqual(mockCSVData);
     });
@@ -395,29 +355,9 @@ MSFT,2024-01-01,300.50,298.25,305.10,303.75,303.75,28456300`;
         `/eod-bulk`,
         {
           date: '2024-01-01',
-        },
-        undefined
+        }
       );
       expect(result).toEqual(mockCSVData);
-    });
-
-    it('should handle options parameter', async () => {
-      const mockCSVData = 'symbol,date,close\nAAPL,2024-01-01,151.80';
-      mockGetCSV.mockResolvedValue(mockCSVData);
-
-      const params: EODParams = { date: '2024-01-01' };
-      const options = {
-        signal: new AbortController().signal,
-        context: { config: { FMP_ACCESS_TOKEN: 'test-token' } }
-      };
-
-      await bulkClient.getEODDataBulk(params, options);
-
-      expect(mockGetCSV).toHaveBeenCalledWith(
-        `/eod-bulk`,
-        { date: '2024-01-01' },
-        options
-      );
     });
   });
 
@@ -450,4 +390,4 @@ MSFT,2024-01-01,300.50,298.25,305.10,303.75,303.75,28456300`;
       expect(result).toEqual(malformedCSV); // Should return raw CSV as-is
     });
   });
-}); 
+});
