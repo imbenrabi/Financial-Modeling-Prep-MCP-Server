@@ -40,7 +40,9 @@ jobs:
           # are the skills the repo-local code-review skill invokes. The /code-review skill
           # itself is auto-discovered from this repo's .claude/skills/ on checkout.
           plugin_marketplaces: 'https://github.com/imbenrabi/imbenrabi-claude-marketplace.git'
-          plugins: 'agent-guidelines@imbenrabi,coding-standards@imbenrabi'
+          plugins: |
+            agent-guidelines@imbenrabi
+            coding-standards@imbenrabi
           prompt: '/code-review ${{ github.repository }}/pull/${{ github.event.pull_request.number }}'
           # See https://github.com/anthropics/claude-code-action/blob/main/docs/usage.md
           # or https://code.claude.com/docs/en/cli-reference for available options
