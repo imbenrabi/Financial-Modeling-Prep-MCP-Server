@@ -39,6 +39,9 @@ manual-server-tests
 .claude/*
 !.claude/skills/
 
+# Git worktrees
+.worktrees/
+
 # MCP registry token files (do not commit)
 .mcpregistry_github_token
 .mcpregistry_registry_token
