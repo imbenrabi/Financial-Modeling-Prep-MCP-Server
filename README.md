@@ -1,5 +1,7 @@
 # Financial Modeling Prep MCP Server
 
+[![MCP Toplist](https://mcptoplist.com/badge/io.github.imbenrabi%2Ffinancial-modeling-prep-mcp-server.svg)](https://mcptoplist.com/server/io.github.imbenrabi%2Ffinancial-modeling-prep-mcp-server)
+
 [![npm version](https://img.shields.io/npm/v/financial-modeling-prep-mcp-server.svg)](https://www.npmjs.com/package/financial-modeling-prep-mcp-server)
 [![license](https://img.shields.io/npm/l/financial-modeling-prep-mcp-server.svg)](LICENSE)
 
