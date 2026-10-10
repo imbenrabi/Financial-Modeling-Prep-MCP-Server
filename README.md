@@ -64,7 +64,7 @@ See [docs/INSTALLATION.md](docs/INSTALLATION.md) for detailed steps per method.
 
 ## Configuration
 
-The server supports three operational modes controlled via CLI arguments, or environment variables:
+The server supports three operational modes controlled via CLI arguments or environment variables:
 
 | Mode | How to Enable | Description |
 |------|---------------|-------------|
