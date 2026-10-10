@@ -102,8 +102,15 @@ async function main() {
       }
     });
 
+    const promptContext = {
+      mode,
+      version,
+      listChanged: mode === 'DYNAMIC_TOOL_DISCOVERY',
+      staticToolSets: enforcer.toolSets
+    };
+
     // Create and start server using toolception
-    const { start, close, server } = await createMcpServer({
+    const { start, close } = await createMcpServer({
       catalog: toolceptionConfig.catalog,
       moduleLoaders: toolceptionConfig.moduleLoaders,
       startup: toolceptionConfig.startup,
@@ -111,9 +118,9 @@ async function main() {
       sessionContext: toolceptionConfig.sessionContext,
       exposurePolicy: toolceptionConfig.exposurePolicy,
       createServer: () => {
-        // Toolception will create its own MCP server instance
-        // We just need to provide the factory function
-        return new McpServer(
+        // Toolception calls this for its base server and again for every client
+        // session, so prompts must be registered here to reach each client
+        const mcpServer = new McpServer(
           {
             name: 'Financial Modeling Prep MCP (Stateful)',
             version
@@ -125,6 +132,8 @@ async function main() {
             }
           }
         );
+        registerPrompts(mcpServer, promptContext);
+        return mcpServer;
       },
       http: {
         port: PORT,
@@ -136,15 +145,6 @@ async function main() {
         customEndpoints: [pingEndpoint, healthCheckEndpoint, serverCardEndpoint]
       }
     });
-
-    // Register prompts with the MCP server
-    registerPrompts(server, {
-      mode,
-      version,
-      listChanged: mode === 'DYNAMIC_TOOL_DISCOVERY',
-      staticToolSets: enforcer.toolSets
-    });
-    console.log('[FMP MCP Server] Prompts registered');
 
     console.log('[FMP MCP Server] Starting HTTP server...');
     await start();

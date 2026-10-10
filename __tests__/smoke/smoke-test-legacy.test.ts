@@ -7,6 +7,7 @@ import {
   initializeSession,
   listTools,
   callTool,
+  listPrompts,
   resetSession,
 } from './smoke-test-utils.js';
 
@@ -137,6 +138,21 @@ describe('Legacy/All Tools Mode Smoke Tests', () => {
     const callResponse = await callTool(server.port, 'searchSymbol', {}, sessionConfig);
     expect(callResponse.result.isError).toBe(true);
     expect(callResponse.result.content[0].text).toContain('Input validation error');
+  }, 40000);
+
+  it('should list prompts in legacy mode', async () => {
+    server = await startTestServer({
+      env: {},
+    });
+
+    const sessionConfig: SessionConfig = {};
+
+    await initializeSession(server.port, sessionConfig);
+    const promptsResponse = await listPrompts(server.port, sessionConfig);
+
+    expect(promptsResponse.error).toBeUndefined();
+    const promptNames = promptsResponse.result.prompts.map((p: any) => p.name);
+    expect(promptNames).toContain('list_mcp_assets');
   }, 40000);
 
   it('should not have meta-tools in legacy mode', async () => {
