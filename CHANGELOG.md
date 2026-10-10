@@ -5,6 +5,25 @@ All notable changes to the Financial Modeling Prep MCP Server will be documented
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [2.7.0] - 2026-10-10
+
+### Changed
+- Upgraded `toolception` from `^0.6.3` to `^0.7.0` (#109). Clients now stay connected side by side in every mode (`ALL_TOOLS`, `STATIC_TOOL_SETS` and `DYNAMIC_TOOL_DISCOVERY`); previously a second client in `ALL_TOOLS` or `STATIC_TOOL_SETS` dropped the first with `Session not found or expired`
+- A per-session `?config=` token (`FMP_ACCESS_TOKEN`) now reaches the tools in every mode, so clients no longer get `FMP_ACCESS_TOKEN is required` when the server has no token of its own
+- Every tool registers through the SDK's `registerTool`, so its Zod input schema is advertised to clients and invalid arguments are rejected with `Input validation error`
+- Raised dependency floors to match: `@modelcontextprotocol/sdk` `^1.32.1`, `fastify` `^5.12.5` and `zod` `^3.25.76`
+- `ToolCollector`, `createModuleAdapter` and `ModeConfigMapper` now import their types from toolception instead of keeping local copies
+
+### Fixed
+- Prompts are registered on every per-client MCP server, so `prompts/list` no longer returns `Method not found` in `DYNAMIC_TOOL_DISCOVERY` mode (#108)
+- Resolved 19 of 23 `npm audit` advisories in runtime and dev dependencies, including `@modelcontextprotocol/sdk`, `axios`, `fastify`, `hono`, `proxy-addr`, `fast-uri`, `ip-address` and `form-data`, and bumped `vitest` to `^4.1.11` to clear its critical advisories (#107)
+
+### Added
+- `npm run verify:toolception -- --source <npm version | tarball | git:ref>` checks the server against any toolception build before a future dependency bump (#109)
+
+### CI
+- The Claude Code Review workflow now runs only on manual dispatch, because its OAuth token expired (#110)
+
 ## [2.6.12] - 2026-07-02
 
 ### Added
