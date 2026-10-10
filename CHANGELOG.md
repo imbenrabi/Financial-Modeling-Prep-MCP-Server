@@ -5,6 +5,14 @@ All notable changes to the Financial Modeling Prep MCP Server will be documented
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+- `ALL_TOOLS` mode registered the four `earnings-transcript` tools twice (`getLatestEarningsTranscripts`, `getEarningsTranscript`, `getEarningsTranscriptDates`, `getAvailableTranscriptSymbols`) because both the `calendar` and `earnings` tool sets listed that module. Toolception 0.8.0 rejects duplicate tool names at `initialize`. A new test fails on any module or tool name shared between tool sets
+
+### Changed
+- The `calendar` tool set no longer includes the transcript tools. With `STATIC_TOOL_SETS` or `DYNAMIC_TOOL_DISCOVERY`, select `earnings` for transcripts; `calendar` keeps `getEarningsCalendar`. `ALL_TOOLS` exposes the same 253 tools as before
+
 ## [2.7.0] - 2026-10-10
 
 ### Changed
@@ -84,11 +92,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Version 2.5.3 release
-
-## [Unreleased]
-
-### Fixed
-- The `calendar` tool set no longer includes the `earnings-transcript` module, which `earnings` already owns; its four tools (`getLatestEarningsTranscripts`, `getEarningsTranscript`, `getEarningsTranscriptDates`, `getAvailableTranscriptSymbols`) were registered twice in `ALL_TOOLS` mode, which toolception 0.8.0 rejects at `initialize`. Select `earnings` for transcripts; `calendar` keeps `getEarningsCalendar`. A new test fails on any tool name or module shared between tool sets
 
 ## [2.5.0] - 2025-01-09
 
