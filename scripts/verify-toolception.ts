@@ -5,7 +5,7 @@
  * dependency is bumped.
  *
  * Usage:
- *   npm run verify:toolception -- --source <spec> [--strict] [--keep]
+ *   npm run verify:toolception -- --source <spec> [--keep]
  *
  * <spec> is one of:
  *   - an npm version or tag (e.g. 0.7.0, latest)
@@ -14,8 +14,8 @@
  *
  * The candidate is installed with --no-save, so package.json and the lockfile
  * stay untouched; node_modules is restored with `npm ci` afterwards unless
- * --keep is passed. Checks marked "tracked" cover known issues that are fixed
- * in pending PRs; they only fail the run with --strict.
+ * --keep is passed. Every check must pass; the per-client checks need a
+ * toolception build that includes code-rabi/toolception#27.
  */
 
 import { execSync, spawn, type ChildProcess } from 'node:child_process';
@@ -26,11 +26,8 @@ import { join, resolve } from 'node:path';
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
 
-type CheckLevel = 'required' | 'tracked';
-
 interface CheckResult {
   name: string;
-  level: CheckLevel;
   passed: boolean;
   detail: string;
 }
@@ -40,23 +37,23 @@ const SHARED_DEPS = ['@modelcontextprotocol/sdk', 'fastify', 'zod'];
 const TOKEN_MISSING = 'FMP_ACCESS_TOKEN is required';
 const results: CheckResult[] = [];
 
-function record(name: string, level: CheckLevel, passed: boolean, detail = ''): void {
-  results.push({ name, level, passed, detail });
-  console.log(`${passed ? 'PASS' : 'FAIL'} [${level}] ${name}${detail ? ` - ${detail}` : ''}`);
+function record(name: string, passed: boolean, detail = ''): void {
+  results.push({ name, passed, detail });
+  console.log(`${passed ? 'PASS' : 'FAIL'} ${name}${detail ? ` - ${detail}` : ''}`);
 }
 
 function run(command: string, cwd = process.cwd()): string {
   return execSync(command, { cwd, stdio: ['ignore', 'pipe', 'pipe'], encoding: 'utf8' });
 }
 
-function parseArgs(argv: string[]): { source: string; strict: boolean; keep: boolean } {
+function parseArgs(argv: string[]): { source: string; keep: boolean } {
   const sourceIndex = argv.indexOf('--source');
   const source = sourceIndex >= 0 ? argv[sourceIndex + 1] : undefined;
   if (!source) {
     console.error('Missing --source <npm version | tarball path | git:ref>');
     process.exit(2);
   }
-  return { source, strict: argv.includes('--strict'), keep: argv.includes('--keep') };
+  return { source, keep: argv.includes('--keep') };
 }
 
 /**
@@ -87,13 +84,13 @@ function readVersion(packageDir: string): string {
 
 function checkSharedDependencies(spec: string): void {
   const installed = readVersion('node_modules/toolception');
-  record('installed toolception', 'required', true, `${installed} from ${spec}`);
+  record('installed toolception', true, `${installed} from ${spec}`);
   for (const dep of SHARED_DEPS) {
     const nested = join('node_modules/toolception/node_modules', dep);
     const topLevel = readVersion(join('node_modules', dep));
     const duplicated = existsSync(nested);
     const detail = duplicated ? `toolception has its own ${readVersion(nested)}, server has ${topLevel}` : topLevel;
-    record(`single copy of ${dep}`, 'required', !duplicated, detail);
+    record(`single copy of ${dep}`, !duplicated, detail);
   }
 }
 
@@ -101,11 +98,11 @@ function runProjectChecks(): void {
   for (const script of ['typecheck', 'lint', 'build', 'test:run']) {
     try {
       run(`npm run ${script}`);
-      record(`npm run ${script}`, 'required', true);
+      record(`npm run ${script}`, true);
     } catch (error) {
       const { stdout = '', stderr = '' } = error as { stdout?: string; stderr?: string };
       const output = `${stdout}${stderr}`.trim().split('\n').slice(-15).join('\n');
-      record(`npm run ${script}`, 'required', false, `\n${output}`);
+      record(`npm run ${script}`, false, `\n${output}`);
     }
   }
 }
@@ -156,11 +153,11 @@ function resultText(result: unknown): string {
   return content?.[0]?.text ?? '';
 }
 
-async function attempt(name: string, level: CheckLevel, check: () => Promise<string>): Promise<void> {
+async function attempt(name: string, check: () => Promise<string>): Promise<void> {
   try {
-    record(name, level, true, await check());
+    record(name, true, await check());
   } catch (error) {
-    record(name, level, false, error instanceof Error ? error.message.slice(0, 200) : String(error));
+    record(name, false, error instanceof Error ? error.message.slice(0, 200) : String(error));
   }
 }
 
@@ -178,38 +175,37 @@ async function checkMode(mode: string, env: Record<string, string>, enableToolse
     const first = await connect(port, `verify-${mode}-a`, 'session-token');
     if (enableToolset) await first.callTool({ name: 'enable_toolset', arguments: { name: 'search' } });
 
-    await attempt(label('searchSymbol advertises its Zod schema'), 'required', async () => {
+    await attempt(label('searchSymbol advertises its Zod schema'), async () => {
       const tools = (await first.listTools()).tools;
       const schema = tools.find((tool) => tool.name === 'searchSymbol')?.inputSchema;
       expect(Boolean(schema?.properties?.query) && Boolean(schema?.required?.includes('query')), 'query missing from schema');
       return `${tools.length} tools listed`;
     });
-    await attempt(label('invalid arguments are rejected'), 'required', async () => {
+    await attempt(label('invalid arguments are rejected'), async () => {
       const text = resultText(await first.callTool({ name: 'searchSymbol', arguments: {} }));
       expect(text.includes('Input validation error'), text);
       return 'rejected before the handler';
     });
-    await attempt(label('prompts are listed'), 'tracked', async () => {
-      const listed = await first.listPrompts().catch((error: Error) => {
-        throw new Error(`${error.message} (fixed by server #108)`);
-      });
-      const prompts = listed.prompts.map((prompt) => prompt.name);
-      expect(prompts.includes('list_mcp_assets'), `got [${prompts.join(', ')}] (fixed by server #108)`);
+    await attempt(label('prompts are listed'), async () => {
+      const prompts = (await first.listPrompts()).prompts.map((prompt) => prompt.name);
+      expect(prompts.includes('list_mcp_assets'), `got [${prompts.join(', ')}]`);
       return prompts.join(', ');
     });
-    await attempt(label('session token reaches the handler'), 'tracked', async () => {
+    await attempt(label('session token reaches the handler'), async () => {
       const text = resultText(await first.callTool({ name: 'searchSymbol', arguments: { query: 'AAPL' } }));
-      expect(!text.includes(TOKEN_MISSING), `${text} (fixed by toolception#27)`);
+      expect(!text.includes(TOKEN_MISSING), `needs toolception#27: ${text}`);
       return 'handler used the ?config= token';
     });
 
     const second = await connect(port, `verify-${mode}-b`);
     if (enableToolset) await second.callTool({ name: 'enable_toolset', arguments: { name: 'search' } });
-    await attempt(label('first client survives a second client'), 'tracked', async () => {
-      await first.listTools();
+    await attempt(label('first client survives a second client'), async () => {
+      await first.listTools().catch((error: Error) => {
+        throw new Error(`needs toolception#27: ${error.message}`);
+      });
       return 'both sessions usable';
     });
-    await attempt(label('client without a token gets the token error'), 'required', async () => {
+    await attempt(label('client without a token gets the token error'), async () => {
       const text = resultText(await second.callTool({ name: 'searchSymbol', arguments: { query: 'AAPL' } }));
       expect(text.includes(TOKEN_MISSING), text);
       return 'handler ran with arguments';
@@ -220,7 +216,7 @@ async function checkMode(mode: string, env: Record<string, string>, enableToolse
 }
 
 async function main(): Promise<void> {
-  const { source, strict, keep } = parseArgs(process.argv.slice(2));
+  const { source, keep } = parseArgs(process.argv.slice(2));
   const spec = resolveInstallSpec(source);
   console.log(`Installing ${spec} (--no-save)`);
   run(`npm install --no-save --no-audit --no-fund --engine-strict=false ${spec}`);
@@ -238,11 +234,9 @@ async function main(): Promise<void> {
     }
   }
 
-  const failedRequired = results.filter((check) => !check.passed && check.level === 'required');
-  const failedTracked = results.filter((check) => !check.passed && check.level === 'tracked');
-  console.log(`\n${results.length - failedRequired.length - failedTracked.length}/${results.length} checks passed`);
-  console.log(`required failures: ${failedRequired.length}, tracked failures: ${failedTracked.length}${strict ? ' (strict)' : ''}`);
-  if (failedRequired.length > 0 || (strict && failedTracked.length > 0)) process.exit(1);
+  const failed = results.filter((check) => !check.passed);
+  console.log(`\n${results.length - failed.length}/${results.length} checks passed`);
+  if (failed.length > 0) process.exit(1);
 }
 
 main().catch((error) => {
