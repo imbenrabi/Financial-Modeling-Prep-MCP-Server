@@ -131,6 +131,7 @@ describe('Legacy/All Tools Mode Smoke Tests', () => {
     const toolsResponse = await listTools(server.port, sessionConfig);
 
     const searchSymbol = toolsResponse.result.tools.find((t: any) => t.name === 'searchSymbol');
+    expect(searchSymbol).toBeDefined();
     expect(searchSymbol.inputSchema.properties).toHaveProperty('query');
     expect(searchSymbol.inputSchema.required).toContain('query');
 

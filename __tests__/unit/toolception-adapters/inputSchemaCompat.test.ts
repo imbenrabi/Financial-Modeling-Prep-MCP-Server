@@ -17,6 +17,12 @@ const isZodInputSchema = (schema: unknown): boolean => {
   return Object.values(schema).every(isZodSchema);
 };
 
+/**
+ * The server registers 253 tools today. A much lower count means module
+ * loading broke, which would make an empty non-Zod list pass trivially.
+ */
+const MIN_EXPECTED_TOOLS = 250;
+
 describe('toolception input schema compatibility', () => {
   it('gives every tool a Zod input schema', async () => {
     const nonZodTools: string[] = [];
@@ -32,7 +38,7 @@ describe('toolception input schema compatibility', () => {
       }
     }
 
-    expect(toolCount).toBeGreaterThan(250);
+    expect(toolCount).toBeGreaterThan(MIN_EXPECTED_TOOLS);
     expect(nonZodTools).toEqual([]);
   });
 });
