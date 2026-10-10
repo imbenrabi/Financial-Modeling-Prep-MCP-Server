@@ -83,16 +83,16 @@ All API clients in `src/api/*/` extend `FMPClient` base class:
 Server follows strict configuration hierarchy:
 1. **Command line arguments** (`--fmp-token`, `--dynamic-tool-discovery`, `--fmp-tool-sets`, `--port`)
 2. **Environment variables** (`FMP_ACCESS_TOKEN`, `DYNAMIC_TOOL_DISCOVERY`, `FMP_TOOL_SETS`, `PORT`) 
-3. **Session configuration** (via HTTP query parameters - only when no server-level config)
+3. **Defaults**
 
-**Critical**: Server-level configurations (CLI args or env vars) override ALL session configurations globally.
+**Critical**: Mode and tool sets are fixed at startup; session configuration cannot change them. Only `FMP_ACCESS_TOKEN` is accepted per session (`?config=`), and it overrides the server-level token for that session.
 
 ### Capabilities Prompt and Authentication Requirement
 - The server registers a human-friendly capabilities prompt `list_mcp_assets` that summarizes modes, tools, resources, and quick-start.
 - The prompt now explicitly documents authentication behavior:
   - `FMP_ACCESS_TOKEN` is optional for server initialization.
   - It is required to successfully call any FMP-backed tools; without a token, those calls will error.
-  - Token can be provided via CLI args/env vars or per-session config, with server-level values taking precedence.
+  - Token can be provided via CLI args/env vars or per-session config, with the session token overriding the server-level token.
 
 ## Critical Integration Points
 

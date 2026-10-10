@@ -73,7 +73,7 @@ Check the server is running:
 
     curl http://localhost:8080/healthz
 
-Expected: {"status":"ok"}
+Expected: {"ok":true}
 
 ## Troubleshooting
 

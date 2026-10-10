@@ -4,11 +4,11 @@ This document is intended for repo admins and maintainers.
 
 ## GitHub Release
 
-We create GitHub Releases automatically when pushing a tag that starts with `v`.
+Pushing a tag that starts with `v` runs the `Automated Publishing Pipeline` workflow (`.github/workflows/release.yml`). It validates the release, publishes to npm and the MCP Registry, and then creates the GitHub Release.
 
-- No build or publish is performed in this workflow.
 - CI builds already run on `main` for pushes and PRs.
-- The job only creates a GitHub Release.
+- The workflow itself runs `npm run version:validate` and `npm run verify:npm-ready` (which includes the build); it does not run the test suite.
+- The GitHub Release job only starts after both publish steps succeed.
 
 ### Release notes generation
 
@@ -45,7 +45,7 @@ npm version minor -m "release: v%s"
 # or
 npm version major -m "release: v%s"
 
-# 4) Push commit and tags to trigger the Release and NPM Publish workflow
+# 4) Push commit and tags to trigger the Automated Publishing Pipeline workflow
 git push && git push --tags
 
 # Alternative (manual tag with a custom message):
@@ -55,10 +55,11 @@ git push && git push --tags
 
 ### What Happens After Pushing a Tag
 
-1. **GitHub Actions workflow triggers** (`Create Release and Publish to NPM`)
-2. **Package verification** ensures NPM readiness (includes build)
+1. **GitHub Actions workflow triggers** (`Automated Publishing Pipeline`)
+2. **Validation** checks that `package.json` and `server.json` versions match and that the package is NPM-ready (includes build)
 3. **NPM publication** publishes to the public registry
-4. **GitHub Release** is created with auto-generated notes
+4. **MCP Registry publication** publishes `server.json` with `mcp-publisher`
+5. **GitHub Release** is created with auto-generated notes
 
 **Note**: Tests are not run since tags are created from main where CI already validates the code.
 
@@ -82,9 +83,10 @@ The package is automatically published to NPM as part of the GitHub Release work
 
 When a tag starting with `v` is pushed, the workflow:
 
-1. **Verifies NPM readiness** using our custom verification script (includes build)
+1. **Verifies version sync and NPM readiness** using our custom verification scripts (includes build)
 2. **Publishes to NPM** using the `NPM_TOKEN` secret
-3. **Creates a GitHub Release** with auto-generated notes
+3. **Publishes to the MCP Registry** with `mcp-publisher` (GitHub OIDC login)
+4. **Creates a GitHub Release** with auto-generated notes
 
 **Note**: Tests are not run in the release workflow since tags are created from main where CI already runs tests.
 
@@ -104,7 +106,7 @@ The workflow requires an `NPM_TOKEN` secret to be configured in the repository.
 
 The workflow includes several verification steps:
 
-- Runs all tests (`npm run test:run`)
+- Validates version sync (`npm run version:validate`)
 - Verifies package configuration (`npm run verify:npm-ready`)
 - Ensures build succeeds before publishing
 - Publishes with `--access public` for scoped packages

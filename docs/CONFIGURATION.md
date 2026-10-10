@@ -10,12 +10,13 @@
 
 ## Precedence
 
-Configuration resolves in this order:
+Server mode and tool sets are fixed at startup and resolve in this order:
 
 1. **CLI arguments**
 2. **Environment variables**
-3. **Session config**
-4. **Defaults**
+3. **Defaults**
+
+`FMP_ACCESS_TOKEN` is the only setting a session can supply. A token passed through session config overrides the server's token (CLI argument or environment variable) for that session.
 
 ## Environment Variables
 
@@ -51,6 +52,8 @@ Only `FMP_ACCESS_TOKEN` is accepted per-session. Pass it as base64-encoded JSON 
 ```
 ?config=eyJGTVBfQUNDRVNTX1RPS0VOIjoiPGtleT4ifQ==
 ```
+
+The `config` parameter is read when the session is initialized, so send it on the `initialize` request. Session config does not change the server mode or tool sets.
 
 ## Fail-Fast Behavior
 

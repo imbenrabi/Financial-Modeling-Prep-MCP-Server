@@ -72,7 +72,7 @@ The server supports three operational modes controlled via CLI arguments, enviro
 | **Static** | `FMP_TOOL_SETS=search,company` | Pre-loads specified toolsets on session creation |
 | **All Tools (default)** | *(default)* | Loads all 250+ tools immediately |
 
-Precedence: CLI args > Environment variables > Session config > Defaults.
+Precedence: for mode and tool sets, CLI args > Environment variables > Defaults. A session `?config=` token overrides the server's `FMP_ACCESS_TOKEN` for that session.
 
 See [docs/CONFIGURATION.md](docs/CONFIGURATION.md) for the full configuration reference.
 
