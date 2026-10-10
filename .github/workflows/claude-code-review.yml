@@ -1,14 +1,15 @@
 name: Claude Code Review
 
+# Disabled on pull requests until CLAUDE_CODE_OAUTH_TOKEN is renewed; the expired
+# token made this check fail on every PR. To restore, put the pull_request trigger
+# back and switch the prompt below to github.event.pull_request.number.
 on:
-  pull_request:
-    types: [opened, synchronize, ready_for_review, reopened]
-    # Optional: Only run on specific file changes
-    # paths:
-    #   - "src/**/*.ts"
-    #   - "src/**/*.tsx"
-    #   - "src/**/*.js"
-    #   - "src/**/*.jsx"
+  workflow_dispatch:
+    inputs:
+      pr_number:
+        description: "Pull request number to review"
+        required: true
+        type: string
 
 jobs:
   claude-review:
@@ -43,7 +44,7 @@ jobs:
           plugins: |
             agent-guidelines@imbenrabi
             coding-standards@imbenrabi
-          prompt: '/code-review ${{ github.repository }}/pull/${{ github.event.pull_request.number }}'
+          prompt: '/code-review ${{ github.repository }}/pull/${{ inputs.pr_number }}'
           # See https://github.com/anthropics/claude-code-action/blob/main/docs/usage.md
           # or https://code.claude.com/docs/en/cli-reference for available options
 
