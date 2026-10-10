@@ -87,6 +87,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- The `calendar` tool set no longer includes the `earnings-transcript` module, which `earnings` already owns; its four tools (`getLatestEarningsTranscripts`, `getEarningsTranscript`, `getEarningsTranscriptDates`, `getAvailableTranscriptSymbols`) were registered twice in `ALL_TOOLS` mode, which toolception 0.8.0 rejects at `initialize`. Select `earnings` for transcripts; `calendar` keeps `getEarningsCalendar`. A new test fails on any tool name or module shared between tool sets
+
 ## [2.5.0] - 2025-01-09
 
 ### Added
