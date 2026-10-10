@@ -1,5 +1,5 @@
-import { ToolCollector, type McpToolDefinition } from './ToolCollector.js';
-import type { ModuleLoader } from 'toolception';
+import { ToolCollector } from './ToolCollector.js';
+import type { McpToolDefinition, ModuleLoader } from 'toolception';
 
 /**
  * Context object passed to module loaders by toolception
