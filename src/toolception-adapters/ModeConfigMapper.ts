@@ -1,6 +1,6 @@
 import type { ServerMode, ToolSet } from '../types/index.js';
 import { TOOL_SETS } from '../constants/toolSets.js';
-import type { ModuleLoader } from 'toolception';
+import type { ModuleLoader, SessionContextConfig, ToolSetCatalog } from 'toolception';
 
 /**
  * Minimal structural view of ServerModeEnforcer required by the mapper.
@@ -10,20 +10,6 @@ import type { ModuleLoader } from 'toolception';
 interface ModeEnforcerView {
   readonly serverModeOverride: ServerMode | null;
   readonly toolSets: ToolSet[];
-}
-
-/**
- * Session context configuration for per-session token support
- * Enables users to provide their own FMP_ACCESS_TOKEN via query param
- */
-interface SessionContextConfig {
-  enabled: boolean;
-  queryParam: {
-    name: string;
-    encoding: 'base64' | 'json';
-    allowedKeys: string[];
-  };
-  merge: 'shallow' | 'deep';
 }
 
 /**
@@ -46,18 +32,6 @@ interface ToolceptionConfig {
     namespaceToolsWithSetKey: boolean;
     maxActiveToolsets?: number;
     allowlist?: ToolSet[];
-  };
-}
-
-/**
- * Toolception toolset catalog
- */
-interface ToolSetCatalog {
-  [key: string]: {
-    name: string;
-    description: string;
-    decisionCriteria?: string;
-    modules?: string[];
   };
 }
 

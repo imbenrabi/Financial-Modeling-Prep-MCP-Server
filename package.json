@@ -47,18 +47,19 @@
     "test:installation-verification": "tsx scripts/test-installation-verification.ts",
     "test:installation-ci": "vitest run __tests__/unit/registry-tests/InstallationMethodVerification.test.ts --reporter=verbose --testTimeout=15000",
     "verify:installation": "tsx scripts/verify-installation-methods.ts",
-    "audit:prod": "npm audit --omit=dev"
+    "audit:prod": "npm audit --omit=dev",
+    "verify:toolception": "tsx scripts/verify-toolception.ts"
   },
   "author": "imbenrabi",
   "license": "Apache-2.0",
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.27.1",
+    "@modelcontextprotocol/sdk": "^1.32.1",
     "axios": "^1.13.2",
     "commander": "^14.0.0",
-    "fastify": "^5.7.2",
+    "fastify": "^5.12.5",
     "minimist": "^1.2.8",
-    "toolception": "^0.6.3",
-    "zod": "^3.22.4"
+    "toolception": "^0.7.0",
+    "zod": "^3.25.76"
   },
   "devDependencies": {
     "@types/minimist": "^1.2.5",

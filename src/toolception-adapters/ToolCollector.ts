@@ -6,18 +6,7 @@
  * McpToolDefinition format.
  */
 
-export interface McpToolDefinition {
-  name: string;
-  description: string;
-  inputSchema: Record<string, any>;
-  handler: (args: any) => Promise<any> | any;
-  annotations?: {
-    readOnlyHint?: boolean;
-    destructiveHint?: boolean;
-    idempotentHint?: boolean;
-    openWorldHint?: boolean;
-  };
-}
+import type { McpToolDefinition } from 'toolception';
 
 /**
  * Interface for objects that can register tools
