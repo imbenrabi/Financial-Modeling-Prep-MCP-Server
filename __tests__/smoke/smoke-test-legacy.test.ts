@@ -6,6 +6,7 @@ import {
   startTestServer,
   initializeSession,
   listTools,
+  callTool,
   resetSession,
 } from './smoke-test-utils.js';
 
@@ -116,6 +117,26 @@ describe('Legacy/All Tools Mode Smoke Tests', () => {
     // Should have the same number of tools
     expect(toolCount1).toBe(toolCount2);
     expect(toolCount1).toBeGreaterThan(200);
+  }, 40000);
+
+  it('should advertise Zod-derived input schemas and validate arguments', async () => {
+    server = await startTestServer({
+      env: {},
+    });
+
+    const sessionConfig: SessionConfig = {};
+
+    await initializeSession(server.port, sessionConfig);
+    const toolsResponse = await listTools(server.port, sessionConfig);
+
+    const searchSymbol = toolsResponse.result.tools.find((t: any) => t.name === 'searchSymbol');
+    expect(searchSymbol.inputSchema.properties).toHaveProperty('query');
+    expect(searchSymbol.inputSchema.required).toContain('query');
+
+    // A missing required argument is rejected before the handler runs
+    const callResponse = await callTool(server.port, 'searchSymbol', {}, sessionConfig);
+    expect(callResponse.result.isError).toBe(true);
+    expect(callResponse.result.content[0].text).toContain('Input validation error');
   }, 40000);
 
   it('should not have meta-tools in legacy mode', async () => {
