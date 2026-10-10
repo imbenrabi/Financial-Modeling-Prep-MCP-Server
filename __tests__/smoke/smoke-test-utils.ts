@@ -279,6 +279,25 @@ export async function listTools(
 }
 
 /**
+ * Helper to list prompts
+ */
+export async function listPrompts(
+  port: number,
+  sessionConfig?: SessionConfig
+): Promise<McpResponse> {
+  return makeRequest(
+    port,
+    {
+      jsonrpc: '2.0',
+      id: 4,
+      method: 'prompts/list',
+      params: {},
+    },
+    sessionConfig
+  );
+}
+
+/**
  * Helper to call a tool
  */
 export async function callTool(

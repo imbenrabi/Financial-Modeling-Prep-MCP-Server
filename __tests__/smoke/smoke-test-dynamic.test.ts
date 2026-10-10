@@ -6,6 +6,7 @@ import {
   startTestServer,
   initializeSession,
   listTools,
+  listPrompts,
   callTool,
   resetSession,
 } from './smoke-test-utils.js';
@@ -150,6 +151,23 @@ describe('Dynamic Mode Smoke Tests', () => {
     const content = JSON.parse(toolsetsResponse.result.content[0].text);
     const searchToolset = content.toolsets.find((ts: any) => ts.key === 'search');
     expect(searchToolset.active).toBe(false);
+  }, 40000);
+
+  it('should list prompts on each client session', async () => {
+    server = await startTestServer({
+      env: { DYNAMIC_TOOL_DISCOVERY: 'true' },
+    });
+
+    const sessionConfig: SessionConfig = { DYNAMIC_TOOL_DISCOVERY: 'true' };
+
+    const initResponse = await initializeSession(server.port, sessionConfig);
+    expect(initResponse.result.capabilities.prompts).toBeDefined();
+
+    const promptsResponse = await listPrompts(server.port, sessionConfig);
+
+    expect(promptsResponse.error).toBeUndefined();
+    const promptNames = promptsResponse.result.prompts.map((p: any) => p.name);
+    expect(promptNames).toContain('list_mcp_assets');
   }, 40000);
 
   it('should support session-level API key override', async () => {
