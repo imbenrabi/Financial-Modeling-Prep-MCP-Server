@@ -16,7 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Prompts are registered on every per-client MCP server, so `prompts/list` no longer returns `Method not found` in `DYNAMIC_TOOL_DISCOVERY` mode (#108)
-- Resolved the open `npm audit` advisories in runtime and dev dependencies, including `@modelcontextprotocol/sdk`, `axios`, `fastify`, `hono`, `proxy-addr`, `fast-uri`, `ip-address`, `form-data` and `vitest` (#107)
+- Resolved 19 of 23 `npm audit` advisories in runtime and dev dependencies, including `@modelcontextprotocol/sdk`, `axios`, `fastify`, `hono`, `proxy-addr`, `fast-uri`, `ip-address` and `form-data`, and bumped `vitest` to `^4.1.11` to clear its critical advisories (#107)
 
 ### Added
 - `npm run verify:toolception -- --source <npm version | tarball | git:ref>` checks the server against any toolception build before a future dependency bump (#109)
