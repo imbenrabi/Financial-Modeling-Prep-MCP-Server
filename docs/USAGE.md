@@ -71,7 +71,7 @@ curl -X POST http://localhost:8080/mcp \
 
 ## Session Configuration
 
-Provide `FMP_ACCESS_TOKEN` per-session via the `config` query parameter as **base64-encoded JSON**. The token is read when the session starts, so pass `config` on the `initialize` request:
+Provide `FMP_ACCESS_TOKEN` per-session via the `config` query parameter as **base64-encoded JSON**. The session is keyed by `mcp-client-id` plus the `config` value, so send the same `?config=` URL on every request of the session, starting with `initialize`:
 
 ```bash
 CONFIG=$(echo '{"FMP_ACCESS_TOKEN":"your_token"}' | base64)
@@ -92,7 +92,7 @@ curl -X POST "http://localhost:8080/mcp?config=${CONFIG}" \
   }'
 ```
 
-Then continue with the `mcp-session-id` header as in the example above.
+Then continue as in the example above, adding the same `?config=${CONFIG}` to each request URL together with the `mcp-session-id` header. A follow-up request without `config` is treated as a different session and returns `400` ("Session not found or expired").
 
 Token precedence (highest to lowest): session config → CLI arg (`--fmp-token`) → env var (`FMP_ACCESS_TOKEN`). A token passed through `?config=` overrides the server's own token for that session only.
 

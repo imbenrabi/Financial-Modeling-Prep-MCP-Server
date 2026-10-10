@@ -53,7 +53,7 @@ Only `FMP_ACCESS_TOKEN` is accepted per-session. Pass it as base64-encoded JSON 
 ?config=eyJGTVBfQUNDRVNTX1RPS0VOIjoiPGtleT4ifQ==
 ```
 
-The `config` parameter is read when the session is initialized, so send it on the `initialize` request. Session config does not change the server mode or tool sets.
+Send the same `config` value on every request of the session, starting with `initialize`; a request without it is treated as a different session. Session config does not change the server mode or tool sets.
 
 ## Fail-Fast Behavior
 
