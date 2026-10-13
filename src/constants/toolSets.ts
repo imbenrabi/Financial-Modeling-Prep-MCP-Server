@@ -45,7 +45,7 @@ export const TOOL_SETS: Record<ToolSet, ToolSetDefinition> = {
     description:
       "Earnings calendar, dividends, IPOs, stock splits, and corporate events",
     decisionCriteria: "Track earnings dates, corporate events, dividend schedules",
-    modules: ["calendar", "earnings-transcript"],
+    modules: ["calendar"],
   },
 
   // Price charts and historical data
