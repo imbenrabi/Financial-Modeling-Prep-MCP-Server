@@ -109,7 +109,7 @@ describe('Dynamic Mode Smoke Tests', () => {
     expect(toolNames).toContain('searchSymbol');
   }, 40000);
 
-  it('should disable toolset (state only, tools remain)', async () => {
+  it('should mark a disabled toolset inactive', async () => {
     server = await startTestServer({
       env: { DYNAMIC_TOOL_DISCOVERY: 'true' },
     });
@@ -126,7 +126,9 @@ describe('Dynamic Mode Smoke Tests', () => {
     const beforeDisable = await listTools(server.port, sessionConfig);
     expect(beforeDisable.result.tools.length).toBeGreaterThan(5);
 
-    // Disable search toolset (note: tools remain registered, only state changes)
+    // Disable search toolset. Whether its tools are then removed depends on the
+    // toolception version (removal lands in code-rabi/toolception#31), so this
+    // test only checks the toolset state.
     const disableResponse = await callTool(
       server.port,
       'disable_toolset',
@@ -135,10 +137,6 @@ describe('Dynamic Mode Smoke Tests', () => {
     );
 
     expect(disableResponse.result).toBeDefined();
-
-    // List tools - tools should still be present (disable only changes state)
-    const afterDisable = await listTools(server.port, sessionConfig);
-    expect(afterDisable.result.tools.length).toBeGreaterThan(5);
 
     // Verify that the toolset is marked as disabled
     const toolsetsResponse = await callTool(
