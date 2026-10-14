@@ -9,6 +9,12 @@
     "url": "https://github.com/imbenrabi/Financial-Modeling-Prep-MCP-Server",
     "source": "github"
   },
+  "remotes": [
+    {
+      "type": "streamable-http",
+      "url": "https://financial-modeling-prep-mcp-server-production.up.railway.app/mcp"
+    }
+  ],
   "packages": [
     {
       "registryType": "npm",
