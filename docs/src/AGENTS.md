@@ -15,6 +15,7 @@ Cross-cutting concerns and startup sequence for the FMP MCP Server.
 ## Pitfalls
 
 - The hook derives the client ID from `IP + User-Agent` (`Accept` is excluded because it varies between requests). Fastify's `trustProxy` is unset, so behind a reverse proxy `request.ip` is the proxy; see FLOW.md for the consequence
+- A session's later requests must reuse the client ID its `initialize` got, or toolception answers "Session not found or expired". Behind a proxy with several hops (Railway) the IP changes between requests, so the hook records `mcp-session-id` → client ID (`SessionClientIds`) and looks it up before hashing. The session ID is read from the raw `writeHead` call, because the SDK transport bypasses Fastify's reply hooks
 - `close()` from `createMcpServer` does not close a caller-supplied Fastify app; shutdown ends in `process.exit(0)`, so in-flight requests are cut rather than drained
 
 ## Flow Reference

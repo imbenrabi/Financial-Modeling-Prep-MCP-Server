@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `stockScreener` accepts `avgVolumeMoreThan`, `avgVolumeLowerThan` and `page`; `getEarningsCalendar` accepts `includeReportTimes`
 
 ### Fixed
+- Clients that send no `mcp-client-id` header lost their session when a later request reached the server from a different address than its `initialize` (for example through a proxy with several hops): the request hashed to a different client ID and got "Session not found or expired", so `tools/list` failed. A session's requests now reuse the client ID its `initialize` was given
 - `server.json` now lists the hosted endpoint under top-level `remotes`, not only inside the npm package's `transport`, so registries that read a listing's tools from the manifest's remote, such as mcprush, have an endpoint to query
 - `getEconomicIndicators` called `/economic-indicator` and `getESGDisclosures` called `/esg-disclosure` and `listCommodities` called `/commodity-list`; FMP documents them as `/economic-indicators`, `/esg-disclosures` and `/commodities-list`
 - `ALL_TOOLS` mode registered the four `earnings-transcript` tools twice (`getLatestEarningsTranscripts`, `getEarningsTranscript`, `getEarningsTranscriptDates`, `getAvailableTranscriptSymbols`) because both the `calendar` and `earnings` tool sets listed that module. Toolception 0.8.0 rejects duplicate tool names at `initialize`. A new test fails on any module or tool name shared between tool sets
