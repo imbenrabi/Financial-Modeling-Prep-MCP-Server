@@ -1,4 +1,5 @@
 export interface FinancialDisclosure {
+  senateID?: string;
   symbol: string;
   disclosureDate: string;
   transactionDate: string;
@@ -28,3 +29,35 @@ export interface SymbolParams {
 export interface NameParams {
   name: string;
 }
+
+export interface MemberIdParams {
+  senateID: string;
+  page?: number;
+  limit?: number;
+}
+
+export interface SenateIdParams {
+  senateID: string;
+}
+
+export interface SenatePositionsParams {
+  senateID?: string;
+  party?: string;
+  position?: string;
+  limit?: number;
+}
+
+export interface SenateProfileParams {
+  senateID?: string;
+  active?: boolean;
+  latestParty?: string;
+  latestPosition?: string;
+  page?: number;
+  limit?: number;
+}
+
+/**
+ * Response shape of the congress-member endpoints (profile, positions, net worth)
+ * has not been confirmed against a live FMP response, so rows stay untyped.
+ */
+export type CongressMemberRecord = Record<string, unknown>;

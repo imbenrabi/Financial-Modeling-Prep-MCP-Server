@@ -8,7 +8,7 @@
 | Directory | `search` | `getCompanySymbols`, `getETFList`, `getExchangeList`, `getCIKList`, `getAvailableSectors` |
 | Company Profile | `company` | `getCompanyProfile`, `getCompanyProfileByCIK`, `getStockPeers`, `getEmployeeCount`, `getCompanyExecutives` |
 | Financial Statements | `statements` | `getIncomeStatement`, `getBalanceSheetStatement`, `getCashFlowStatement`, `getLatestFinancialStatements`, `getFinancialReportJSON` |
-| Financial Metrics | `statements` | `getKeyMetrics`, `getRatios`, `getFinancialScores`, `getOwnerEarnings`, `getKeyMetricsTTM` |
+| Financial Metrics | `statements` | `getKeyMetrics`, `getRatios`, `getFinancialScores`, `getOwnerEarnings`, `getKeyMetricsTTM`, `getEnterpriseValues` |
 | Technical Indicators | `technical-indicators` | `getSMA`, `getEMA`, `getRSI`, `getADX`, `getStandardDeviation` |
 | Quotes | `quotes` | `getQuote`, `getQuoteShort`, `getStockPriceChange`, `getBatchQuotes`, `getExchangeQuotes` |
 | Market Performance | `market-performance` | `getBiggestGainers`, `getBiggestLosers`, `getMostActiveStocks`, `getSectorPerformanceSnapshot` |
@@ -18,7 +18,7 @@
 | Insider Trading | `insider-trades` | `getLatestInsiderTrading`, `searchInsiderTrades`, `getInsiderTransactionTypes`, `getInsiderTradeStatistics` |
 | Institutional Holdings | `institutional` | `getLatestInstitutionalFilings`, `getSecFilingExtract`, `getHolderPerformanceSummary`, `getPositionsSummary` |
 | ETFs and Funds | `etf-funds` | `getFundHoldings`, `getFundInfo`, `getFundSectorWeighting`, `getLatestCrowdfundingCampaigns` |
-| Government Trading | `senate` | `getLatestSenateDisclosures`, `getLatestHouseDisclosures`, `getSenateTrades`, `getHouseTrades` |
+| Government Trading | `senate` | `getLatestSenateDisclosures`, `getLatestHouseDisclosures`, `getSenateTrades`, `getHouseTrades`, `getSenateTradesById`, `getHouseTradesById`, `getSenatePositions`, `getSenateProfile`, `getSenateNetWorth`, `getSenateNetWorthAggregated` |
 | Cryptocurrency | `crypto` | `getCryptocurrencyList`, `getCryptocurrencyQuote`, `getCryptocurrencyHistoricalLightChart`, `getCryptocurrencyBatchQuotes` |
 | Forex | `forex` | `getForexList`, `getForexQuote`, `getForexHistoricalFullChart`, `getForexBatchQuotes` |
 | Earnings | `earnings`, `calendar` | `getLatestEarningsTranscripts`, `getEarningsTranscript`, `getEarningsCalendar`, `getEarningsTranscriptDates` |
@@ -26,7 +26,7 @@
 | Commodities | `commodities` | `listCommodities` |
 | Economics | `economics` | `getTreasuryRates`, `getEconomicIndicators`, `getEconomicCalendar`, `getMarketRiskPremium` |
 | Calendar | `calendar` | `getDividendsCalendar`, `getIPOCalendar`, `getStockSplitCalendar`, `getIPODisclosures` |
-| Analyst Coverage | `analyst` | `getAnalystEstimates`, `getRatingsSnapshot`, `getPriceTargetSummary`, `getStockGrades` |
+| Analyst Coverage | `analyst` | `getAnalystEstimates`, `getRatingsSnapshot`, `getPriceTargetSummary`, `getStockGrades`, `searchTipRanksAnalystRatings`, `getTipRanksSymbolSummary`, `lookupTipRanksAnalyst` |
 | Charts | `charts` | `getLightChart`, `getFullChart`, `getIntradayChart`, `getUnadjustedChart` |
 | Indexes | `indexes` | `getAllIndexQuotes`, `getNasdaqConstituents`, `getDowJonesConstituents`, `getHistoricalIndexFullChart` |
 | ESG | `esg` | `getESGDisclosures`, `getESGRatings`, `getESGBenchmarks` |

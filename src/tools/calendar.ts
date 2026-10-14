@@ -116,10 +116,14 @@ export function registerCalendarTools(
     {
       from_date: z.string().optional().describe("Start date (YYYY-MM-DD)"),
       to: z.string().optional().describe("End date (YYYY-MM-DD)"),
+      includeReportTimes: z
+        .boolean()
+        .optional()
+        .describe("Include report period, confirmed/estimated flag and estimated report time"),
     },
-    async ({ from_date: from, to }) => {
+    async ({ from_date: from, to, includeReportTimes }) => {
       try {
-        const results = await calendarClient.getEarningsCalendar(from, to);
+        const results = await calendarClient.getEarningsCalendar(from, to, includeReportTimes);
         return {
           content: [{ type: "text", text: JSON.stringify(results, null, 2) }],
         };

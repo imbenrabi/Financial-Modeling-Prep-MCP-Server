@@ -34,7 +34,7 @@ export class EconomicsClient extends FMPClient {
     to?: string
   ): Promise<EconomicIndicator[]> {
     return super.get<EconomicIndicator[]>(
-      "/economic-indicator",
+      "/economic-indicators",
       {
         name,
         from,

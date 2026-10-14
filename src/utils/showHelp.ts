@@ -39,7 +39,7 @@ Options:
 Server Modes:
   Dynamic Mode     Starts with 3 meta-tools, load toolsets on-demand
   Static Mode      Pre-loads specific toolsets (use --fmp-tool-sets)
-  Legacy Mode      Loads all 253 tools (default)
+  Legacy Mode      Loads all 267 tools (default)
 
 Available Tool Sets:
 `);

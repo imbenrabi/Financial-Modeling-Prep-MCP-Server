@@ -7,7 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Fourteen tools for FMP endpoints the server did not cover: `getEnterpriseValues` (`/enterprise-values`); `getSenateTradesById`, `getHouseTradesById`, `getSenatePositions`, `getSenateProfile`, `getSenateNetWorth` and `getSenateNetWorthAggregated`; and the seven TipRanks partner endpoints (`searchTipRanksAnalystRatings`, `getTipRanksPointInTimeRatingsBySymbol`, `getTipRanksPointInTimeRatingsByAnalyst`, `getTipRanksSymbolSummary`, `getTipRanksAnalystSummary`, `getTipRanksFirmSummary`, `lookupTipRanksAnalyst`) in a new `tipranks` module, part of the `analyst` tool set. `ALL_TOOLS` now exposes 267 tools
+- `stockScreener` accepts `avgVolumeMoreThan`, `avgVolumeLowerThan` and `page`; `getEarningsCalendar` accepts `includeReportTimes`
+
 ### Fixed
+- `getEconomicIndicators` called `/economic-indicator` and `getESGDisclosures` called `/esg-disclosure` and `listCommodities` called `/commodity-list`; FMP documents them as `/economic-indicators`, `/esg-disclosures` and `/commodities-list`
 - `ALL_TOOLS` mode registered the four `earnings-transcript` tools twice (`getLatestEarningsTranscripts`, `getEarningsTranscript`, `getEarningsTranscriptDates`, `getAvailableTranscriptSymbols`) because both the `calendar` and `earnings` tool sets listed that module. Toolception 0.8.0 rejects duplicate tool names at `initialize`. A new test fails on any module or tool name shared between tool sets
 
 ### Changed

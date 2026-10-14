@@ -47,6 +47,7 @@ export interface StockScreenerResult {
   price: number;
   lastAnnualDividend: number;
   volume: number;
+  avgVolume?: number;
   exchange: string;
   exchangeShortName: string;
   country: string;

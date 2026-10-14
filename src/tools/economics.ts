@@ -54,15 +54,17 @@ export function registerEconomicsTools(
     {
       name: z
         .string()
-        .describe("Name of the indicator"),
+        .describe(
+          "Indicator name, e.g. GDP, realGDP, nominalPotentialGDP, realGDPPerCapita, federalFunds, CPI, inflationRate, inflation, retailSales, consumerSentiment, durableGoods, unemploymentRate, totalNonfarmPayroll, initialClaims, industrialProductionTotalIndex, newPrivatelyOwnedHousingUnitsStartedTotalUnits, totalVehicleSales, retailMoneyFunds, smoothedUSRecessionProbabilities, 3MonthOr90DayRatesAndYieldsCertificatesOfDeposit, commercialBankInterestRateOnCreditCardPlansAllAccounts, 30YearFixedRateMortgageAverage, 15YearFixedRateMortgageAverage, tradeBalanceGoodsAndServices"
+        ),
       from_date: z
         .string()
         .optional()
-        .describe("Optional start date (YYYY-MM-DD)"),
+        .describe("Optional start date (YYYY-MM-DD); the date range can span at most 90 days"),
       to: z
         .string()
         .optional()
-        .describe("Optional end date (YYYY-MM-DD)"),
+        .describe("Optional end date (YYYY-MM-DD); the date range can span at most 90 days"),
     },
     async ({ name, from_date: from, to }) => {
       try {
