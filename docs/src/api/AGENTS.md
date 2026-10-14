@@ -2,15 +2,16 @@
 
 ## Key Rules
 
-- API key ALWAYS goes as `?apikey=` query parameter — never in headers (FMP API requirement)
-- Token precedence for API calls: Instance > Environment; the session token is injected via the client constructor at session creation, so the session still effectively overrides the server token at construction time, not per request
+- API key ALWAYS goes as the `apikey` query parameter — `FMPClient` adds it in `get`, `getCSV` and `post`; never move it into headers
+- Token precedence for API calls: constructor token > `FMP_ACCESS_TOKEN` env read at call time. Both the server-level and the session token arrive via the constructor, so a token is fixed per loaded client, not per request (session-vs-server order: [adapters FLOW](../toolception-adapters/FLOW.md))
 
 ## Anti-patterns
 
-- Never put API key in Authorization header — FMP API will reject it
-- Never assume HTTP status indicates success — the code does not parse FMP error bodies, so a 200 response containing an error payload will be returned as success
+- Never assume HTTP status indicates success — `FMPClient` returns `response.data` unparsed on any 2xx, so a 200 carrying an error payload is returned as success
+- Never log or serialize a caught client error object — `FMPClient` rethrows with the `AxiosError` as `cause`, and its request config holds the `apikey` param, so `console.error(err)` or `util.inspect(err)` prints the user's key. Log `err.message` only
 
 ## Pitfalls
 
-- Missing API key throws synchronously from `getApiKey()` — not a rejected promise
-- FMP error bodies use the key `"Error Message"`; `FMPClient` reads that first, then falls back to `response.data.message`, then to the Axios error message
+- A missing key does not surface as a synchronous throw: `getApiKey()` throws inside each method's `try`, so callers get a rejected promise with `Unexpected error: FMP_ACCESS_TOKEN is required...` (not the `FMP API Error:` prefix)
+- Error text for a failed response comes from the body key `"Error Message"`, then `message`, then the Axios message
+- Bulk endpoints use `getCSV` (`responseType: 'text'`); the tools then `JSON.stringify` that string, so clients receive a quoted, escaped CSV

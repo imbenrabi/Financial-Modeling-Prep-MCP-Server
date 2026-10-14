@@ -12,7 +12,7 @@ allowed-tools: Read, Grep, Glob, Bash(git:*), Bash(gh pr:*), Bash(gh api:*), Bas
 
 # Code Review — FMP MCP Server
 
-You are reviewing changes to this repository. This server exposes 253+ read-only
+You are reviewing changes to this repository. This server exposes 267+ read-only
 financial-data tools over MCP (HTTP/SSE) using `toolception` + Fastify. Most of the
 load-bearing rules here are **non-obvious** and live in the **intent layer** (the
 `AGENTS.md` hierarchy), not in the code. A generic review misses them. Your job is to
@@ -60,14 +60,17 @@ too when one exists. Loading is hierarchical and T-shaped: root + the specific n
 | `src/` (startup, `index.ts`, Fastify wiring) | `docs/src/AGENTS.md`, `docs/src/FLOW.md` |
 | `src/api/**` | `docs/src/api/AGENTS.md` |
 | `src/tools/**` | `docs/src/tools/AGENTS.md` |
-| `src/toolception-adapters/**` | `docs/src/toolception-adapters/AGENTS.md` |
-| `src/server-mode-enforcer/**` | `docs/src/server-mode-enforcer/AGENTS.md` |
+| `src/toolception-adapters/**` | `docs/src/toolception-adapters/AGENTS.md`, `docs/src/toolception-adapters/FLOW.md` |
+| `src/server-mode-enforcer/**` | `docs/src/server-mode-enforcer/AGENTS.md`, `docs/src/server-mode-enforcer/FLOW.md` |
+| `src/constants/**` | `docs/src/constants/AGENTS.md` |
+| `src/prompts/**` | `docs/src/prompts/AGENTS.md` |
 | `src/endpoints/**` | `docs/src/endpoints/AGENTS.md`, `docs/src/endpoints/FLOW.md` |
+| `src/utils/**`, `src/schemas/**` | `docs/src/utils/AGENTS.md` |
+| `scripts/**`, `.github/workflows/**`, `.sentrux/**` | `docs/scripts/AGENTS.md`, `docs/scripts/FLOW.md` |
 | `__tests__/smoke/**` | `docs/tests/smoke/AGENTS.md` |
 | Adding a tool/module/tool set | `docs/GUIDE.md` (the procedure to follow) |
 
-Directories without their own doc (`src/constants`, `src/prompts`, `src/schemas`,
-`src/types`, `src/utils`) inherit the root `AGENTS.md` plus the nearest parent that does
+Directories without their own doc (`src/types`) inherit the root `AGENTS.md` plus the nearest parent that does
 have one — review them on general dimensions (step 5) and the invariants in scope.
 
 The rules you cite in findings come from the docs you just read — **quote the actual Key
@@ -82,7 +85,7 @@ only** — the readable source and the real API contracts live upstream at the *
 
 **Trigger** when the diff touches any of: `src/toolception-adapters/**`, `src/index.ts` (the
 `createMcpServer` config), `src/endpoints/*.ts` (`defineEndpoint`), `src/prompts/**` (the
-`McpServer.prompt()` extension), **or** bumps `toolception` in `package.json` /
+deprecated SDK `McpServer.prompt()`), **or** bumps `toolception` in `package.json` /
 `package-lock.json`.
 
 **Fetch the source with `gh`, pinned to the installed version:**
@@ -109,7 +112,7 @@ Offline fallback for the type contracts: `node_modules/toolception/dist/index.d.
 | session config / `config` query param / cache key | `src/session/**` |
 | `defineEndpoint` / custom endpoints / Fastify app | `src/http/**` |
 | `ModuleLoader` / `McpToolDefinition` shapes | `src/types/**` |
-| `McpServer.prompt()` extension (`src/prompts/**`) | `src/server/**` |
+| `McpServer.prompt()` (`src/prompts/**`) | the installed `@modelcontextprotocol/sdk` `server/mcp.d.ts` (not toolception) |
 | meta-tools (enable/disable/list toolsets) | `src/meta/**` |
 
 **Verify the diff against the fetched contracts:**
@@ -120,8 +123,8 @@ Offline fallback for the type contracts: `node_modules/toolception/dist/index.d.
   retyped keys.
 - `ModuleLoader` is still `(context?) => McpToolDefinition[] | Promise<McpToolDefinition[]>`
   and the `McpToolDefinition` shape the adapters / `ToolCollector` emit still matches upstream.
-- `McpServer.prompt()` still exists upstream — a runtime extension reached via type cast that
-  **silently no-ops if dropped** (`list_mcp_assets` then vanishes with no error).
+- `McpServer.prompt()` still exists in the installed `@modelcontextprotocol/sdk` — deprecated in favour of
+  `registerPrompt` and reached via type cast, so it **silently no-ops if removed** (`list_mcp_assets` then vanishes with no error).
 - **On a `toolception` version bump:** fetch the **new** tag's source and re-verify every
   contract above. Flag any breaking rename/removal/retype (precedent: `initialToolsets` →
   `toolsets` in 0.5.1).
@@ -153,7 +156,7 @@ in the docs loaded in step 3. The recurring high-cost ones to anchor on:
   `docs/src/toolception-adapters/AGENTS.md` — and when the integration surface is touched,
   run the **step 4 deep-check** against upstream source.
 - **Startup order** (`docs/src/AGENTS.md` / `FLOW.md`): the `preHandler` hook is registered
-  before `createMcpServer()`; a custom Fastify app must call `app.listen()`.
+  before `app.listen()`; a custom Fastify app must call `app.listen()`.
 - **Server-mode enforcer**: `initialize()` precedes `getInstance()`; invalid tool sets
   fail-fast via `process.exit(1)`.
 - Don't infer request success from HTTP status — FMP returns error bodies with HTTP 200.

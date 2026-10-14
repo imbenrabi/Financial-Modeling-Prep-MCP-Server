@@ -4,18 +4,17 @@ Bridge layer converting FMP's imperative tool registration to Toolception's decl
 
 ## Key Rules
 
-- Session config travels as base64-encoded JSON in the `config` query parameter — not a header
-- Session cache key = `${clientId}:${sessionConfigHash}` — both must match for session lookup
-- Only `FMP_ACCESS_TOKEN` takes effect at session level — schema also accepts `FMP_TOOL_SETS` and `DYNAMIC_TOOL_DISCOVERY` but they're no-ops (mode is fixed at startup from env+CLI)
-- Module names must match between `MODULE_ADAPTERS` and `TOOL_SETS` mappings
+- Session config travels as base64-encoded JSON in the `config` query parameter — not a header. `ModeConfigMapper` allows only `FMP_ACCESS_TOKEN` through; `SessionConfigSchema` (also `FMP_TOOL_SETS`, `DYNAMIC_TOOL_DISCOVERY`) is not wired into the runtime
 
 ## Anti-patterns
 
-- Never add toolset config to session params — will be ignored, causes confusion
-- Never change `MODULE_ADAPTERS` keys without updating `TOOL_SETS` — module loader lookup fails silently at runtime
+- Never rely on a throwing or missing module loader to stop startup — toolception swallows both and the toolset comes up empty (see FLOW.md)
 
 ## Pitfalls
 
-- "Session not found" usually means clientId or configHash changed between requests
-- Malformed base64/JSON in the `config` query param is silently ignored and falls back to the default context/cache key — bad tokens fail without an error
-- ToolCollector captures registrations — doesn't execute tools, just collects definitions
+- `POST /mcp` answers 400 "Session not found or expired" when the `mcp-session-id` is missing from the session map of the cache entry the request resolved to, or is absent on a non-`initialize` request. Causes: the client ID or config hash changed, a later `initialize` on the same entry evicted it, or the entry expired from toolception's client cache (1 h TTL, 1000 entries by default)
+- A malformed `config` value (bad base64, bad JSON, non-object) is dropped silently and the request falls back to the server token — bad tokens fail without an error
+
+## Flow Reference
+
+See [FLOW.md](FLOW.md) — session context resolution, cache key, and loader failure handling

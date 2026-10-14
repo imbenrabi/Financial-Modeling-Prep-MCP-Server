@@ -15,7 +15,7 @@ Teaching and procedural content for the FMP MCP Server.
 
 1. Create `src/api/{domain}/{Domain}Client.ts`
 2. Create `src/tools/{module}.ts` with registration function
-3. Add adapter in `src/toolception-adapters/moduleAdapters.ts`
+3. Add the adapter to one of `src/toolception-adapters/{core,market,specialized}ModuleAdapters.ts` (`moduleAdapters.ts` only composes them)
 4. Map to tool set in `src/constants/toolSets.ts`
 
 ## Adding a New Tool Set
@@ -23,6 +23,9 @@ Teaching and procedural content for the FMP MCP Server.
 1. Add definition to `TOOL_SETS` in `src/constants/toolSets.ts`
 2. Add type to `ToolSet` union in `src/types/index.ts`
 
-## Verifying FMP Endpoints Against the Live API
+## Adding an Intent Node
 
-`FMP_ACCESS_TOKEN=<key> scripts/verify-fmp-endpoints.sh` curls the newest `/stable` endpoints and checks status, array shape and key fields. Run it after adding or renaming an endpoint; the unit tests only assert the mocked path.
+1. Create `docs/<path-of-the-source-area>/AGENTS.md` — the path mirrors the source directory (`src/foo` → `docs/src/foo`, `scripts` → `docs/scripts`, `__tests__/x` → `docs/tests/x`)
+2. Put only non-obvious invariants in it (score them with the table in the root `AGENTS.md`); invariants scoring 3-4 go in a `FLOW.md` beside it, linked from the AGENTS.md
+3. Keep it under 600 words (`wc -w`) and move any procedure here
+4. Wire it into the root `AGENTS.md` navigation, the `CLAUDE.md` area table, and the path table in `.claude/skills/code-review/SKILL.md`
