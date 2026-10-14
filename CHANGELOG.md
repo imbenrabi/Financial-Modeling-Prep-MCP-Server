@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `ALL_TOOLS` mode registered the four `earnings-transcript` tools twice (`getLatestEarningsTranscripts`, `getEarningsTranscript`, `getEarningsTranscriptDates`, `getAvailableTranscriptSymbols`) because both the `calendar` and `earnings` tool sets listed that module. Toolception 0.8.0 rejects duplicate tool names at `initialize`. A new test fails on any module or tool name shared between tool sets
 
 ### Changed
+- Upgraded `toolception` from `^0.7.0` to `^0.8.0`. `disable_toolset` now removes the toolset's tools, so clients no longer list or call them after a disable (before, it only tracked state and the tools stayed callable); `enable_toolset` and `disable_toolset` are advertised with `destructiveHint: false`; and a tool name registered twice in a startup tool set now stops `ALL_TOOLS` and `STATIC_TOOL_SETS` from starting instead of leaving a tool set half loaded
 - The `calendar` tool set no longer includes the transcript tools. With `STATIC_TOOL_SETS` or `DYNAMIC_TOOL_DISCOVERY`, select `earnings` for transcripts; `calendar` keeps `getEarningsCalendar`. `ALL_TOOLS` exposes the same 253 tools as before
 
 ## [2.7.0] - 2026-10-10

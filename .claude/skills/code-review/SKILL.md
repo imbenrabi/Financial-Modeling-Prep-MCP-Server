@@ -146,7 +146,8 @@ in the docs loaded in step 3. The recurring high-cost ones to anchor on:
 - **Token precedence** is Instance (constructor-injected session token) > Environment; don't invert it, and don't reintroduce a per-request "context" tier.
 - **Tools never throw** — handlers return `{ content: [...], isError: true }`, message
   formatted `Error: ${message}` (`docs/src/tools/AGENTS.md`).
-- **Tool names are globally unique** across all modules — a duplicate silently overwrites.
+- **Tool names are globally unique** across all modules — on toolception 0.8.0 a duplicate fails
+  `ALL_TOOLS`/`STATIC_TOOL_SETS` startup and makes `enable_toolset` return `success:false` with a conflict `code`.
 - **Toolception** integration pitfalls (session cache key, base64 `config` query param,
   `MODULE_ADAPTERS` ↔ `TOOL_SETS` sync, no session-level toolset config) live in
   `docs/src/toolception-adapters/AGENTS.md` — and when the integration surface is touched,

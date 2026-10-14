@@ -104,7 +104,7 @@ When `DYNAMIC_TOOL_DISCOVERY=true`, only five meta-tools are exposed initially:
 
 - `list_toolsets` — List all available toolsets with their active status and definitions
 - `enable_toolset` — Enable a toolset by name to make its tools available
-- `disable_toolset` — Disable a toolset by name (state tracking only)
+- `disable_toolset` — Disable a toolset by name and remove its tools
 - `describe_toolset` — Describe a toolset with its definition, active status, and tools
 - `list_tools` — List currently registered tool names
 
