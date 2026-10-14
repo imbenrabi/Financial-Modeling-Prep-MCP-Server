@@ -4,7 +4,6 @@ import minimist from 'minimist';
 import { createMcpServer } from 'toolception';
 import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
 import Fastify from 'fastify';
-import { createHash } from 'node:crypto';
 import { getAvailableToolSets, DEFAULT_PORT } from './constants/index.js';
 import { showHelp } from './utils/showHelp.js';
 import { ServerModeEnforcer } from './server-mode-enforcer/index.js';
@@ -13,21 +12,7 @@ import { MODULE_ADAPTERS } from './toolception-adapters/moduleAdapters.js';
 import { getServerVersion } from './utils/getServerVersion.js';
 import { pingEndpoint, healthCheckEndpoint, serverCardEndpoint } from './endpoints/index.js';
 import { registerPrompts } from './prompts/index.js';
-import { SessionClientIds, onSessionIdIssued } from './utils/sessionClientIds.js';
-
-/**
- * Generate a stable client ID from request properties when mcp-client-id header is missing.
- * This fixes issues with MCP clients (like Glama, Smithery) that don't send the header.
- *
- * Uses a hash of: IP address + User-Agent
- * This provides reasonable stability across requests from the same client.
- * Note: Accept header is intentionally excluded as it can vary between requests.
- */
-function generateStableClientId(ip: string, userAgent: string): string {
-  const fingerprint = `${ip}|${userAgent}`;
-  const hash = createHash('sha256').update(fingerprint).digest('hex').slice(0, 16);
-  return `auto-${hash}`;
-}
+import { createClientIdHook } from './utils/clientIdHook.js';
 
 // Parse command line arguments
 const argv = minimist(process.argv.slice(2));
@@ -80,44 +65,9 @@ async function main() {
     // This fixes issues with MCP clients that don't send the required header
     const app = Fastify({ logger: false });
 
-    // Client IDs generated for each session's initialize, so the session's later requests reuse it
-    const sessionClientIds = new SessionClientIds();
-
     // Add hook to inject mcp-client-id header if missing
     // This MUST run before toolception's route handlers
-    app.addHook('preHandler', async (request, reply) => {
-      const existingClientId = request.headers['mcp-client-id'];
-
-      if (!existingClientId || (typeof existingClientId === 'string' && existingClientId.trim() === '')) {
-        // Behind a proxy the IP can change between requests of one session, so reuse the
-        // client ID the session was opened with instead of re-hashing this request's IP
-        const sessionId = request.headers['mcp-session-id'];
-        const sessionClientId = typeof sessionId === 'string' ? sessionClientIds.get(sessionId) : undefined;
-        if (sessionClientId) {
-          request.headers['mcp-client-id'] = sessionClientId;
-          return;
-        }
-
-        // Generate stable client ID from request fingerprint
-        const ip = request.ip || request.headers['x-forwarded-for'] || 'unknown';
-        const userAgent = request.headers['user-agent'] || '';
-
-        const stableId = generateStableClientId(
-          typeof ip === 'string' ? ip : Array.isArray(ip) ? ip[0] : 'unknown',
-          typeof userAgent === 'string' ? userAgent : ''
-        );
-
-        // Inject the header so toolception sees it
-        request.headers['mcp-client-id'] = stableId;
-
-        if (sessionId === undefined) {
-          onSessionIdIssued(reply.raw, (issuedSessionId) => sessionClientIds.set(issuedSessionId, stableId));
-        }
-
-        // Log for debugging - same stableId will appear for requests from same client
-        console.log(`[FMP MCP Server] Auto-generated mcp-client-id: ${stableId} for client without header`);
-      }
-    });
+    app.addHook('preHandler', createClientIdHook());
 
     const promptContext = {
       mode,

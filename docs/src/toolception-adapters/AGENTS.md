@@ -12,7 +12,7 @@ Bridge layer converting FMP's imperative tool registration to Toolception's decl
 
 ## Pitfalls
 
-- `POST /mcp` answers 400 "Session not found or expired" when the `mcp-session-id` is missing from the session map of the cache entry the request resolved to, or is absent on a non-`initialize` request. Causes: the client ID or config hash changed, a later `initialize` on the same entry evicted it, or the entry expired from toolception's client cache (1 h TTL, 1000 entries by default)
+- `POST /mcp` answers 400 "Session not found or expired" when the `mcp-session-id` is missing from the session map of the cache entry the request resolved to, or is absent on a non-`initialize` request. Causes: the client ID or config hash changed (a client without `mcp-client-id` keeps its session's client ID when its IP or User-Agent changes, see [`../FLOW.md`](../FLOW.md)), a later `initialize` on the same entry evicted it, or the entry expired from toolception's client cache (1 h TTL, 1000 entries by default)
 - A malformed `config` value (bad base64, bad JSON, non-object) is dropped silently and the request falls back to the server token — bad tokens fail without an error
 
 ## Flow Reference

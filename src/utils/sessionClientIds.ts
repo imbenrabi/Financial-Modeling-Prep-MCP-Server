@@ -19,6 +19,7 @@ export class SessionClientIds {
   readonly #maxEntries: number;
 
   /**
+   * Creates an empty record of session client IDs.
    * @param maxEntries - How many sessions to remember before forgetting the least recently used.
    */
   constructor(maxEntries: number = DEFAULT_MAX_ENTRIES) {
@@ -64,34 +65,56 @@ export class SessionClientIds {
 }
 
 /**
- * Reads the `mcp-session-id` header from the arguments of a `writeHead` call.
+ * Finds the `mcp-session-id` value in the headers argument of a `writeHead` call.
+ * @param headers - The last `writeHead` argument: a header record, a flat
+ *   `[name, value, name, value]` array, or the status message when no headers are passed.
+ * @returns The header's value, or `undefined` if the argument carries none.
+ */
+function findSessionIdHeader(headers: unknown): unknown {
+  if (Array.isArray(headers)) {
+    for (let i = 0; i + 1 < headers.length; i += 2) {
+      if (String(headers[i]).toLowerCase() === SESSION_ID_HEADER) {
+        return headers[i + 1];
+      }
+    }
+    return undefined;
+  }
+  if (typeof headers === 'object' && headers !== null) {
+    const entry = Object.entries(headers).find(([name]) => name.toLowerCase() === SESSION_ID_HEADER);
+    return entry?.[1];
+  }
+  return undefined;
+}
+
+/**
+ * Reads the `mcp-session-id` header a `writeHead` call is about to send.
  * @param res - The response being written.
  * @param args - The arguments passed to `writeHead`.
  * @returns The session ID, or `undefined` if the response carries none.
  */
 function readSessionIdHeader(res: ServerResponse, args: readonly unknown[]): string | undefined {
-  const headers = args.find(
-    (arg): arg is Record<string, unknown> => typeof arg === 'object' && arg !== null && !Array.isArray(arg)
-  );
-  const sessionId = headers?.[SESSION_ID_HEADER] ?? res.getHeader(SESSION_ID_HEADER);
+  const sessionId = findSessionIdHeader(args.at(-1)) ?? res.getHeader(SESSION_ID_HEADER);
   return typeof sessionId === 'string' ? sessionId : undefined;
 }
 
 /**
- * Calls back with the `mcp-session-id` a response issues, once its headers are written.
+ * Calls back with the `mcp-session-id` a response issues, right after its headers are written.
  *
- * The MCP SDK transport writes the session ID straight to the raw Node response via
- * `writeHead`, so Fastify reply hooks never see it.
+ * Replaces `res.writeHead` on this response with a wrapper that reads the header and then
+ * calls the original. The MCP SDK transport writes the session ID straight to the raw Node
+ * response via `writeHead`, so Fastify reply hooks never see it.
  * @param res - The raw response of an `initialize` request.
  * @param onSessionId - Receives the issued session ID.
  */
 export function onSessionIdIssued(res: ServerResponse, onSessionId: (sessionId: string) => void): void {
   const writeHead = res.writeHead;
+  // writeHead is overloaded, so a rest-argument wrapper can only be typed through casts
   res.writeHead = function (this: ServerResponse, ...args: unknown[]): ServerResponse {
     const sessionId = readSessionIdHeader(this, args);
+    const written = writeHead.apply(this, args as Parameters<ServerResponse['writeHead']>);
     if (sessionId !== undefined) {
       onSessionId(sessionId);
     }
-    return writeHead.apply(this, args as Parameters<ServerResponse['writeHead']>);
+    return written;
   } as ServerResponse['writeHead'];
 }

@@ -62,6 +62,27 @@ describe('onSessionIdIssued', () => {
     expect(issued).toEqual(['session-2']);
   });
 
+  it('reports the session ID with a status message, mixed-case name, and returns the response', () => {
+    const res = createResponse();
+    const issued: string[] = [];
+    onSessionIdIssued(res, (sessionId) => issued.push(sessionId));
+
+    const written = res.writeHead(200, 'OK', { 'Mcp-Session-Id': 'session-3' });
+
+    expect(issued).toEqual(['session-3']);
+    expect(written).toBe(res);
+  });
+
+  it('reports the session ID from a flat header array', () => {
+    const res = createResponse();
+    const issued: string[] = [];
+    onSessionIdIssued(res, (sessionId) => issued.push(sessionId));
+
+    res.writeHead(200, ['content-type', 'text/event-stream', 'mcp-session-id', 'session-4']);
+
+    expect(issued).toEqual(['session-4']);
+  });
+
   it('reports nothing when the response carries no session ID', () => {
     const res = createResponse();
     const issued: string[] = [];
