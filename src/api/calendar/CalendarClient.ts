@@ -53,15 +53,17 @@ export class CalendarClient extends FMPClient {
    * Get earnings calendar for a date range
    * @param from Optional start date (YYYY-MM-DD)
    * @param to Optional end date (YYYY-MM-DD)
+   * @param includeReportTimes Optional flag to include report period, confirmed/estimated flag and estimated time
    * @returns Array of earnings calendar entries
    */
   async getEarningsCalendar(
     from?: string,
     to?: string,
+    includeReportTimes?: boolean,
   ): Promise<EarningsReport[]> {
     return super.get<EarningsReport[]>(
       "/earnings-calendar",
-      { from, to }
+      { from, to, includeReportTimes }
     );
   }
 

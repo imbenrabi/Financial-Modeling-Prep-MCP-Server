@@ -370,6 +370,103 @@ describe('GovernmentTradingClient', () => {
     });
   });
 
+  describe.each([
+    ['getSenateTradesById', '/senate-trades-by-id'],
+    ['getHouseTradesById', '/house-trades-by-id'],
+    ['getSenateNetWorth', '/senate-net-worth'],
+  ] as const)('%s', (method, path) => {
+    it('should call get with the member ID and pagination', async () => {
+      mockGet.mockResolvedValue([]);
+
+      await governmentTradingClient[method]({ senateID: 'P000197', page: 0, limit: 25 });
+
+      expect(mockGet).toHaveBeenCalledWith(path, { senateID: 'P000197', page: 0, limit: 25 });
+    });
+
+    it('should leave pagination out when not provided', async () => {
+      mockGet.mockResolvedValue([]);
+
+      await governmentTradingClient[method]({ senateID: 'P000197' });
+
+      expect(mockGet).toHaveBeenCalledWith(path, { senateID: 'P000197' });
+    });
+
+    it('should propagate API errors', async () => {
+      mockGet.mockRejectedValue(new Error('API Error'));
+
+      await expect(governmentTradingClient[method]({ senateID: 'P000197' }))
+        .rejects.toThrow('API Error');
+    });
+  });
+
+  describe('getSenatePositions', () => {
+    it('should call get with filters', async () => {
+      mockGet.mockResolvedValue([]);
+
+      await governmentTradingClient.getSenatePositions({
+        senateID: 'P000197',
+        party: 'Democrat',
+        position: 'Representative',
+        limit: 10,
+      });
+
+      expect(mockGet).toHaveBeenCalledWith('/senate-positions', {
+        senateID: 'P000197',
+        party: 'Democrat',
+        position: 'Representative',
+        limit: 10,
+      });
+    });
+
+    it('should work without parameters', async () => {
+      mockGet.mockResolvedValue([]);
+
+      await governmentTradingClient.getSenatePositions();
+
+      expect(mockGet).toHaveBeenCalledWith('/senate-positions', {});
+    });
+  });
+
+  describe('getSenateProfile', () => {
+    it('should call get with filters and pagination', async () => {
+      mockGet.mockResolvedValue([]);
+
+      await governmentTradingClient.getSenateProfile({
+        active: true,
+        latestParty: 'Republican',
+        latestPosition: 'Senator',
+        page: 1,
+        limit: 50,
+      });
+
+      expect(mockGet).toHaveBeenCalledWith('/senate-profile', {
+        active: true,
+        latestParty: 'Republican',
+        latestPosition: 'Senator',
+        page: 1,
+        limit: 50,
+      });
+    });
+
+    it('should work without parameters', async () => {
+      mockGet.mockResolvedValue([]);
+
+      await governmentTradingClient.getSenateProfile();
+
+      expect(mockGet).toHaveBeenCalledWith('/senate-profile', {});
+    });
+  });
+
+  describe('getSenateNetWorthAggregated', () => {
+    it('should call get with the member ID', async () => {
+      mockGet.mockResolvedValue([]);
+
+      await governmentTradingClient.getSenateNetWorthAggregated({ senateID: 'P000197' });
+
+      expect(mockGet).toHaveBeenCalledWith('/senate-net-worth-aggregated', { senateID: 'P000197' });
+    });
+  });
+
   describe('constructor', () => {
     it('should create instance with API key', () => {
       const client = new GovernmentTradingClient('my-api-key');

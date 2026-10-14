@@ -225,6 +225,14 @@ export function registerSearchTools(
         .number()
         .optional()
         .describe("Filter companies with volume less than this value"),
+      avgVolumeMoreThan: z
+        .number()
+        .optional()
+        .describe("Filter companies with average volume greater than this value"),
+      avgVolumeLowerThan: z
+        .number()
+        .optional()
+        .describe("Filter companies with average volume less than this value"),
       exchange: z
         .string()
         .optional()
@@ -237,6 +245,7 @@ export function registerSearchTools(
         .optional()
         .describe("Filter actively trading companies"),
       limit: z.number().optional().describe("Limit number of results"),
+      page: z.number().optional().describe("Page number for pagination"),
       includeAllShareClasses: z
         .boolean()
         .optional()

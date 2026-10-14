@@ -115,12 +115,15 @@ export class SearchClient extends FMPClient {
       dividendLowerThan?: number;
       volumeMoreThan?: number;
       volumeLowerThan?: number;
+      avgVolumeMoreThan?: number;
+      avgVolumeLowerThan?: number;
       exchange?: string;
       country?: string;
       isEtf?: boolean;
       isFund?: boolean;
       isActivelyTrading?: boolean;
       limit?: number;
+      page?: number;
       includeAllShareClasses?: boolean;
     }
   ): Promise<StockScreenerResult[]> {

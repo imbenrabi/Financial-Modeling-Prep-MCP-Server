@@ -54,7 +54,7 @@ describe('CommodityClient', () => {
 
       const result = await commodityClient.listCommodities();
 
-      expect(mockGet).toHaveBeenCalledWith('/commodity-list', {});
+      expect(mockGet).toHaveBeenCalledWith('/commodities-list', {});
       expect(result).toEqual(mockData);
     });
     it('should handle empty response', async () => {
@@ -63,7 +63,7 @@ describe('CommodityClient', () => {
 
       const result = await commodityClient.listCommodities();
 
-      expect(mockGet).toHaveBeenCalledWith('/commodity-list', {});
+      expect(mockGet).toHaveBeenCalledWith('/commodities-list', {});
       expect(result).toEqual(mockData);
     });
 
@@ -94,7 +94,7 @@ describe('CommodityClient', () => {
 
       const result = await commodityClient.listCommodities();
 
-      expect(mockGet).toHaveBeenCalledWith('/commodity-list', {});
+      expect(mockGet).toHaveBeenCalledWith('/commodities-list', {});
       expect(result).toEqual(mockData);
       expect(result).toHaveLength(100);
     });

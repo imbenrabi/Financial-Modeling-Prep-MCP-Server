@@ -253,6 +253,15 @@ describe('SearchClient', () => {
       expect(result).toEqual(mockData);
     });
 
+    it('should pass average volume filters and page', async () => {
+      mockGet.mockResolvedValue([]);
+
+      const params = { avgVolumeMoreThan: 1000000, avgVolumeLowerThan: 5000000, page: 1, limit: 100 };
+      await searchClient.stockScreener(params);
+
+      expect(mockGet).toHaveBeenCalledWith('/company-screener', params);
+    });
+
     it('should handle minimal parameters', async () => {
       const mockData: StockScreenerResult[] = [];
       mockGet.mockResolvedValue(mockData);

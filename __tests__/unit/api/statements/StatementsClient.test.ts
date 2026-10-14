@@ -323,6 +323,41 @@ describe('StatementsClient', () => {
     });
   });
 
+  describe('getEnterpriseValues', () => {
+    it('should call get with symbol, limit and period', async () => {
+      const mockData = [
+        {
+          symbol: 'AAPL',
+          date: '2024-09-28',
+          stockPrice: 227.79,
+          numberOfShares: 15343783000,
+          marketCapitalization: 3495160329570,
+          minusCashAndCashEquivalents: 29943000000,
+          addTotalDebt: 106629000000,
+          enterpriseValue: 3571846329570,
+        },
+      ];
+      mockGet.mockResolvedValue(mockData);
+
+      const result = await statementsClient.getEnterpriseValues('AAPL', { limit: 5, period: 'FY' });
+
+      expect(mockGet).toHaveBeenCalledWith('/enterprise-values', {
+        symbol: 'AAPL',
+        limit: 5,
+        period: 'FY',
+      });
+      expect(result).toEqual(mockData);
+    });
+
+    it('should work with only a symbol', async () => {
+      mockGet.mockResolvedValue([]);
+
+      await statementsClient.getEnterpriseValues('MSFT');
+
+      expect(mockGet).toHaveBeenCalledWith('/enterprise-values', { symbol: 'MSFT' });
+    });
+  });
+
   describe('getKeyMetrics', () => {
     it('should call get with correct parameters', async () => {
       const mockData: KeyMetrics[] = [

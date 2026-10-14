@@ -10,6 +10,6 @@ export class CommodityClient extends FMPClient {
    * @returns Array of commodities
    */
   async listCommodities(): Promise<Commodity[]> {
-    return super.get<Commodity[]>("/commodity-list", {});
+    return super.get<Commodity[]>("/commodities-list", {});
   } 
 }

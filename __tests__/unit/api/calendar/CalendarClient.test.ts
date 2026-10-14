@@ -185,6 +185,18 @@ describe('CalendarClient', () => {
       expect(result).toEqual(mockData);
     });
 
+    it('should pass includeReportTimes', async () => {
+      mockGet.mockResolvedValue([]);
+
+      await calendarClient.getEarningsCalendar('2024-01-01', '2024-01-31', true);
+
+      expect(mockGet).toHaveBeenCalledWith('/earnings-calendar', {
+        from: '2024-01-01',
+        to: '2024-01-31',
+        includeReportTimes: true
+      });
+    });
+
     it('should handle optional date parameters', async () => {
       const mockData: EarningsReport[] = [];
       mockGet.mockResolvedValue(mockData);

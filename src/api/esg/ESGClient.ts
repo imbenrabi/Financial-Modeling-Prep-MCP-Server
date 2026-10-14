@@ -9,7 +9,7 @@ export class ESGClient extends FMPClient {
    * @returns Array of ESG disclosures
    */
   async getDisclosures(symbol: string): Promise<ESGDisclosure[]> {
-    return super.get<ESGDisclosure[]>("/esg-disclosure", { symbol });
+    return super.get<ESGDisclosure[]>("/esg-disclosures", { symbol });
   }
 
   /**

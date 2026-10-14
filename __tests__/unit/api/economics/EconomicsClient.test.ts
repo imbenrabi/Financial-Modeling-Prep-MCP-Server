@@ -107,7 +107,7 @@ describe('EconomicsClient', () => {
 
       const result = await economicsClient.getEconomicIndicators('GDP', '2024-01-01', '2024-01-31');
 
-      expect(mockGet).toHaveBeenCalledWith('/economic-indicator', {
+      expect(mockGet).toHaveBeenCalledWith('/economic-indicators', {
         name: 'GDP',
         from: '2024-01-01',
         to: '2024-01-31'
@@ -127,7 +127,7 @@ describe('EconomicsClient', () => {
 
       const result = await economicsClient.getEconomicIndicators('CPI');
 
-      expect(mockGet).toHaveBeenCalledWith('/economic-indicator', {
+      expect(mockGet).toHaveBeenCalledWith('/economic-indicators', {
         name: 'CPI',
         from: undefined,
         to: undefined
@@ -141,7 +141,7 @@ describe('EconomicsClient', () => {
 
       const result = await economicsClient.getEconomicIndicators('Unemployment Rate', '2024-01-01');
 
-      expect(mockGet).toHaveBeenCalledWith('/economic-indicator', {
+      expect(mockGet).toHaveBeenCalledWith('/economic-indicators', {
         name: 'Unemployment Rate',
         from: '2024-01-01',
         to: undefined
