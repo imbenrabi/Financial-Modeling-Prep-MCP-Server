@@ -64,7 +64,11 @@ check getSenateNetWorth         "senate-net-worth?senateID=P000197&page=0&limit=
 check getSenateNetWorthAggregated "senate-net-worth-aggregated?senateID=P000197" ""
 
 # Fixed path and new parameters on existing tools
-check getEconomicIndicators     "economic-indicators?name=GDP&from=2023-01-01&to=2026-10-01" "name,date,value"
+# FMP limits economic-indicators to a 90-day date range, so use the last 90 days.
+ECON_TO="$(date -u +%Y-%m-%d)"
+ECON_FROM="$(date -u -d '90 days ago' +%Y-%m-%d 2>/dev/null || date -u -v-90d +%Y-%m-%d)"
+check getEconomicIndicators     "economic-indicators?name=federalFunds&from=$ECON_FROM&to=$ECON_TO" "name,date,value"
+check getEconomicIndicators.CPI "economic-indicators?name=CPI&from=$ECON_FROM&to=$ECON_TO" "name,date,value"
 check stockScreener.avgVolume   "company-screener?avgVolumeMoreThan=1000000&limit=5" "symbol,avgVolume"
 check getEarningsCalendar.times "earnings-calendar?from=2026-10-01&to=2026-10-31&includeReportTimes=true" "symbol,date"
 
