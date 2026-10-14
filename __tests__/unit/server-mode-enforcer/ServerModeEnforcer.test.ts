@@ -168,7 +168,7 @@ describe("ServerModeEnforcer", () => {
         ServerModeEnforcer.initialize({}, { "tool-sets": "search,invalid,company" });
       }).toThrow("process.exit called");
 
-      expect(mockConsoleError).toHaveBeenCalledWith("Invalid tool sets: invalid");
+      expect(mockConsoleError).toHaveBeenCalledWith('Invalid tool sets: "invalid"');
       expect(mockConsoleError).toHaveBeenCalledWith("Available tool sets: search, company");
       expect(mockProcessExit).toHaveBeenCalledWith(1);
     });
@@ -186,6 +186,24 @@ describe("ServerModeEnforcer", () => {
         expect(enforcer.serverModeOverride).toBe("STATIC_TOOL_SETS");
         expect(enforcer.toolSets).toEqual(["search", "company"]);
       }).not.toThrow();
+
+      expect(mockProcessExit).not.toHaveBeenCalled();
+      expect(mockConsoleError).not.toHaveBeenCalled();
+    });
+
+    it("should ignore empty entries from trailing or repeated commas", () => {
+      mockGetAvailableToolSets.mockReturnValue([
+        { key: "search", definition: {} as any },
+        { key: "company", definition: {} as any },
+        { key: "quotes", definition: {} as any },
+      ]);
+
+      ServerModeEnforcer.initialize({ FMP_TOOL_SETS: "search,company," }, {});
+      expect(ServerModeEnforcer.getInstance().toolSets).toEqual(["search", "company"]);
+
+      ServerModeEnforcer.reset();
+      ServerModeEnforcer.initialize({}, { "tool-sets": "search,,quotes" });
+      expect(ServerModeEnforcer.getInstance().toolSets).toEqual(["search", "quotes"]);
 
       expect(mockProcessExit).not.toHaveBeenCalled();
       expect(mockConsoleError).not.toHaveBeenCalled();
