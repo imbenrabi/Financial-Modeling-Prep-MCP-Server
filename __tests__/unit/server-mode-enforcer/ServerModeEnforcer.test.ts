@@ -191,22 +191,66 @@ describe("ServerModeEnforcer", () => {
       expect(mockConsoleError).not.toHaveBeenCalled();
     });
 
-    it("should ignore empty entries from trailing or repeated commas", () => {
-      mockGetAvailableToolSets.mockReturnValue([
-        { key: "search", definition: {} as any },
-        { key: "company", definition: {} as any },
-        { key: "quotes", definition: {} as any },
-      ]);
+    describe("empty entries", () => {
+      beforeEach(() => {
+        mockGetAvailableToolSets.mockReturnValue([
+          { key: "search", definition: {} as any },
+          { key: "company", definition: {} as any },
+          { key: "quotes", definition: {} as any },
+        ]);
+      });
 
-      ServerModeEnforcer.initialize({ FMP_TOOL_SETS: "search,company," }, {});
-      expect(ServerModeEnforcer.getInstance().toolSets).toEqual(["search", "company"]);
+      it("should ignore a trailing comma in FMP_TOOL_SETS", () => {
+        ServerModeEnforcer.initialize({ FMP_TOOL_SETS: "search,company," }, {});
 
-      ServerModeEnforcer.reset();
-      ServerModeEnforcer.initialize({}, { "tool-sets": "search,,quotes" });
-      expect(ServerModeEnforcer.getInstance().toolSets).toEqual(["search", "quotes"]);
+        expect(ServerModeEnforcer.getInstance().toolSets).toEqual(["search", "company"]);
+        expect(mockProcessExit).not.toHaveBeenCalled();
+        expect(mockConsoleError).not.toHaveBeenCalled();
+      });
 
-      expect(mockProcessExit).not.toHaveBeenCalled();
-      expect(mockConsoleError).not.toHaveBeenCalled();
+      it("should ignore a doubled comma in the CLI argument", () => {
+        ServerModeEnforcer.initialize({}, { "tool-sets": "search,,quotes" });
+
+        expect(ServerModeEnforcer.getInstance().toolSets).toEqual(["search", "quotes"]);
+        expect(mockProcessExit).not.toHaveBeenCalled();
+        expect(mockConsoleError).not.toHaveBeenCalled();
+      });
+
+      it("should ignore a whitespace-only entry between commas", () => {
+        ServerModeEnforcer.initialize({ FMP_TOOL_SETS: "search, ,company" }, {});
+
+        expect(ServerModeEnforcer.getInstance().toolSets).toEqual(["search", "company"]);
+        expect(mockProcessExit).not.toHaveBeenCalled();
+      });
+
+      it.each([",", ",,", " , ", " "])(
+        "should exit when FMP_TOOL_SETS names no tool set (%j)",
+        (value) => {
+          expect(() => {
+            ServerModeEnforcer.initialize({ FMP_TOOL_SETS: value }, {});
+          }).toThrow("process.exit called");
+
+          expect(mockConsoleError).toHaveBeenCalledWith(
+            `Invalid tool sets: no tool set names in ${JSON.stringify(value)}`
+          );
+          expect(mockConsoleError).toHaveBeenCalledWith("Available tool sets: search, company, quotes");
+          expect(mockProcessExit).toHaveBeenCalledWith(1);
+        }
+      );
+
+      it.each(["fmp-tool-sets", "tool-sets", "toolSets"])(
+        "should exit when the CLI argument --%s names no tool set",
+        (key) => {
+          expect(() => {
+            ServerModeEnforcer.initialize({ FMP_TOOL_SETS: "search" }, { [key]: " , " });
+          }).toThrow("process.exit called");
+
+          expect(mockConsoleError).toHaveBeenCalledWith(
+            'Invalid tool sets: no tool set names in " , "'
+          );
+          expect(mockProcessExit).toHaveBeenCalledWith(1);
+        }
+      );
     });
   });
 

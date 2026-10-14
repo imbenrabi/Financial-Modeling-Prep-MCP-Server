@@ -14,6 +14,7 @@ Singleton managing server mode configuration with strict precedence rules.
 ## Pitfalls
 
 - Invalid tool set names cause `process.exit(1)` — fail-fast, not a graceful error, but only when that list is the one selected (FLOW.md)
+- Stray commas are ignored (`search,company,` works), but a value with no names at all (`,`) exits; keep that check, since an empty list would otherwise fall through to ALL_TOOLS
 
 ## Flow Reference
 
