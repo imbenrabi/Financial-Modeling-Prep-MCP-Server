@@ -85,7 +85,7 @@ only** — the readable source and the real API contracts live upstream at the *
 
 **Trigger** when the diff touches any of: `src/toolception-adapters/**`, `src/index.ts` (the
 `createMcpServer` config), `src/endpoints/*.ts` (`defineEndpoint`), `src/prompts/**` (the
-`McpServer.prompt()` extension), **or** bumps `toolception` in `package.json` /
+deprecated SDK `McpServer.prompt()`), **or** bumps `toolception` in `package.json` /
 `package-lock.json`.
 
 **Fetch the source with `gh`, pinned to the installed version:**
@@ -112,7 +112,7 @@ Offline fallback for the type contracts: `node_modules/toolception/dist/index.d.
 | session config / `config` query param / cache key | `src/session/**` |
 | `defineEndpoint` / custom endpoints / Fastify app | `src/http/**` |
 | `ModuleLoader` / `McpToolDefinition` shapes | `src/types/**` |
-| `McpServer.prompt()` extension (`src/prompts/**`) | `src/server/**` |
+| `McpServer.prompt()` (`src/prompts/**`) | the installed `@modelcontextprotocol/sdk` `server/mcp.d.ts` (not toolception) |
 | meta-tools (enable/disable/list toolsets) | `src/meta/**` |
 
 **Verify the diff against the fetched contracts:**
@@ -123,8 +123,8 @@ Offline fallback for the type contracts: `node_modules/toolception/dist/index.d.
   retyped keys.
 - `ModuleLoader` is still `(context?) => McpToolDefinition[] | Promise<McpToolDefinition[]>`
   and the `McpToolDefinition` shape the adapters / `ToolCollector` emit still matches upstream.
-- `McpServer.prompt()` still exists upstream — a runtime extension reached via type cast that
-  **silently no-ops if dropped** (`list_mcp_assets` then vanishes with no error).
+- `McpServer.prompt()` still exists in the installed `@modelcontextprotocol/sdk` — deprecated in favour of
+  `registerPrompt` and reached via type cast, so it **silently no-ops if removed** (`list_mcp_assets` then vanishes with no error).
 - **On a `toolception` version bump:** fetch the **new** tag's source and re-verify every
   contract above. Flag any breaking rename/removal/retype (precedent: `initialToolsets` →
   `toolsets` in 0.5.1).

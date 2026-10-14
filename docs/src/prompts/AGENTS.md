@@ -8,7 +8,7 @@ The `list_mcp_assets` prompt.
 
 ## Pitfalls
 
-- `McpServer.prompt()` is a toolception runtime extension reached through a type cast. If it is absent the registration is skipped without a log (a throw only logs a warning), and `list_mcp_assets` disappears with no error
+- `McpServer.prompt()` is a deprecated `@modelcontextprotocol/sdk` method (`registerPrompt` replaces it), called through an untyped cast. If an SDK upgrade removes it the registration is skipped without a log (a throw only logs a warning), and `list_mcp_assets` disappears with no error
 - The prompt text diverges from runtime in three places:
   - it says server-level tokens take precedence; the real order is in [adapters FLOW](../toolception-adapters/FLOW.md) (session wins)
   - its quick starts put `DYNAMIC_TOOL_DISCOVERY` / `FMP_TOOL_SETS` in the session `config`, which the adapters drop

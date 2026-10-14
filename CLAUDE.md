@@ -57,7 +57,7 @@ src/
 
 1. **API Key as Query Parameter** — every FMP call sends `?apikey=`; never move it to headers
 2. **Token Precedence** — Instance > Environment; the session token is injected via the client constructor at construction time
-3. **Fail-Fast Validation** — Invalid tool sets cause `process.exit(1)` at startup
+3. **Fail-Fast Validation** — An invalid tool set list that is actually selected causes `process.exit(1)` at startup (see the enforcer FLOW for when it is skipped)
 4. **Session Restrictions** — Only `FMP_ACCESS_TOKEN` takes effect at session level; `FMP_TOOL_SETS` / `DYNAMIC_TOOL_DISCOVERY` in a session config are ignored (mode is fixed at startup)
 5. **Read-Only Tools** — All tools are read-only data fetchers
 6. **Error Handling** — Tools never throw; return `{ isError: true }`

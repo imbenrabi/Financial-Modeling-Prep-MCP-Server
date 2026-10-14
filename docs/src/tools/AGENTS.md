@@ -5,7 +5,7 @@ MCP tool registrations for all FMP API endpoints.
 ## Key Rules
 
 - Tools never throw — a handler catches everything and returns `{ content: [{ type: "text", text: "Error: <message>" }], isError: true }`
-- A tool's name must stay globally unique and its module must belong to exactly one toolset; the catalog rules live in [`../constants/AGENTS.md`](../constants/AGENTS.md)
+- Tool name and toolset catalog rules: [`../constants/AGENTS.md`](../constants/AGENTS.md)
 
 ## Pitfalls
 

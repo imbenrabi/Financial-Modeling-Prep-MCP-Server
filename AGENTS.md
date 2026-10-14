@@ -5,7 +5,7 @@ Sparse hierarchy of files capturing non-obvious architectural knowledge — pitf
 ## Design Principles
 
 1. **Progressive Disclosure** — Start with minimum context; drill into detail via downlinks as needed
-2. **Token Efficiency** — Each file under 600 words; if obvious from code, delete it
+2. **Token Efficiency** — Each AGENTS.md under 600 words (FLOW.md files stay as short); if obvious from code, delete it
 3. **LCA Optimization** — Place shared knowledge at lowest common ancestor; never duplicate across siblings
 4. **Hierarchical Loading** — When a node loads, all ancestors load too (T-shaped view)
 5. **Root-only Bootstrap** — Only `CLAUDE.md` and this file sit at the repo root; every other node is reached by downlink from here

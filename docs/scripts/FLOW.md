@@ -11,7 +11,7 @@ Order of `release.yml`, triggered by pushing a `v*` tag (or `workflow_dispatch` 
 ## Non-obvious consequences
 
 - `npm publish` ships whatever `package.json` says; the tag only names the GitHub Release and drives the propagation wait. A tag that differs from `package.json` publishes one version and labels another
-- The propagation wait polls 30 times at 10 s and then continues without error. If npm is slow, `mcp-publisher publish` runs against a version the registry cannot see yet and fails
+- The propagation wait polls 30 times at 10 s and then continues without error. If npm is slow, `mcp-publisher publish` runs against a version the registry cannot see yet and can fail
 - npm is published before the MCP Registry. If the registry step fails, the npm version is live and npm will not accept it again, so a workflow re-run stops at `npm publish`; finish the registry step with `npm run publish:manual -- --skip-npm`
 - `mcp-publisher` is built unpinned on every run, so a breaking change in the registry repo fails a release that touched no code
 - Dry run skips `npm publish` and the GitHub Release but still builds and runs `mcp-publisher --dry-run`
