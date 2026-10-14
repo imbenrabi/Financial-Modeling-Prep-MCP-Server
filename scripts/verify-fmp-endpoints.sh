@@ -26,7 +26,8 @@ failures=0
 check() {
   local label="$1" url="$2" keys="$3" body code
   body="$(mktemp)"
-  code="$(printf 'url = "%s/%s&apikey=%s"\n' "$BASE" "$url" "$KEY" \
+  local sep="&"; case "$url" in *\?*) ;; *) sep="?" ;; esac
+  code="$(printf 'url = "%s/%s%sapikey=%s"\n' "$BASE" "$url" "$sep" "$KEY" \
     | curl -sS -m 30 -K - -o "$body" -w '%{http_code}')"
   if [ "$code" != "200" ]; then
     echo "FAIL $label: HTTP $code ($(head -c 200 "$body"))"
