@@ -18,7 +18,7 @@ const isZodInputSchema = (schema: unknown): boolean => {
 };
 
 /**
- * The server registers 253 tools today. A much lower count means module
+ * The server registers 267 tools today. A much lower count means module
  * loading broke, which would make an empty non-Zod list pass trivially.
  */
 const MIN_EXPECTED_TOOLS = 250;

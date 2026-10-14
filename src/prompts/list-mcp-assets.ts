@@ -125,7 +125,7 @@ function renderToolsSection(mode: ServerMode, staticToolSets: ToolSet[] | undefi
   }
 
   lines.push(
-    `Legacy mode loads all tools (253+ across ${toolsetCount} categories).`,
+    `Legacy mode loads all tools (267+ across ${toolsetCount} categories).`,
     `To avoid long lists, categories are summarized below:`,
   );
   for (const [key, def] of Object.entries(TOOL_SETS)) {
