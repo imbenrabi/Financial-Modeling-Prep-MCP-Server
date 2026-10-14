@@ -238,13 +238,19 @@ describe("ServerModeEnforcer", () => {
         }
       );
 
-      it("should exit when the CLI argument names no tool set", () => {
-        expect(() => {
-          ServerModeEnforcer.initialize({}, { "fmp-tool-sets": "," });
-        }).toThrow("process.exit called");
+      it.each(["fmp-tool-sets", "tool-sets", "toolSets"])(
+        "should exit when the CLI argument --%s names no tool set",
+        (key) => {
+          expect(() => {
+            ServerModeEnforcer.initialize({ FMP_TOOL_SETS: "search" }, { [key]: " , " });
+          }).toThrow("process.exit called");
 
-        expect(mockProcessExit).toHaveBeenCalledWith(1);
-      });
+          expect(mockConsoleError).toHaveBeenCalledWith(
+            'Invalid tool sets: no tool set names in " , "'
+          );
+          expect(mockProcessExit).toHaveBeenCalledWith(1);
+        }
+      );
     });
   });
 
