@@ -68,8 +68,8 @@ export const TOOL_SETS: Record<ToolSet, ToolSetDefinition> = {
   analyst: {
     name: "Analyst Coverage",
     description:
-      "Analyst estimates, price targets, ratings, and recommendations",
-    decisionCriteria: "Get analyst ratings, price targets, research recommendations",
+      "Analyst estimates, price targets, ratings, recommendations, and TipRanks analyst ratings and track records",
+    decisionCriteria: "Get analyst ratings, price targets, research recommendations, analyst track records",
     modules: ["analyst", "tipranks"],
   },
 

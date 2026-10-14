@@ -2,7 +2,7 @@
 
 > For user-facing docs, see README.md and the docs/ directory.
 
-MCP server providing 253+ financial data tools via the Financial Modeling Prep API. HTTP/SSE transport only. Built on toolception + Fastify.
+MCP server providing 267+ financial data tools via the Financial Modeling Prep API. HTTP/SSE transport only. Built on toolception + Fastify.
 
 ## Architecture
 
