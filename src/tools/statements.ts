@@ -492,7 +492,10 @@ function registerStatementsExtendedTools(
           content: [{ type: "text", text: JSON.stringify(results, null, 2) }],
         };
       } catch (error) {
-        console.error("Error fetching financial report JSON:", error);
+        console.error(
+          "Error fetching financial report JSON:",
+          error instanceof Error ? error.message : String(error)
+        );
         return {
           content: [
             {
@@ -529,7 +532,10 @@ function registerStatementsExtendedTools(
           content: [{ type: "text", text: JSON.stringify(results, null, 2) }],
         };
       } catch (error) {
-        console.error("Error fetching financial report XLSX:", error);
+        console.error(
+          "Error fetching financial report XLSX:",
+          error instanceof Error ? error.message : String(error)
+        );
         return {
           content: [
             {
@@ -566,7 +572,10 @@ function registerStatementsExtendedTools(
           content: [{ type: "text", text: JSON.stringify(results, null, 2) }],
         };
       } catch (error) {
-        console.error("Error fetching revenue product segmentation:", error);
+        console.error(
+          "Error fetching revenue product segmentation:",
+          error instanceof Error ? error.message : String(error)
+        );
         return {
           content: [
             {
@@ -603,7 +612,10 @@ function registerStatementsExtendedTools(
           content: [{ type: "text", text: JSON.stringify(results, null, 2) }],
         };
       } catch (error) {
-        console.error("Error fetching revenue geographic segmentation:", error);
+        console.error(
+          "Error fetching revenue geographic segmentation:",
+          error instanceof Error ? error.message : String(error)
+        );
         return {
           content: [
             {
@@ -643,7 +655,10 @@ function registerStatementsExtendedTools(
           content: [{ type: "text", text: JSON.stringify(results, null, 2) }],
         };
       } catch (error) {
-        console.error("Error fetching income statement as reported:", error);
+        console.error(
+          "Error fetching income statement as reported:",
+          error instanceof Error ? error.message : String(error)
+        );
         return {
           content: [
             {
@@ -686,7 +701,7 @@ function registerStatementsExtendedTools(
       } catch (error) {
         console.error(
           "Error fetching balance sheet statement as reported:",
-          error
+          error instanceof Error ? error.message : String(error)
         );
         return {
           content: [
@@ -727,7 +742,10 @@ function registerStatementsExtendedTools(
           content: [{ type: "text", text: JSON.stringify(results, null, 2) }],
         };
       } catch (error) {
-        console.error("Error fetching cash flow statement as reported:", error);
+        console.error(
+          "Error fetching cash flow statement as reported:",
+          error instanceof Error ? error.message : String(error)
+        );
         return {
           content: [
             {
@@ -770,7 +788,7 @@ function registerStatementsExtendedTools(
       } catch (error) {
         console.error(
           "Error fetching full financial statement as reported:",
-          error
+          error instanceof Error ? error.message : String(error)
         );
         return {
           content: [
@@ -850,7 +868,10 @@ function registerStatementsExtendedTools(
           content: [{ type: "text", text: JSON.stringify(results, null, 2) }],
         };
       } catch (error) {
-        console.error("Error fetching key metrics:", error);
+        console.error(
+          "Error fetching key metrics:",
+          error instanceof Error ? error.message : String(error)
+        );
         return {
           content: [
             {
@@ -890,7 +911,10 @@ function registerStatementsExtendedTools(
           content: [{ type: "text", text: JSON.stringify(results, null, 2) }],
         };
       } catch (error) {
-        console.error("Error fetching ratios:", error);
+        console.error(
+          "Error fetching ratios:",
+          error instanceof Error ? error.message : String(error)
+        );
         return {
           content: [
             {
@@ -919,7 +943,10 @@ function registerStatementsExtendedTools(
           content: [{ type: "text", text: JSON.stringify(results, null, 2) }],
         };
       } catch (error) {
-        console.error("Error fetching key metrics TTM:", error);
+        console.error(
+          "Error fetching key metrics TTM:",
+          error instanceof Error ? error.message : String(error)
+        );
         return {
           content: [
             {
@@ -948,7 +975,10 @@ function registerStatementsExtendedTools(
           content: [{ type: "text", text: JSON.stringify(results, null, 2) }],
         };
       } catch (error) {
-        console.error("Error fetching financial ratios TTM:", error);
+        console.error(
+          "Error fetching financial ratios TTM:",
+          error instanceof Error ? error.message : String(error)
+        );
         return {
           content: [
             {
@@ -983,7 +1013,10 @@ function registerStatementsExtendedTools(
           content: [{ type: "text", text: JSON.stringify(results, null, 2) }],
         };
       } catch (error) {
-        console.error("Error fetching financial scores:", error);
+        console.error(
+          "Error fetching financial scores:",
+          error instanceof Error ? error.message : String(error)
+        );
         return {
           content: [
             {
@@ -1012,7 +1045,10 @@ function registerStatementsExtendedTools(
           content: [{ type: "text", text: JSON.stringify(results, null, 2) }],
         };
       } catch (error) {
-        console.error("Error fetching owner earnings:", error);
+        console.error(
+          "Error fetching owner earnings:",
+          error instanceof Error ? error.message : String(error)
+        );
         return {
           content: [
             {
