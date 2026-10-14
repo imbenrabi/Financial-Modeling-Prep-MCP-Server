@@ -5,7 +5,7 @@ MCP tool registrations for all FMP API endpoints.
 ## Key Rules
 
 - Tools must never throw — always return `{ content: [...], isError: true }`
-- Tool names must be globally unique across all 28 modules, and each module belongs to exactly one toolset (`__tests__/unit/constants/toolSets.test.ts` enforces both)
+- Tool names must be globally unique across all 29 modules, and each module belongs to exactly one toolset (`__tests__/unit/constants/toolSets.test.ts` enforces both)
 - All tools get identical annotations: `readOnlyHint`, `idempotentHint`, `openWorldHint`
 
 ## Anti-patterns

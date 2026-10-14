@@ -70,7 +70,7 @@ export const TOOL_SETS: Record<ToolSet, ToolSetDefinition> = {
     description:
       "Analyst estimates, price targets, ratings, and recommendations",
     decisionCriteria: "Get analyst ratings, price targets, research recommendations",
-    modules: ["analyst"],
+    modules: ["analyst", "tipranks"],
   },
 
   // Market performance metrics

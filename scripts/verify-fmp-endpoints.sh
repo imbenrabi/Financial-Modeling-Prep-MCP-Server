@@ -89,9 +89,19 @@ check getStockGradeNews         "grades-news?symbol=AAPL&page=0&limit=5" ""
 check getStockGradeLatestNews   "grades-latest-news?page=0&limit=5" ""
 check getCOTReportList          "commitment-of-traders-list" ""
 
+# TipRanks partner endpoints (examples from their docs pages) and the corrected commodities path
+check lookupTipRanksAnalyst     "tipranks-analysts?analystName=Andrew%20Marok" ""
+check searchTipRanksRatings     "tipranks-search?symbol=AAPL&limit=3" ""
+check getTipRanksPITBySymbol    "tipranks-pit-symbol?symbol=AAPL&limit=3" ""
+check getTipRanksSymbolSummary  "tipranks-symbol-summary?symbol=AAPL" ""
+check getTipRanksFirmSummary    "tipranks-firm-summary?firmName=Morgan%20Stanley" ""
+check getTipRanksAnalystSummary "tipranks-analyst-summary?expertUID=3c6eb8cf1347a4e5757e628fccb684a93abee587" ""
+check getTipRanksPITByAnalyst   "tipranks-pit-analyst?expertUID=3c6eb8cf1347a4e5757e628fccb684a93abee587&limit=3" ""
+check getCommoditiesList        "commodities-list?x=1" ""
+
 # Control: what FMP answers for a path that does not exist. If this is 404 and a
 # GATED path above is 402, the 402 means the path exists but the plan lacks it.
-for path in "this-path-does-not-exist" "economic-indicator" "esg-disclosure"; do
+for path in "this-path-does-not-exist" "economic-indicator" "esg-disclosure" "commodity-list"; do
   code="$(printf 'url = "%s/%s?symbol=AAPL&name=GDP&apikey=%s"\n' "$BASE" "$path" "$KEY" \
     | curl -sS -m 30 -K - -o /dev/null -w '%{http_code}')"
   echo "INFO control /$path: HTTP $code"

@@ -26,7 +26,7 @@
 | Commodities | `commodities` | `listCommodities` |
 | Economics | `economics` | `getTreasuryRates`, `getEconomicIndicators`, `getEconomicCalendar`, `getMarketRiskPremium` |
 | Calendar | `calendar` | `getDividendsCalendar`, `getIPOCalendar`, `getStockSplitCalendar`, `getIPODisclosures` |
-| Analyst Coverage | `analyst` | `getAnalystEstimates`, `getRatingsSnapshot`, `getPriceTargetSummary`, `getStockGrades` |
+| Analyst Coverage | `analyst` | `getAnalystEstimates`, `getRatingsSnapshot`, `getPriceTargetSummary`, `getStockGrades`, `searchTipRanksAnalystRatings`, `getTipRanksSymbolSummary`, `lookupTipRanksAnalyst` |
 | Charts | `charts` | `getLightChart`, `getFullChart`, `getIntradayChart`, `getUnadjustedChart` |
 | Indexes | `indexes` | `getAllIndexQuotes`, `getNasdaqConstituents`, `getDowJonesConstituents`, `getHistoricalIndexFullChart` |
 | ESG | `esg` | `getESGDisclosures`, `getESGRatings`, `getESGBenchmarks` |
