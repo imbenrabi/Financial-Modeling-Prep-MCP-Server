@@ -137,7 +137,7 @@ export class ServerModeEnforcer {
     }
 
     // Parse tool sets (split by comma, trim whitespace)
-    const toolSets = input.split(",").map((s) => s.trim()) as ToolSet[];
+    const toolSets = input.split(",").map((s) => s.trim()).filter(Boolean) as ToolSet[];
     
     // Get available tool sets for validation
     const availableToolSets = getAvailableToolSets().map(({ key }) => key);
@@ -149,11 +149,11 @@ export class ServerModeEnforcer {
     
     // Exit process if invalid tool sets found (matches previous behavior)
     if (invalidToolSets.length > 0) {
-      console.error(`Invalid tool sets: ${invalidToolSets.join(", ")}`);
+      console.error(`Invalid tool sets: ${invalidToolSets.map((ts) => JSON.stringify(ts)).join(", ")}`);
       console.error(`Available tool sets: ${availableToolSets.join(", ")}`);
       process.exit(1);
     }
 
-    return toolSets.filter(ts => ts.length > 0);
+    return toolSets;
   }
 }
