@@ -141,6 +141,14 @@ export class ServerModeEnforcer {
     
     // Get available tool sets for validation
     const availableToolSets = getAvailableToolSets().map(({ key }) => key);
+
+    // A value made only of commas or whitespace names no tool set: fail fast rather than
+    // silently starting with every tool
+    if (toolSets.length === 0) {
+      console.error(`Invalid tool sets: no tool set names in ${JSON.stringify(input)}`);
+      console.error(`Available tool sets: ${availableToolSets.join(", ")}`);
+      process.exit(1);
+    }
     
     // Find invalid tool sets
     const invalidToolSets = toolSets.filter(

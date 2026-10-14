@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - `getEconomicIndicators` called `/economic-indicator` and `getESGDisclosures` called `/esg-disclosure` and `listCommodities` called `/commodity-list`; FMP documents them as `/economic-indicators`, `/esg-disclosures` and `/commodities-list`
 - `ALL_TOOLS` mode registered the four `earnings-transcript` tools twice (`getLatestEarningsTranscripts`, `getEarningsTranscript`, `getEarningsTranscriptDates`, `getAvailableTranscriptSymbols`) because both the `calendar` and `earnings` tool sets listed that module. Toolception 0.8.0 rejects duplicate tool names at `initialize`. A new test fails on any module or tool name shared between tool sets
+- A trailing or doubled comma in `FMP_TOOL_SETS` or `--fmp-tool-sets` (for example `search,company,`) no longer stops startup with an empty `Invalid tool sets:` message. Empty entries are ignored and invalid names are now quoted in the error. A value with no tool set name at all (`,` or a blank string of spaces) still exits with an error rather than silently starting with every tool
 
 ### Changed
 - `getEconomicIndicators` now lists the valid indicator names and the 90-day date range limit from FMP's documentation in its tool description
