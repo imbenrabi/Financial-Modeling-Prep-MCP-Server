@@ -12,7 +12,7 @@ allowed-tools: Read, Grep, Glob, Bash(git:*), Bash(gh pr:*), Bash(gh api:*), Bas
 
 # Code Review — FMP MCP Server
 
-You are reviewing changes to this repository. This server exposes 253+ read-only
+You are reviewing changes to this repository. This server exposes 267+ read-only
 financial-data tools over MCP (HTTP/SSE) using `toolception` + Fastify. Most of the
 load-bearing rules here are **non-obvious** and live in the **intent layer** (the
 `AGENTS.md` hierarchy), not in the code. A generic review misses them. Your job is to

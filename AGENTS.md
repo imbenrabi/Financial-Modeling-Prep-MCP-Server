@@ -45,7 +45,7 @@ Score 0-1: Delete. Score 2: Keep gotcha sentence. Score 3-4: FLOW.md. Score 5: I
 | [`docs/src/AGENTS.md`](docs/src/AGENTS.md) | Startup sequence dependencies, custom Fastify app pitfall, layer rules |
 | [`docs/src/api/AGENTS.md`](docs/src/api/AGENTS.md) | API key as query param, token precedence, error surface |
 | [`docs/src/tools/AGENTS.md`](docs/src/tools/AGENTS.md) | Never-throw pattern |
-| [`docs/src/toolception-adapters/AGENTS.md`](docs/src/toolception-adapters/AGENTS.md) | Session context, swallowed loader failures, adapter chunking |
+| [`docs/src/toolception-adapters/AGENTS.md`](docs/src/toolception-adapters/AGENTS.md) | Session context, swallowed loader failures |
 | [`docs/src/server-mode-enforcer/AGENTS.md`](docs/src/server-mode-enforcer/AGENTS.md) | Singleton init order, mode resolution order, fail-fast on invalid toolsets |
 | [`docs/src/constants/AGENTS.md`](docs/src/constants/AGENTS.md) | Tool set catalog uniqueness and lockstep |
 | [`docs/src/prompts/AGENTS.md`](docs/src/prompts/AGENTS.md) | Silent prompt no-op, prompt text vs runtime |
