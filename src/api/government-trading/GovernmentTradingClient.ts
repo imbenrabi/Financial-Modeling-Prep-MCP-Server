@@ -4,7 +4,7 @@ import type {
   FinancialDisclosure,
   MemberIdParams,
   PaginationParams,
-  SenateNetWorthParams,
+  SenateIdParams,
   SenatePositionsParams,
   SenateProfileParams,
   SymbolParams,
@@ -182,7 +182,7 @@ export class GovernmentTradingClient extends FMPClient {
    * @param params Member ID (senateID) and optional pagination
    */
   async getSenateNetWorth(
-    params: SenateNetWorthParams
+    params: MemberIdParams
   ): Promise<CongressMemberRecord[]> {
     return this.get<CongressMemberRecord[]>(
       `/senate-net-worth`,
@@ -199,7 +199,7 @@ export class GovernmentTradingClient extends FMPClient {
    * @param params Member ID (senateID)
    */
   async getSenateNetWorthAggregated(
-    params: { senateID: string }
+    params: SenateIdParams
   ): Promise<CongressMemberRecord[]> {
     return this.get<CongressMemberRecord[]>(
       `/senate-net-worth-aggregated`,

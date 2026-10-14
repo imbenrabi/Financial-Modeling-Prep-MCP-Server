@@ -266,11 +266,11 @@ export function registerGovernmentTradingTools(
 
   server.tool(
     "getSenatePositions",
-    "List the positions held by members of Congress, with term dates, party and state, using the FMP Senate Positions API. Filter by member ID, party or position.",
+    "List the positions held by members of Congress with the FMP Senate Positions API. Filter by member ID, party or position.",
     {
       senateID: z.string().optional().describe("Filter by congress member ID (e.g., P000197)"),
-      party: z.string().optional().describe("Filter by party, case-sensitive (e.g., Republican, Democrat)"),
-      position: z.string().optional().describe("Filter by position, case-sensitive (e.g., Senator, Representative)"),
+      party: z.string().optional().describe("Filter by party (e.g., Republican, Democrat)"),
+      position: z.string().optional().describe("Filter by position (e.g., Senator, Representative)"),
       limit: z.number().optional().describe("Limit the number of results"),
     },
     async ({ senateID, party, position, limit }) => {
@@ -299,7 +299,7 @@ export function registerGovernmentTradingTools(
 
   server.tool(
     "getSenateProfile",
-    "Look up profiles of members of Congress, including party, state, position and years active, with the FMP Senate Profiles API. Use it to find a member's ID for the trade and net worth tools.",
+    "Look up profiles of members of Congress with the FMP Senate Profiles API. Use it to find a member's ID for the trade and net worth tools.",
     {
       senateID: z.string().optional().describe("Filter by congress member ID (e.g., P000197)"),
       active: z.boolean().optional().describe("Only active members when true"),

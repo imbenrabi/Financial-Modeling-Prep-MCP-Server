@@ -36,6 +36,10 @@ export interface MemberIdParams {
   limit?: number;
 }
 
+export interface SenateIdParams {
+  senateID: string;
+}
+
 export interface SenatePositionsParams {
   senateID?: string;
   party?: string;
@@ -48,12 +52,6 @@ export interface SenateProfileParams {
   active?: boolean;
   latestParty?: string;
   latestPosition?: string;
-  page?: number;
-  limit?: number;
-}
-
-export interface SenateNetWorthParams {
-  senateID: string;
   page?: number;
   limit?: number;
 }

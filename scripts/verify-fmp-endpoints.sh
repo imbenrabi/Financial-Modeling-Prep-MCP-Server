@@ -11,7 +11,7 @@
 # only required to return a non-empty JSON array; their field names are printed
 # so the TypeScript types can be tightened later.
 
-set -u
+set -u -o pipefail
 
 BASE="${FMP_BASE_URL:-https://financialmodelingprep.com/stable}"
 KEY="${FMP_ACCESS_TOKEN:-}"
@@ -26,7 +26,8 @@ failures=0
 check() {
   local label="$1" url="$2" keys="$3" body code
   body="$(mktemp)"
-  code="$(curl -sS -m 30 -o "$body" -w '%{http_code}' "$BASE/$url&apikey=$KEY")"
+  code="$(printf 'url = "%s/%s&apikey=%s"\n' "$BASE" "$url" "$KEY" \
+    | curl -sS -m 30 -K - -o "$body" -w '%{http_code}')"
   if [ "$code" != "200" ]; then
     echo "FAIL $label: HTTP $code ($(head -c 200 "$body"))"
     failures=$((failures + 1)); rm -f "$body"; return
@@ -62,10 +63,28 @@ check getEconomicIndicators     "economic-indicators?name=GDP" "name,date,value"
 check stockScreener.avgVolume   "company-screener?avgVolumeMoreThan=1000000&limit=5" "symbol,avgVolume"
 check getEarningsCalendar.times "earnings-calendar?from=2026-10-01&to=2026-10-31&includeReportTimes=true" "symbol,date"
 
+# Paths that were never checked live. Each one's example URL comes from its FMP
+# docs page; the ESG disclosures path was corrected from /esg-disclosure.
+check getESGDisclosures         "esg-disclosures?symbol=AAPL" ""
+check getESGRatings             "esg-ratings?symbol=AAPL" ""
+check getESGBenchmark           "esg-benchmark?year=2024" ""
+check getLatestCrowdfunding     "crowdfunding-offerings-latest?page=0&limit=5" ""
+check searchCrowdfunding        "crowdfunding-offerings-search?name=enotap" ""
+check getCrowdfundingByCik      "crowdfunding-offerings?cik=0001916078" ""
+check getLatestEquityOfferings  "fundraising-latest?page=0&limit=5" ""
+check searchEquityOfferings     "fundraising-search?name=NJOY" ""
+check getEquityOfferingsByCik   "fundraising?cik=0001547416" ""
+check getPriceTargetNews        "price-target-news?symbol=AAPL&page=0&limit=5" ""
+check getPriceTargetLatestNews  "price-target-latest-news?page=0&limit=5" ""
+check getStockGradeNews         "grades-news?symbol=AAPL&page=0&limit=5" ""
+check getStockGradeLatestNews   "grades-latest-news?page=0&limit=5" ""
+check getCOTReportList          "commitment-of-traders-list" ""
+
 # House ID parameter name is not documented. An unknown parameter may be ignored
 # (HTTP 200 with unfiltered rows), so compare row counts and first-row names.
 for p in senateID houseID id; do
-  out="$(curl -sS -m 30 "$BASE/house-trades-by-id?$p=P000197&limit=3&apikey=$KEY" \
+  out="$(printf 'url = "%s/house-trades-by-id?%s=P000197&limit=3&apikey=%s"\n' "$BASE" "$p" "$KEY" \
+    | curl -sS -m 30 -K - \
     | jq -c 'if type == "array" then {rows: length, first: (.[0] | [.firstName, .lastName])} else . end' 2>&1 | head -c 200)"
   echo "INFO house-trades-by-id with $p=P000197: $out"
 done
