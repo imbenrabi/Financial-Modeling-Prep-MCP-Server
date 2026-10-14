@@ -89,7 +89,7 @@ export const serverCardEndpoint = defineEndpoint({
       },
       {
         name: 'disable_toolset',
-        description: 'Disable a toolset by name (state tracking only)',
+        description: 'Disable a toolset by name and remove its tools',
         inputSchema: {
           type: 'object',
           properties: {

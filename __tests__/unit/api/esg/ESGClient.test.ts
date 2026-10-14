@@ -48,7 +48,7 @@ describe('ESGClient', () => {
 
       const result = await esgClient.getDisclosures('AAPL');
 
-      expect(mockGet).toHaveBeenCalledWith('/esg-disclosure', {
+      expect(mockGet).toHaveBeenCalledWith('/esg-disclosures', {
         symbol: 'AAPL'
       });
       expect(result).toEqual(mockData);

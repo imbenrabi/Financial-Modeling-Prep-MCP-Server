@@ -788,6 +788,45 @@ function registerStatementsExtendedTools(
   );
 
   server.tool(
+    "getEnterpriseValues",
+    "Retrieve a company's enterprise value history with the FMP Enterprise Values API. Each row combines stock price, shares outstanding, market capitalization, total debt and cash to show the company's total value.",
+    {
+      symbol: z.string().describe("Stock symbol"),
+      limit: z
+        .number()
+        .optional()
+        .describe("Limit on number of results"),
+      period: z
+        .enum(["Q1", "Q2", "Q3", "Q4", "FY", "annual", "quarter"])
+        .optional()
+        .describe("Period (Q1, Q2, Q3, Q4, FY, annual, or quarter)"),
+    },
+    async ({ symbol, limit, period }) => {
+      try {
+        const results = await statementsClient.getEnterpriseValues(symbol, {
+          limit,
+          period,
+        });
+        return {
+          content: [{ type: "text", text: JSON.stringify(results, null, 2) }],
+        };
+      } catch (error) {
+        return {
+          content: [
+            {
+              type: "text",
+              text: `Error: ${
+                error instanceof Error ? error.message : String(error)
+              }`,
+            },
+          ],
+          isError: true,
+        };
+      }
+    }
+  );
+
+  server.tool(
     "getKeyMetrics",
     "Access essential financial metrics for a company with the FMP Financial Key Metrics API. Evaluate revenue, net income, P/E ratio, and more to assess performance and compare it to competitors.",
     {

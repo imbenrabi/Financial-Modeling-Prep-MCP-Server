@@ -109,7 +109,7 @@ describe('Dynamic Mode Smoke Tests', () => {
     expect(toolNames).toContain('searchSymbol');
   }, 40000);
 
-  it('should mark a disabled toolset inactive', async () => {
+  it('should disable a toolset and remove its tools', async () => {
     server = await startTestServer({
       env: { DYNAMIC_TOOL_DISCOVERY: 'true' },
     });
@@ -126,9 +126,7 @@ describe('Dynamic Mode Smoke Tests', () => {
     const beforeDisable = await listTools(server.port, sessionConfig);
     expect(beforeDisable.result.tools.length).toBeGreaterThan(5);
 
-    // Disable search toolset. Whether its tools are then removed depends on the
-    // toolception version (removal lands in code-rabi/toolception#31), so this
-    // test only checks the toolset state.
+    // Disable search toolset. Toolception 0.8.0 removes its tools.
     const disableResponse = await callTool(
       server.port,
       'disable_toolset',
@@ -149,6 +147,11 @@ describe('Dynamic Mode Smoke Tests', () => {
     const content = JSON.parse(toolsetsResponse.result.content[0].text);
     const searchToolset = content.toolsets.find((ts: any) => ts.key === 'search');
     expect(searchToolset.active).toBe(false);
+
+    // Its tools are no longer listed
+    const afterDisable = await listTools(server.port, sessionConfig);
+    const namesAfter = afterDisable.result.tools.map((t: any) => t.name);
+    expect(namesAfter).not.toContain('searchSymbol');
   }, 40000);
 
   it('should list prompts on each client session', async () => {

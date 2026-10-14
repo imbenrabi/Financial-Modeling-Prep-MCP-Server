@@ -17,6 +17,7 @@ import { registerEarningsTranscriptTools } from '../tools/earnings-transcript.js
 import { registerSECFilingsTools } from '../tools/sec-filings.js';
 import { registerGovernmentTradingTools } from '../tools/government-trading.js';
 import { registerBulkTools } from '../tools/bulk.js';
+import { registerTipRanksTools } from '../tools/tipranks.js';
 
 export const SPECIALIZED_MODULE_ADAPTERS: Record<string, ModuleLoader> = {
   'market-performance': createModuleAdapter('market-performance', registerMarketPerformanceTools),
@@ -28,4 +29,5 @@ export const SPECIALIZED_MODULE_ADAPTERS: Record<string, ModuleLoader> = {
   'sec-filings': createModuleAdapter('sec-filings', registerSECFilingsTools),
   'government-trading': createModuleAdapter('government-trading', registerGovernmentTradingTools),
   bulk: createModuleAdapter('bulk', registerBulkTools),
+  tipranks: createModuleAdapter('tipranks', registerTipRanksTools),
 };
