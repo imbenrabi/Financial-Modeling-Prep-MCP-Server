@@ -60,14 +60,17 @@ too when one exists. Loading is hierarchical and T-shaped: root + the specific n
 | `src/` (startup, `index.ts`, Fastify wiring) | `docs/src/AGENTS.md`, `docs/src/FLOW.md` |
 | `src/api/**` | `docs/src/api/AGENTS.md` |
 | `src/tools/**` | `docs/src/tools/AGENTS.md` |
-| `src/toolception-adapters/**` | `docs/src/toolception-adapters/AGENTS.md` |
-| `src/server-mode-enforcer/**` | `docs/src/server-mode-enforcer/AGENTS.md` |
+| `src/toolception-adapters/**` | `docs/src/toolception-adapters/AGENTS.md`, `docs/src/toolception-adapters/FLOW.md` |
+| `src/server-mode-enforcer/**` | `docs/src/server-mode-enforcer/AGENTS.md`, `docs/src/server-mode-enforcer/FLOW.md` |
+| `src/constants/**` | `docs/src/constants/AGENTS.md` |
+| `src/prompts/**` | `docs/src/prompts/AGENTS.md` |
 | `src/endpoints/**` | `docs/src/endpoints/AGENTS.md`, `docs/src/endpoints/FLOW.md` |
+| `src/utils/**`, `src/schemas/**` | `docs/src/utils/AGENTS.md` |
+| `scripts/**`, `.github/workflows/**`, `.sentrux/**` | `docs/scripts/AGENTS.md`, `docs/scripts/FLOW.md` |
 | `__tests__/smoke/**` | `docs/tests/smoke/AGENTS.md` |
 | Adding a tool/module/tool set | `docs/GUIDE.md` (the procedure to follow) |
 
-Directories without their own doc (`src/constants`, `src/prompts`, `src/schemas`,
-`src/types`, `src/utils`) inherit the root `AGENTS.md` plus the nearest parent that does
+Directories without their own doc (`src/types`) inherit the root `AGENTS.md` plus the nearest parent that does
 have one — review them on general dimensions (step 5) and the invariants in scope.
 
 The rules you cite in findings come from the docs you just read — **quote the actual Key
@@ -152,7 +155,7 @@ in the docs loaded in step 3. The recurring high-cost ones to anchor on:
   `docs/src/toolception-adapters/AGENTS.md` — and when the integration surface is touched,
   run the **step 4 deep-check** against upstream source.
 - **Startup order** (`docs/src/AGENTS.md` / `FLOW.md`): the `preHandler` hook is registered
-  before `createMcpServer()`; a custom Fastify app must call `app.listen()`.
+  before `app.listen()`; a custom Fastify app must call `app.listen()`.
 - **Server-mode enforcer**: `initialize()` precedes `getInstance()`; invalid tool sets
   fail-fast via `process.exit(1)`.
 - Don't infer request success from HTTP status — FMP returns error bodies with HTTP 200.

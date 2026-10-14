@@ -4,18 +4,19 @@ Bridge layer converting FMP's imperative tool registration to Toolception's decl
 
 ## Key Rules
 
-- Session config travels as base64-encoded JSON in the `config` query parameter — not a header
-- Session cache key = `${clientId}:${sessionConfigHash}` — both must match for session lookup
-- Only `FMP_ACCESS_TOKEN` takes effect at session level — schema also accepts `FMP_TOOL_SETS` and `DYNAMIC_TOOL_DISCOVERY` but they're no-ops (mode is fixed at startup from env+CLI)
-- Module names must match between `MODULE_ADAPTERS` and `TOOL_SETS` mappings
+- Session config travels as base64-encoded JSON in the `config` query parameter — not a header. `ModeConfigMapper` allows only `FMP_ACCESS_TOKEN` through; `SessionConfigSchema` (also `FMP_TOOL_SETS`, `DYNAMIC_TOOL_DISCOVERY`) is not wired into the runtime
+- Add a new module's adapter to one of `coreModuleAdapters.ts`, `marketModuleAdapters.ts` or `specializedModuleAdapters.ts`; `moduleAdapters.ts` only spreads them. The split keeps fan-out under the sentrux `no_god_files` gate
+- Every `MODULE_ADAPTERS` key must match a module in `TOOL_SETS` and vice versa (catalog rules in [`../constants/AGENTS.md`](../constants/AGENTS.md))
 
 ## Anti-patterns
 
-- Never add toolset config to session params — will be ignored, causes confusion
-- Never change `MODULE_ADAPTERS` keys without updating `TOOL_SETS` — module loader lookup fails silently at runtime
+- Never rely on a throwing or missing module loader to stop startup — toolception swallows both and the toolset comes up empty (see FLOW.md)
 
 ## Pitfalls
 
-- "Session not found" usually means clientId or configHash changed between requests
-- Malformed base64/JSON in the `config` query param is silently ignored and falls back to the default context/cache key — bad tokens fail without an error
-- ToolCollector captures registrations — doesn't execute tools, just collects definitions
+- HTTP 400 "Session not found or expired" means the `mcp-session-id` is not in the session map of the cache entry the request resolved to: the client ID or config hash changed, or a later `initialize` on the same entry evicted it
+- A malformed `config` value (bad base64, bad JSON, non-object) is dropped silently and the request falls back to the server token — bad tokens fail without an error
+
+## Flow Reference
+
+See [FLOW.md](FLOW.md) — session context resolution, cache key, and loader failure handling
