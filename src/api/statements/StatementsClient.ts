@@ -23,6 +23,7 @@ import {
   KeyMetrics,
   Ratios,
   KeyMetricsTTM,
+  EnterpriseValue,
 } from "./types.js";
 
 export class StatementsClient extends FMPClient {
@@ -483,6 +484,24 @@ export class StatementsClient extends FMPClient {
       "/owner-earnings",
       {
         symbol,
+      }
+    );
+  }
+
+  /**
+   * Get enterprise values (market cap plus debt minus cash) for a symbol
+   * @param symbol The stock symbol
+   * @param params Optional limit and period
+   */
+  async getEnterpriseValues(
+    symbol: string,
+    params: { limit?: number; period?: "Q1" | "Q2" | "Q3" | "Q4" | "FY" | "annual" | "quarter" } = {}
+  ): Promise<EnterpriseValue[]> {
+    return super.get<EnterpriseValue[]>(
+      "/enterprise-values",
+      {
+        symbol,
+        ...params,
       }
     );
   }

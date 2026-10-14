@@ -7,7 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Seven tools for FMP endpoints the server did not cover: `getEnterpriseValues` (`/enterprise-values`), `getSenateTradesById` and `getHouseTradesById`, `getSenatePositions`, `getSenateProfile`, `getSenateNetWorth` and `getSenateNetWorthAggregated`. `ALL_TOOLS` now exposes 260 tools
+- `stockScreener` accepts `avgVolumeMoreThan`, `avgVolumeLowerThan` and `page`; `getEarningsCalendar` accepts `includeReportTimes`
+
 ### Fixed
+- `getEconomicIndicators` called `/economic-indicator`; FMP documents the endpoint as `/economic-indicators`
 - `ALL_TOOLS` mode registered the four `earnings-transcript` tools twice (`getLatestEarningsTranscripts`, `getEarningsTranscript`, `getEarningsTranscriptDates`, `getAvailableTranscriptSymbols`) because both the `calendar` and `earnings` tool sets listed that module. Toolception 0.8.0 rejects duplicate tool names at `initialize`. A new test fails on any module or tool name shared between tool sets
 
 ### Changed

@@ -22,3 +22,7 @@ Teaching and procedural content for the FMP MCP Server.
 
 1. Add definition to `TOOL_SETS` in `src/constants/toolSets.ts`
 2. Add type to `ToolSet` union in `src/types/index.ts`
+
+## Verifying FMP Endpoints Against the Live API
+
+`FMP_ACCESS_TOKEN=<key> scripts/verify-fmp-endpoints.sh` curls the newest `/stable` endpoints and checks status, array shape and key fields. Run it after adding or renaming an endpoint; the unit tests only assert the mocked path.
