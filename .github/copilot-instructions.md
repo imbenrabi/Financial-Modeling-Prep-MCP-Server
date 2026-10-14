@@ -2,11 +2,11 @@
 
 ## Architecture Overview
 
-This is a **Model Context Protocol (MCP) server** that exposes 253+ financial tools across 24 categories using the Financial Modeling Prep API. The codebase uses a **stateful server architecture** powered by the Smithery SDK with three operational modes:
+This is a **Model Context Protocol (MCP) server** that exposes 267+ financial tools across 24 categories using the Financial Modeling Prep API. The codebase uses a **stateful server architecture** powered by the Smithery SDK with three operational modes:
 
 - **Dynamic Mode**: Starts with 3 meta-tools, loads toolsets on-demand via `enable_toolset()` calls
 - **Static Mode**: Pre-loads specific toolsets at startup via `FMP_TOOL_SETS` environment variable or CLI arg
-- **Legacy Mode**: Loads all 253 tools at startup (default)
+- **Legacy Mode**: Loads all 267 tools at startup (default)
 
 ## Key Components & Data Flow
 
