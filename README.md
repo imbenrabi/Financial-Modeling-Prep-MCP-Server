@@ -2,6 +2,7 @@
 
 [![npm version](https://img.shields.io/npm/v/financial-modeling-prep-mcp-server.svg)](https://www.npmjs.com/package/financial-modeling-prep-mcp-server)
 [![license](https://img.shields.io/npm/l/financial-modeling-prep-mcp-server.svg)](LICENSE)
+[![Listed on LightNow](https://lightnow.ai/badge/io.github.imbenrabi/financial-modeling-prep-mcp-server?variant=listed)](https://lightnow.ai/servers/io.github.imbenrabi/financial-modeling-prep-mcp-server)
 
 A Model Context Protocol (MCP) server for the [Financial Modeling Prep](https://financialmodelingprep.com/) API, exposing 250+ financial data tools to AI assistants.
 
