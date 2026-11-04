@@ -72,7 +72,7 @@ function buildAssetsOverview(ctx: PromptContext): string {
     `## Authentication Notice`,
     `- FMP_ACCESS_TOKEN is optional for server initialization.`,
     `- It is required when invoking any FMP-backed tools. Without a valid token, tool calls will return an error.`,
-    `- You can provide the token via server CLI/env or per-session config. Server-level values take precedence.`,
+    `- You can provide the token via server CLI/env or per-session config. A token in the per-session config takes precedence over the server's.`,
   ].join('\n');
 
   return [header, '', prompts, '', tools, '', resources, '', quickStart, '', tokenNotice].join('\n');
