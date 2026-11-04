@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [2.9.0] - 2026-11-04
+
 ### Changed
 - Moved to MCP TypeScript SDK v2 and Zod 4, through `toolception` `^0.9.0`. `@modelcontextprotocol/sdk` is replaced by `@modelcontextprotocol/server` (and `@modelcontextprotocol/client` for tests and `verify:toolception`), and `zod` goes from `^3.25.76` to `^4.6.7`. Each client still gets its own server and its own enabled/disabled toolsets; a new smoke test runs two clients against `DYNAMIC_TOOL_DISCOVERY` to keep it that way
 - Calling a tool the client's server no longer lists, such as one from a toolset that client disabled, is answered with a JSON-RPC error ("Tool ... not found") instead of a result with `isError: true`. This comes from SDK v2
