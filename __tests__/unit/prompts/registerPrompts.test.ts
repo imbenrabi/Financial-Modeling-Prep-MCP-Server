@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, afterEach, vi } from 'vitest';
 import { McpServer, InMemoryTransport } from '@modelcontextprotocol/server';
 import { Client } from '@modelcontextprotocol/client';
 import { registerPrompts } from '../../../src/prompts/index.js';
@@ -13,6 +13,13 @@ describe('registerPrompts', () => {
     listChanged: false,
   };
 
+  const closers: Array<() => Promise<void>> = [];
+
+  afterEach(async () => {
+    await Promise.all(closers.splice(0).map((close) => close()));
+    vi.restoreAllMocks();
+  });
+
   async function connect(ctx: Parameters<typeof registerPrompts>[1]): Promise<Client> {
     const server = new McpServer(
       { name: 'test', version: '1.0.0' },
@@ -22,6 +29,7 @@ describe('registerPrompts', () => {
     const [serverSide, clientSide] = InMemoryTransport.createLinkedPair();
     const client = new Client({ name: 'test-client', version: '1.0.0' });
     await Promise.all([server.connect(serverSide), client.connect(clientSide)]);
+    closers.push(() => client.close(), () => server.close());
     return client;
   }
 
@@ -48,6 +56,17 @@ describe('registerPrompts', () => {
     const text = await overviewText(client);
     expect(text).toContain('Static mode with configured toolsets (1)');
     expect(text).toContain('- search:');
+  });
+
+  it('logs a warning instead of throwing when the SDK refuses the registration', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const server = new McpServer({ name: 'test', version: '1.0.0' }, { capabilities: { prompts: { listChanged: false } } });
+    vi.spyOn(server, 'registerPrompt').mockImplementation(() => {
+      throw new Error('refused');
+    });
+
+    expect(() => registerPrompts(server, baseCtx)).not.toThrow();
+    expect(warn).toHaveBeenCalledWith('Failed to register native prompt:', expect.any(Error));
   });
 
   it('renders dynamic mode content with meta-tools note', async () => {

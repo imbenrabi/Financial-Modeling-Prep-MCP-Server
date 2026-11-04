@@ -1,4 +1,5 @@
 import { describe, it, expect } from 'vitest';
+import { z } from 'zod';
 import { ToolCollector } from '../../../src/toolception-adapters/ToolCollector.js';
 
 describe('ToolCollector', () => {
@@ -6,10 +7,12 @@ describe('ToolCollector', () => {
     it('should capture tool registrations', () => {
       const collector = new ToolCollector();
 
+      const schema = { param: z.string() };
+
       collector.tool(
         'testTool',
         'Test tool description',
-        { param: 'string' },
+        schema,
         async () => ({ content: [{ type: 'text', text: 'result' }] })
       );
 
@@ -17,7 +20,7 @@ describe('ToolCollector', () => {
       expect(tools).toHaveLength(1);
       expect(tools[0].name).toBe('testTool');
       expect(tools[0].description).toBe('Test tool description');
-      expect(tools[0].inputSchema).toEqual({ param: 'string' });
+      expect(tools[0].inputSchema).toBe(schema);
     });
 
     it('should capture multiple tool registrations', () => {
