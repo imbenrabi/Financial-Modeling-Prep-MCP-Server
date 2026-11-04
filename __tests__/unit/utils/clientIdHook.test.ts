@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeAll, afterAll, vi } from 'vitest';
 import Fastify, { type FastifyInstance } from 'fastify';
 import { createMcpServer } from 'toolception';
-import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import { McpServer } from '@modelcontextprotocol/server';
 import { createClientIdHook } from '../../../src/utils/clientIdHook.js';
 import { ModeConfigMapper } from '../../../src/toolception-adapters/ModeConfigMapper.js';
 import { MODULE_ADAPTERS } from '../../../src/toolception-adapters/moduleAdapters.js';

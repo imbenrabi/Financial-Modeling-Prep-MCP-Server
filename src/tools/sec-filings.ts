@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { SECFilingsClient } from "../api/sec-filings/SECFilingsClient.js";
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { ToolRegistrar } from "../toolception-adapters/ToolCollector.js";
 
 /**
  * Register all SEC filings-related tools with the MCP server
@@ -8,7 +8,7 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
  * @param accessToken The Financial Modeling Prep API access token (optional when using lazy loading)
  */
 export function registerSECFilingsTools(
-  server: McpServer,
+  server: ToolRegistrar,
   accessToken?: string
 ): void {
   const secFilingsClient = new SECFilingsClient(accessToken);

@@ -2,7 +2,7 @@
 
 import minimist from 'minimist';
 import { createMcpServer } from 'toolception';
-import { McpServer } from '@modelcontextprotocol/sdk/server/mcp.js';
+import { McpServer } from '@modelcontextprotocol/server';
 import Fastify from 'fastify';
 import { getAvailableToolSets, DEFAULT_PORT } from './constants/index.js';
 import { showHelp } from './utils/showHelp.js';

@@ -1,6 +1,6 @@
 import { createHash } from 'node:crypto';
 import type { FastifyReply, FastifyRequest } from 'fastify';
-import { isInitializeRequest } from '@modelcontextprotocol/sdk/types.js';
+import { isInitializeRequest } from '@modelcontextprotocol/server';
 import { SessionClientIds, onSessionIdIssued } from './sessionClientIds.js';
 
 /**

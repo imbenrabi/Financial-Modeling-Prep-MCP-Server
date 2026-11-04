@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { StatementsClient } from "../api/statements/StatementsClient.js";
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { ToolRegistrar } from "../toolception-adapters/ToolCollector.js";
 
 /**
  * Register all financial statements-related tools with the MCP server
@@ -8,7 +8,7 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
  * @param accessToken The Financial Modeling Prep API access token (optional when using lazy loading)
  */
 export function registerStatementsTools(
-  server: McpServer,
+  server: ToolRegistrar,
   accessToken?: string
 ): void {
   const statementsClient = new StatementsClient(accessToken);
@@ -468,7 +468,7 @@ export function registerStatementsTools(
  * sentrux max_cc=25 ceiling.
  */
 function registerStatementsExtendedTools(
-  server: McpServer,
+  server: ToolRegistrar,
   statementsClient: StatementsClient
 ): void {
   server.tool(

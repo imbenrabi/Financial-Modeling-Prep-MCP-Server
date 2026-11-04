@@ -1,23 +1,28 @@
 /**
  * ToolCollector - Virtual MCP server that captures tool registrations
  *
- * This class mocks the McpServer.tool() method to intercept tool registrations
+ * This class implements the ToolRegistrar.tool() method to intercept tool registrations
  * from existing registerXxxTools() functions and convert them to toolception's
  * McpToolDefinition format.
  */
 
+import type { CallToolResult } from '@modelcontextprotocol/server';
 import type { McpToolDefinition } from 'toolception';
+import type { z } from 'zod';
 
 /**
- * Interface for objects that can register tools
- * Used to provide type safety for registerXxxTools functions
+ * The registration surface the `registerXxxTools` functions in `src/tools` use.
+ *
+ * MCP SDK v2 removed `McpServer.tool()`, so the tool modules no longer take an
+ * `McpServer`. Handler arguments are still inferred from the Zod shape, as the
+ * SDK's own `tool()` overload did.
  */
-interface ToolRegistrar {
-  tool(
+export interface ToolRegistrar {
+  tool<Shape extends z.ZodRawShape>(
     name: string,
     description: string,
-    schema: Record<string, any>,
-    handler: (params: any) => Promise<any>
+    schema: Shape,
+    handler: (params: z.infer<z.ZodObject<Shape>>) => Promise<CallToolResult>
   ): void;
 }
 
@@ -28,18 +33,18 @@ export class ToolCollector implements ToolRegistrar {
   private tools: McpToolDefinition[] = [];
 
   /**
-   * Mock implementation of McpServer.tool() that captures registrations
+   * Implementation of ToolRegistrar.tool() that captures registrations
    *
    * @param name - Tool name
    * @param description - Human-readable description
    * @param schema - Zod schema object with parameter definitions
    * @param handler - Async function that handles tool execution
    */
-  tool(
+  tool<Shape extends z.ZodRawShape>(
     name: string,
     description: string,
-    schema: Record<string, any>,
-    handler: (params: any) => Promise<any>
+    schema: Shape,
+    handler: (params: z.infer<z.ZodObject<Shape>>) => Promise<CallToolResult>
   ): void {
     this.tools.push({
       name,

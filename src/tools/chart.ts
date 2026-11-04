@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { ChartClient } from "../api/chart/ChartClient.js";
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { ToolRegistrar } from "../toolception-adapters/ToolCollector.js";
 
 /**
  * Register all chart-related tools with the MCP server
@@ -8,7 +8,7 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
  * @param accessToken The Financial Modeling Prep API access token (optional when using lazy loading)
  */
 export function registerChartTools(
-  server: McpServer,
+  server: ToolRegistrar,
   accessToken?: string
 ): void {
   const chartClient = new ChartClient(accessToken);

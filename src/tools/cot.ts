@@ -1,13 +1,13 @@
 import { z } from "zod";
 import { COTClient } from "../api/cot/COTClient.js";
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { ToolRegistrar } from "../toolception-adapters/ToolCollector.js";
 
 /**
  * Register all COT-related tools with the MCP server
  * @param server The MCP server instance
  * @param accessToken The Financial Modeling Prep API access token (optional when using lazy loading)
  */
-export function registerCOTTools(server: McpServer, accessToken?: string): void {
+export function registerCOTTools(server: ToolRegistrar, accessToken?: string): void {
   const cotClient = new COTClient(accessToken);
 
   server.tool(
