@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - The tool modules in `src/tools` take a `ToolRegistrar` instead of an `McpServer`, because SDK v2 removed `McpServer.tool()`; the tool definitions and their Zod schemas are unchanged
 - The server card's `z.record()` calls use Zod 4's two-argument form
 
+### Fixed
+- The `list_mcp_assets` prompt said server-level `FMP_ACCESS_TOKEN` values take precedence. The real order is the opposite: a token in the per-session `config` overrides the server's. The text now says so, and a test asserts the sentence
+
 ### Security
 - Cleared all `npm audit` findings (0 now, 11 on 2.8.0). Zod 4.6.7 removes the high-severity `zod` finding (GHSA-mrhx-c7xc-m3w5); the SDK v1 `body-parser`, `qs` and `ip-address` dependencies leave the tree; `follow-redirects` (high), `fastify` 5.12.8 and `fast-uri` come from a lockfile refresh; and `vitest` / `@vitest/coverage-v8` ^4.1.12 clear the `@vitest/mocker` findings
 
