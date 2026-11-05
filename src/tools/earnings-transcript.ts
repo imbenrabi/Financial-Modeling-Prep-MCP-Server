@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { EarningsTranscriptClient } from "../api/earnings-transcript/EarningsTranscriptClient.js";
-import type { ToolRegistrar } from "../toolception-adapters/ToolCollector.js";
+import type { ToolRegistrar } from "../types/index.js";
 
 /**
  * Register all earnings transcript-related tools with the MCP server

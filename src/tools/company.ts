@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { CompanyClient } from "../api/company/CompanyClient.js";
-import type { ToolRegistrar } from "../toolception-adapters/ToolCollector.js";
+import type { ToolRegistrar } from "../types/index.js";
 
 /**
  * Register all company-related tools with the MCP server

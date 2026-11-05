@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { SECFilingsClient } from "../api/sec-filings/SECFilingsClient.js";
-import type { ToolRegistrar } from "../toolception-adapters/ToolCollector.js";
+import type { ToolRegistrar } from "../types/index.js";
 
 /**
  * Register all SEC filings-related tools with the MCP server

@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { BulkClient } from "../api/bulk/BulkClient.js";
-import type { ToolRegistrar } from "../toolception-adapters/ToolCollector.js";
+import type { ToolRegistrar } from "../types/index.js";
 
 /**
  * Register all bulk data-related tools with the MCP server

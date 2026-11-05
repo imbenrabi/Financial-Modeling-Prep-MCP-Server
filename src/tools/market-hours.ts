@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { MarketHoursClient } from "../api/market-hours/MarketHoursClient.js";
-import type { ToolRegistrar } from "../toolception-adapters/ToolCollector.js";
+import type { ToolRegistrar } from "../types/index.js";
 
 /**
  * Register all market hours-related tools with the MCP server

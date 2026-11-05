@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { MarketPerformanceClient } from "../api/market-performance/MarketPerformanceClient.js";
-import type { ToolRegistrar } from "../toolception-adapters/ToolCollector.js";
+import type { ToolRegistrar } from "../types/index.js";
 
 /**
  * Register all market performance-related tools with the MCP server

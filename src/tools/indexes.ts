@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { IndexesClient } from "../api/indexes/IndexesClient.js";
-import type { ToolRegistrar } from "../toolception-adapters/ToolCollector.js";
+import type { ToolRegistrar } from "../types/index.js";
 
 /**
  * Register all indexes-related tools with the MCP server

@@ -9,22 +9,7 @@
 import type { CallToolResult } from '@modelcontextprotocol/server';
 import type { McpToolDefinition } from 'toolception';
 import type { z } from 'zod';
-
-/**
- * The registration surface the `registerXxxTools` functions in `src/tools` use.
- *
- * MCP SDK v2 removed `McpServer.tool()`, so the tool modules no longer take an
- * `McpServer`. Handler arguments are still inferred from the Zod shape, as the
- * SDK's own `tool()` overload did.
- */
-export interface ToolRegistrar {
-  tool<Shape extends z.ZodRawShape>(
-    name: string,
-    description: string,
-    schema: Shape,
-    handler: (params: z.infer<z.ZodObject<Shape>>) => Promise<CallToolResult>
-  ): void;
-}
+import type { ToolRegistrar } from '../types/index.js';
 
 /**
  * Virtual server that captures tool registrations instead of registering them

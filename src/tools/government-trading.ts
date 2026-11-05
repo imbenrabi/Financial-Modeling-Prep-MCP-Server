@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { GovernmentTradingClient } from "../api/government-trading/GovernmentTradingClient.js";
-import type { ToolRegistrar } from "../toolception-adapters/ToolCollector.js";
+import type { ToolRegistrar } from "../types/index.js";
 
 /**
  * Register all government trading-related tools with the MCP server

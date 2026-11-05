@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { TechnicalIndicatorsClient } from "../api/technical-indicators/TechnicalIndicatorsClient.js";
-import type { ToolRegistrar } from "../toolception-adapters/ToolCollector.js";
+import type { ToolRegistrar } from "../types/index.js";
 
 /**
  * Register all technical indicators-related tools with the MCP server
