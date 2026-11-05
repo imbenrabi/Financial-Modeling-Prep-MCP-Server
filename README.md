@@ -3,15 +3,15 @@
 [![npm version](https://img.shields.io/npm/v/financial-modeling-prep-mcp-server.svg)](https://www.npmjs.com/package/financial-modeling-prep-mcp-server)
 [![license](https://img.shields.io/npm/l/financial-modeling-prep-mcp-server.svg)](LICENSE)
 
-A Model Context Protocol (MCP) server for the [Financial Modeling Prep](https://financialmodelingprep.com/) API, exposing 250+ financial data tools to AI assistants.
+A Model Context Protocol (MCP) server for the [Financial Modeling Prep](https://financialmodelingprep.com/) API, exposing 267 financial data tools to AI assistants.
 
 ## Features
 
-- **250+ Financial Tools** across 24 categories — stocks, ETFs, crypto, forex, commodities, economics, and more
+- **267 Financial Tools** across 24 toolsets — stocks, ETFs, crypto, forex, commodities, economics, and more
 - **Dynamic Tool Management** — built on [toolception](https://www.npmjs.com/package/toolception) for runtime enable/disable of toolsets via meta-tools
-- **Three Server Modes** — Dynamic (meta-tools), Static (pre-loaded toolsets), or All Tools (default)
-- **Flexible Deployment** — use the hosted instance or self-host via npm, Docker, or source
-- **HTTP/SSE Transport** — compatible with Claude.ai, Claude Desktop, and MCP registries
+- **Three Server Modes** — Dynamic (5 meta-tools), Static (pre-loaded toolsets), or All Tools (default)
+- **Flexible Deployment** — use the hosted instance or self-host via npm, Docker (built from source), or source
+- **Streamable HTTP Transport** — compatible with Claude.ai, Claude Desktop, and MCP registries
 
 ## Quick Start
 
@@ -23,7 +23,7 @@ No installation required. Connect directly:
 https://financial-modeling-prep-mcp-server-production.up.railway.app/mcp
 ```
 
-Provide your `FMP_ACCESS_TOKEN` in session configuration and start using 5 meta-tools to load toolsets on demand.
+The hosted instance runs in Dynamic mode: it starts with 5 meta-tools that load toolsets on demand. Pass your FMP API key as `FMP_ACCESS_TOKEN` in the `?config=` session configuration (see [Usage](docs/USAGE.md#session-configuration)).
 
 ### Self-Hosted (One-Liner)
 
@@ -57,7 +57,7 @@ fmp-mcp --fmp-token=YOUR_FMP_API_KEY
 Choose the method that fits your workflow:
 
 - **NPM** — `npm install -g financial-modeling-prep-mcp-server`
-- **Docker** — build from source or pull a pre-built image
+- **Docker** — build the image from source (no pre-built image is published)
 - **Source** — clone and run with `npm install && npm run build`
 
 See [docs/INSTALLATION.md](docs/INSTALLATION.md) for detailed steps per method.
@@ -70,7 +70,7 @@ The server supports three operational modes controlled via CLI arguments or envi
 |------|---------------|-------------|
 | **Dynamic** | `DYNAMIC_TOOL_DISCOVERY=true` | Starts with 5 meta-tools; load toolsets at runtime |
 | **Static** | `FMP_TOOL_SETS=search,company` | Pre-loads specified toolsets on session creation |
-| **All Tools (default)** | *(default)* | Loads all 250+ tools immediately |
+| **All Tools (default)** | *(default)* | Loads all 267 tools immediately |
 
 Precedence: for mode and tool sets, CLI args > Environment variables > Defaults. A session `?config=` token overrides the server's `FMP_ACCESS_TOKEN` for that session.
 
@@ -78,17 +78,17 @@ See [docs/CONFIGURATION.md](docs/CONFIGURATION.md) for the full configuration re
 
 ## Usage
 
-Connect to the server via HTTP/SSE transport:
+Connect to the server over streamable HTTP:
 
 - **Claude.ai / Claude Desktop** — add as a remote connector (Settings > Connectors)
-- **Custom clients** — POST to `/mcp` with `mcp-client-id` header
-- **MCP registries** — Smithery.ai, Glama.ai, and others
+- **Custom clients** — POST to `/mcp`: send `initialize` first, then the `mcp-session-id` it returns on every later request
+- **MCP registries** — Glama.ai and the official MCP Registry
 
 See [docs/USAGE.md](docs/USAGE.md) for client-specific setup, session headers, and request examples.
 
 ## Available Tools
 
-24 categories covering:
+24 toolsets covering:
 
 Search · Directory & Symbol Lists · Company Information · Financial Statements · Financial Metrics & Analysis · Technical Indicators · Quotes & Price Data · Market Indexes & Performance · Market Data · News & Press Releases · SEC Filings · Insider & Institutional Trading · ETFs & Funds · Government Trading · Cryptocurrency & Forex · Earnings · Special Data Sets · Commodities · Economics · Bulk Data Tools
 
@@ -98,8 +98,8 @@ See [docs/API_REFERENCE.md](docs/API_REFERENCE.md) for the complete tool catalog
 
 This server is listed on multiple MCP registries for easy discovery:
 
-- [Smithery.ai](https://smithery.ai/server/@imbenrabi/financial-modeling-prep-mcp-server)
-- [Glama.ai](https://glama.ai/mcp/servers/@imbenrabi/financial-modeling-prep-mcp-server)
+- [MCP Registry](https://registry.modelcontextprotocol.io/servers/io.github.imbenrabi/financial-modeling-prep-mcp-server)
+- [Glama.ai](https://glama.ai/mcp/servers/imbenrabi/Financial-Modeling-Prep-MCP-Server)
 
 See [docs/REGISTRIES.md](docs/REGISTRIES.md) for registry-specific setup instructions.
 

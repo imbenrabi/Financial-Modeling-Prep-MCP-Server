@@ -57,7 +57,7 @@ Send the same `config` value on every request of the session, starting with `ini
 
 ## Fail-Fast Behavior
 
-If `FMP_TOOL_SETS` or `--fmp-tool-sets` contains an invalid tool set key, the process exits with code `1`.
+If the tool set list the server selects (`--fmp-tool-sets`, else `FMP_TOOL_SETS`) contains an invalid tool set key, the process exits with code `1`. So does a value that names no tool set at all, such as `,` or only whitespace, so a typo never silently starts the server with every tool. Empty entries next to valid ones (`search,,quotes`) are ignored.
 
 ## Examples
 

@@ -50,7 +50,7 @@ Docker Compose example:
           - DYNAMIC_TOOL_DISCOVERY=true
         restart: unless-stopped
         healthcheck:
-          test: ["CMD", "curl", "-f", "http://localhost:8080/healthz"]
+          test: ["CMD", "wget", "-q", "-O", "-", "http://127.0.0.1:8080/healthz"]
           interval: 30s
           timeout: 10s
           retries: 3

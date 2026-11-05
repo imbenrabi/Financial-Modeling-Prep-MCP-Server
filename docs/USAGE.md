@@ -2,7 +2,7 @@
 
 ## Server Endpoints
 
-Runs on `0.0.0.0:8080` (override with `PORT` env var or `--port`). Transport is HTTP/SSE (`streamable-http`).
+Runs on `0.0.0.0:8080` (override with `PORT` env var or `--port`). Transport is streamable HTTP (`streamable-http`), which can answer with server-sent events.
 
 | Endpoint | Method | Description |
 |----------|--------|-------------|
@@ -20,6 +20,8 @@ auto-{sha256(ip + "|" + userAgent).slice(0,16)}
 ```
 
 Fingerprint uses the client IP (or `x-forwarded-for`) and `User-Agent`. The `Accept` header is excluded to avoid drift across requests.
+
+The fingerprint is used for a session's `initialize` request. Every later request that carries that session's `mcp-session-id` reuses the same ID, so a client behind a proxy whose IP changes between requests keeps its session. The server remembers up to 1000 sessions this way and forgets the least recently used first; a forgotten session falls back to the IP fingerprint. If you can, send your own stable `mcp-client-id` instead of relying on the fingerprint.
 
 ## Connecting from Claude
 
@@ -108,4 +110,6 @@ When `DYNAMIC_TOOL_DISCOVERY=true`, only five meta-tools are exposed initially:
 - `describe_toolset` — Describe a toolset with its definition, active status, and tools
 - `list_tools` — List currently registered tool names
 
-Enable a toolset before calling its tools.
+Enable a toolset before calling its tools. Calling a tool that is not currently listed, such as one from a toolset you have not enabled or have disabled, returns a JSON-RPC error (`Tool ... not found`), not a tool result.
+
+Toolset state is kept per client: enabling or disabling a toolset in one client (one `mcp-client-id`) does not change the tools another client sees.

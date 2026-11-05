@@ -17,7 +17,7 @@ The manual publishing workflow handles:
 
 ### Required Tools
 
-1. **Node.js** (>=20.0.0)
+1. **Node.js** (>=25.3.0)
 2. **NPM** with publishing permissions
 3. **MCP Publisher CLI** (optional for registry publishing)
 

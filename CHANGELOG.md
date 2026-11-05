@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- `--help` said server configuration beats session configuration for every setting. It now lists the mode and tool set order (CLI, environment, defaults) and the token order (session `?config=`, then `--fmp-token`, then `FMP_ACCESS_TOKEN`), and says dynamic mode starts with 5 meta-tools, not 3
+- Docs: the tool count is 267 (was "250+"), the Docker Compose healthcheck uses `wget` because the Alpine image has no `curl`, the publishing guides ask for Node.js 25.3.0, and the registry listings are corrected. `.github/copilot-instructions.md` described a long-gone Smithery-era layout and now points to `CLAUDE.md` and `AGENTS.md`
+
 ## [2.9.0] - 2026-11-04
 
 ### Changed

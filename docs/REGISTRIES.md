@@ -1,15 +1,16 @@
 # MCP Registry Listings
 
-Published listings for this server.
-
-## Smithery.ai
-- **URL:** https://smithery.ai/server/at/imbenrabi/financial-modeling-prep-mcp-server
-- **Description:** Dockerfile-based container build (version 1) with runtime container support.
-
-## Glama.ai
-- **URL:** https://glama.ai/mcp/servers/at/imbenrabi/financial-modeling-prep-mcp-server
-- **Description:** Schema `glama.ai/mcp/schemas/server.json`, maintained by `imbenrabi` and `NitayRabi`.
+Where this server is published.
 
 ## MCP Registry
 - **URL:** https://registry.modelcontextprotocol.io/servers/io.github.imbenrabi/financial-modeling-prep-mcp-server
-- **Description:** `Financial Modeling Prep MCP Server` (v2.6.9) — npm/`npx` runtime, streamable-http transport, 250+ financial data tools; arguments `--fmp-token`, `--port`, `--dynamic-tool-discovery`, `--fmp-tool-sets`; environment variables `FMP_ACCESS_TOKEN`, `PORT`, `DYNAMIC_TOOL_DISCOVERY`, `FMP_TOOL_SETS`.
+- **Published from:** `server.json`, by the release workflow when a `v*` tag is pushed.
+- **Entry:** an npm package run with `npx` over streamable HTTP, plus the hosted instance as a remote. Arguments: `--fmp-token`, `--port`, `--dynamic-tool-discovery`, `--fmp-tool-sets`. Environment variables: `FMP_ACCESS_TOKEN`, `PORT`, `DYNAMIC_TOOL_DISCOVERY`, `FMP_TOOL_SETS`.
+- **Tools list:** the registry entry has a `remotes` URL, so registries and clients that read tools from a running server can list them. Registries that only read the npm package see no tools, because tools are registered at runtime.
+
+## Glama.ai
+- **URL:** https://glama.ai/mcp/servers/imbenrabi/Financial-Modeling-Prep-MCP-Server
+- **Configuration:** `glama.json`, maintained by `imbenrabi` and `NitayRabi`.
+
+## Smithery.ai
+- **Status:** not currently listed. The repo still has a `smithery.yaml` (a container build from the `Dockerfile`), but there is no live Smithery listing to link to.
