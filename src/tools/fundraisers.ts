@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { FundraisersClient } from "../api/fundraisers/FundraisersClient.js";
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { ToolRegistrar } from "../types/index.js";
 
 /**
  * Register all fundraisers-related tools with the MCP server
@@ -8,7 +8,7 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
  * @param accessToken The Financial Modeling Prep API access token (optional when using lazy loading)
  */
 export function registerFundraisersTools(
-  server: McpServer,
+  server: ToolRegistrar,
   accessToken?: string
 ): void {
   const fundraisersClient = new FundraisersClient(accessToken);

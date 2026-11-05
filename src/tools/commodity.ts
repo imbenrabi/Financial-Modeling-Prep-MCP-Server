@@ -1,5 +1,5 @@
 import { CommodityClient } from "../api/commodity/CommodityClient.js";
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { ToolRegistrar } from "../types/index.js";
 
 /**
  * Register all commodity-related tools with the MCP server
@@ -7,7 +7,7 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
  * @param accessToken The Financial Modeling Prep API access token (optional when using lazy loading)
  */
 export function registerCommodityTools(
-  server: McpServer,
+  server: ToolRegistrar,
   accessToken?: string
 ): void {
   const commodityClient = new CommodityClient(accessToken);

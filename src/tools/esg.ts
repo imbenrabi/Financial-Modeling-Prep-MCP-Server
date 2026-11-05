@@ -1,13 +1,13 @@
 import { z } from "zod";
 import { ESGClient } from "../api/esg/ESGClient.js";
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { ToolRegistrar } from "../types/index.js";
 
 /**
  * Register all ESG-related tools with the MCP server
  * @param server The MCP server instance
  * @param accessToken The Financial Modeling Prep API access token (optional when using lazy loading)
  */
-export function registerESGTools(server: McpServer, accessToken?: string): void {
+export function registerESGTools(server: ToolRegistrar, accessToken?: string): void {
   const esgClient = new ESGClient(accessToken);
 
   server.tool(

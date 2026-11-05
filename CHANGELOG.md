@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changed
+- Moved to MCP TypeScript SDK v2 and Zod 4, through `toolception` `^0.9.0`. `@modelcontextprotocol/sdk` is replaced by `@modelcontextprotocol/server` (and `@modelcontextprotocol/client` for tests and `verify:toolception`), and `zod` goes from `^3.25.76` to `^4.6.7`. Each client still gets its own server and its own enabled/disabled toolsets; a new smoke test runs two clients against `DYNAMIC_TOOL_DISCOVERY` to keep it that way
+- Calling a tool the client's server no longer lists, such as one from a toolset that client disabled, is answered with a JSON-RPC error ("Tool ... not found") instead of a result with `isError: true`. This comes from SDK v2
+- The `list_mcp_assets` prompt is registered with `registerPrompt` (SDK v2 removed `prompt()`, which would have dropped it silently) and now returns its text as one content block, as the MCP spec defines it, instead of a one-element array
+- The tool modules in `src/tools` take a `ToolRegistrar` instead of an `McpServer`, because SDK v2 removed `McpServer.tool()`; the tool definitions and their Zod schemas are unchanged
+- The server card's `z.record()` calls use Zod 4's two-argument form
+
+### Security
+- Cleared all `npm audit` findings (0 now, 11 on 2.8.0). Zod 4.6.7 removes the high-severity `zod` finding (GHSA-mrhx-c7xc-m3w5); the SDK v1 `body-parser`, `qs` and `ip-address` dependencies leave the tree; `follow-redirects` (high), `fastify` 5.12.8 and `fast-uri` come from a lockfile refresh; and `vitest` / `@vitest/coverage-v8` ^4.1.12 clear the `@vitest/mocker` findings
+
 ## [2.8.0] - 2026-10-14
 
 ### Security

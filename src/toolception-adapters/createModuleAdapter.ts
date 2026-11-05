@@ -1,4 +1,5 @@
 import { ToolCollector } from './ToolCollector.js';
+import type { ToolRegistrar } from '../types/index.js';
 import type { McpToolDefinition, ModuleLoader } from 'toolception';
 
 /**
@@ -18,23 +19,19 @@ interface ModuleLoaderContext {
  * Type for existing FMP tool registration functions
  *
  * These functions follow the pattern: registerXxxTools(server, accessToken?)
- * where server is typically McpServer but can be any object implementing ToolRegistrar.
+ * where server is a ToolRegistrar. At runtime it is always a ToolCollector.
  *
- * @param server - Should implement ToolRegistrar interface with a .tool() method.
- *                 At runtime, receives either McpServer or ToolCollector instance.
+ * @param server - The ToolRegistrar the function registers its tools on.
  * @param accessToken - Optional FMP API access token
  *
  * @example
  * ```typescript
- * function registerMyTools(server: McpServer, accessToken?: string): void {
+ * function registerMyTools(server: ToolRegistrar, accessToken?: string): void {
  *   server.tool("myTool", "Description", schema, handler);
  * }
  * ```
- *
- * Note: Uses `any` for server parameter due to TypeScript contravariance limitations.
- * The actual implementation must have a .tool() method compatible with ToolRegistrar.
  */
-type RegisterToolsFunction = (server: any, accessToken?: string) => void;
+type RegisterToolsFunction = (server: ToolRegistrar, accessToken?: string) => void;
 
 /**
  * Creates a toolception-compatible module loader from an existing registerXxxTools function
@@ -71,7 +68,7 @@ export function createModuleAdapter(
     try {
       // Execute the registration function with our collector
       // ToolCollector implements ToolRegistrar, providing the .tool() method
-      // that registerFn expects from McpServer
+      // that registerFn expects
       registerFn(collector, accessToken);
 
       // Return the captured tool definitions

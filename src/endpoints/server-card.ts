@@ -30,13 +30,13 @@ export const serverCardEndpoint = defineEndpoint({
     }),
     configSchema: z.object({
       type: z.string(),
-      properties: z.record(z.any()),
+      properties: z.record(z.string(), z.any()),
       required: z.array(z.string()).optional(),
     }).optional(),
     tools: z.array(z.object({
       name: z.string(),
       description: z.string(),
-      inputSchema: z.record(z.any()),
+      inputSchema: z.record(z.string(), z.any()),
     })).optional(),
     resources: z.array(z.any()).optional(),
     prompts: z.array(z.object({

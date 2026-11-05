@@ -1,6 +1,6 @@
 import { TOOL_SETS } from "../constants/toolSets.js";
 import type { ServerMode, ToolSet } from "../types/index.js";
-import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
+import type { McpServer } from "@modelcontextprotocol/server";
 
 export interface PromptContext {
   mode: ServerMode;
@@ -11,28 +11,26 @@ export interface PromptContext {
 
 export function registerListMcpAssets(server: McpServer, context: PromptContext): void {
   const contentBuilder = () => buildAssetsOverview(context);
-  const hasPrompt = (server as unknown as { prompt?: Function }).prompt;
-  if (typeof hasPrompt === 'function') {
-    try {
-      (server as unknown as { prompt: Function }).prompt(
-        "list_mcp_assets",
-        "Human-friendly overview of server capabilities: modes, prompts, tools, resources, and quick start.",
-        {},
-        async () => {
-          const text = contentBuilder();
-          return {
-            messages: [
-              {
-                role: "user",
-                content: [{ type: "text", text }]
-              }
-            ]
-          };
-        }
-      );
-    } catch (err) {
-      console.warn("Failed to register native prompt:", err);
-    }
+  try {
+    server.registerPrompt(
+      "list_mcp_assets",
+      {
+        description: "Human-friendly overview of server capabilities: modes, prompts, tools, resources, and quick start.",
+      },
+      async () => {
+        const text = contentBuilder();
+        return {
+          messages: [
+            {
+              role: "user",
+              content: { type: "text", text }
+            }
+          ]
+        };
+      }
+    );
+  } catch (err) {
+    console.warn("Failed to register native prompt:", err);
   }
 }
 

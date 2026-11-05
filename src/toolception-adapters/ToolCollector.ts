@@ -1,25 +1,15 @@
 /**
  * ToolCollector - Virtual MCP server that captures tool registrations
  *
- * This class mocks the McpServer.tool() method to intercept tool registrations
+ * This class implements the ToolRegistrar.tool() method to intercept tool registrations
  * from existing registerXxxTools() functions and convert them to toolception's
  * McpToolDefinition format.
  */
 
+import type { CallToolResult } from '@modelcontextprotocol/server';
 import type { McpToolDefinition } from 'toolception';
-
-/**
- * Interface for objects that can register tools
- * Used to provide type safety for registerXxxTools functions
- */
-interface ToolRegistrar {
-  tool(
-    name: string,
-    description: string,
-    schema: Record<string, any>,
-    handler: (params: any) => Promise<any>
-  ): void;
-}
+import type { z } from 'zod';
+import type { ToolRegistrar } from '../types/index.js';
 
 /**
  * Virtual server that captures tool registrations instead of registering them
@@ -28,18 +18,18 @@ export class ToolCollector implements ToolRegistrar {
   private tools: McpToolDefinition[] = [];
 
   /**
-   * Mock implementation of McpServer.tool() that captures registrations
+   * Implementation of ToolRegistrar.tool() that captures registrations
    *
    * @param name - Tool name
    * @param description - Human-readable description
    * @param schema - Zod schema object with parameter definitions
    * @param handler - Async function that handles tool execution
    */
-  tool(
+  tool<Shape extends z.ZodRawShape>(
     name: string,
     description: string,
-    schema: Record<string, any>,
-    handler: (params: any) => Promise<any>
+    schema: Shape,
+    handler: (params: z.infer<z.ZodObject<Shape>>) => Promise<CallToolResult>
   ): void {
     this.tools.push({
       name,

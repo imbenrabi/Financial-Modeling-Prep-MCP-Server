@@ -23,8 +23,7 @@ import { existsSync, mkdtempSync, readdirSync, readFileSync } from 'node:fs';
 import { createServer } from 'node:net';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
-import { Client } from '@modelcontextprotocol/sdk/client/index.js';
-import { StreamableHTTPClientTransport } from '@modelcontextprotocol/sdk/client/streamableHttp.js';
+import { Client, StreamableHTTPClientTransport } from '@modelcontextprotocol/client';
 
 /** Outcome of one verification check. */
 interface CheckResult {
@@ -34,7 +33,7 @@ interface CheckResult {
 }
 
 const TOOLCEPTION_REPO = 'https://github.com/code-rabi/toolception.git';
-const SHARED_DEPS = ['@modelcontextprotocol/sdk', 'fastify', 'zod'];
+const SHARED_DEPS = ['@modelcontextprotocol/server', 'fastify', 'zod'];
 const TOKEN_MISSING = 'FMP_ACCESS_TOKEN is required';
 const STARTUP_POLLS = 60;
 const STARTUP_POLL_MS = 250;
