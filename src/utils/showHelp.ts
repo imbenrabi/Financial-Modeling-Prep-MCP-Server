@@ -39,7 +39,7 @@ Options:
 Server Modes:
   Dynamic Mode     Starts with 5 meta-tools, load toolsets on-demand
   Static Mode      Pre-loads specific toolsets (use --fmp-tool-sets)
-  All Tools Mode   Loads all 267 tools (default)
+  Legacy Mode      Loads all 267 tools (default)
 
 Available Tool Sets:
 `);
@@ -52,7 +52,7 @@ Available Tool Sets:
 
   console.log(`
 Examples:
-  npm start                                    # All tools mode (default)
+  npm start                                    # Legacy mode (all tools)
   npm start -- --port 4000                    # Custom port
   npm start -- --dynamic-tool-discovery       # Dynamic mode
   npm start -- --fmp-tool-sets search,company # Static mode with specific tools
