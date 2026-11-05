@@ -12,5 +12,18 @@ Where this server is published.
 - **URL:** https://glama.ai/mcp/servers/imbenrabi/Financial-Modeling-Prep-MCP-Server
 - **Configuration:** `glama.json`, maintained by `imbenrabi` and `NitayRabi`.
 
+## LightNow
+- **URL:** https://lightnow.ai/servers/io.github.imbenrabi/financial-modeling-prep-mcp-server
+- **README badge:** "Listed on LightNow". It does not show tool counts, because the available tools depend on the server mode.
+
+## mcptry
+- **URL:** https://mcptry.com/servers/io.github.imbenrabi/financial-modeling-prep-mcp-server
+- **README badge:** `https://mcptry.com/badge/io.github.imbenrabi/financial-modeling-prep-mcp-server`
+
+## mcprush
+- **URL:** https://mcprush.com/to/financial-modeling-prep-mcp?ref=badge
+- **README badge:** `https://mcprush.com/badge/financial-modeling-prep-mcp/score.svg`
+- **Tools list:** reads tools from the `remotes` URL in `server.json`. See the MCP Registry entry above.
+
 ## Smithery.ai
 - **Status:** not currently listed. The repo still has a `smithery.yaml` (a container build from the `Dockerfile`), but there is no live Smithery listing to link to.
