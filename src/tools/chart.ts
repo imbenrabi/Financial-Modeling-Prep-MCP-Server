@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { ChartClient } from "../api/chart/ChartClient.js";
-import type { ToolRegistrar } from "../toolception-adapters/ToolCollector.js";
+import type { ToolRegistrar } from "../types/index.js";
 
 /**
  * Register all chart-related tools with the MCP server

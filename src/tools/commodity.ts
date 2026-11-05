@@ -1,5 +1,5 @@
 import { CommodityClient } from "../api/commodity/CommodityClient.js";
-import type { ToolRegistrar } from "../toolception-adapters/ToolCollector.js";
+import type { ToolRegistrar } from "../types/index.js";
 
 /**
  * Register all commodity-related tools with the MCP server
