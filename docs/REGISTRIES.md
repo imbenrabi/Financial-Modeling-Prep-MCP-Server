@@ -1,6 +1,6 @@
 # MCP Registry Listings
 
-Where this server is published.
+Where this server is published or listed.
 
 ## MCP Registry
 - **URL:** https://registry.modelcontextprotocol.io/servers/io.github.imbenrabi/financial-modeling-prep-mcp-server
@@ -14,15 +14,13 @@ Where this server is published.
 
 ## LightNow
 - **URL:** https://lightnow.ai/servers/io.github.imbenrabi/financial-modeling-prep-mcp-server
-- **README badge:** "Listed on LightNow". It does not show tool counts, because the available tools depend on the server mode.
+- **Note:** the README badge says "Listed" and shows no tool count, because the available tools depend on the server mode.
 
 ## mcptry
 - **URL:** https://mcptry.com/servers/io.github.imbenrabi/financial-modeling-prep-mcp-server
-- **README badge:** `https://mcptry.com/badge/io.github.imbenrabi/financial-modeling-prep-mcp-server`
 
 ## mcprush
 - **URL:** https://mcprush.com/to/financial-modeling-prep-mcp?ref=badge
-- **README badge:** `https://mcprush.com/badge/financial-modeling-prep-mcp/score.svg`
 - **Tools list:** reads tools from the `remotes` URL in `server.json`. See the MCP Registry entry above.
 
 ## Smithery.ai

@@ -107,7 +107,7 @@ This server is listed on multiple MCP registries for easy discovery:
 - [mcptry](https://mcptry.com/servers/io.github.imbenrabi/financial-modeling-prep-mcp-server)
 - [mcprush](https://mcprush.com/to/financial-modeling-prep-mcp?ref=badge)
 
-See [docs/REGISTRIES.md](docs/REGISTRIES.md) for registry-specific setup instructions.
+See [docs/REGISTRIES.md](docs/REGISTRIES.md) for the details of each listing.
 
 ## Contributing
 
