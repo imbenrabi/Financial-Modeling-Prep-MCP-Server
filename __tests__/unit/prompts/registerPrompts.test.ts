@@ -51,6 +51,13 @@ describe('registerPrompts', () => {
     expect(await overviewText(client)).toContain('# Server Capabilities');
   });
 
+  it('says the session token takes precedence over the server token, as the adapters do', async () => {
+    const client = await connect(baseCtx);
+    const text = await overviewText(client);
+    expect(text).toContain("A token in the per-session config takes precedence over the server's.");
+    expect(text).not.toContain('Server-level values take precedence');
+  });
+
   it('renders static mode content with the configured toolsets', async () => {
     const client = await connect({ ...baseCtx, mode: 'STATIC_TOOL_SETS', staticToolSets: ['search'] });
     const text = await overviewText(client);

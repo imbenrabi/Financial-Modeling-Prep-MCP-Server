@@ -2,7 +2,10 @@ import { describe, it, expect, vi, afterEach } from 'vitest';
 import { showHelp } from '../../../src/utils/showHelp.js';
 import { getAvailableToolSets } from '../../../src/constants/index.js';
 
-/** Runs `showHelp` with the real tool set catalog and returns everything it printed. */
+/**
+ * Runs `showHelp` with the real tool set catalog.
+ * @returns Everything `showHelp` printed, one `console.log` call per line.
+ */
 function captureHelp(): string {
   const log = vi.spyOn(console, 'log').mockImplementation(() => {});
   showHelp(getAvailableToolSets());
