@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { AnalystClient } from "../api/analyst/AnalystClient.js";
-import type { ToolRegistrar } from "../toolception-adapters/ToolCollector.js";
+import type { ToolRegistrar } from "../types/index.js";
 
 /**
  * Register all analyst-related tools with the MCP server

@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { Form13FClient } from "../api/form-13f/Form13FClient.js";
-import type { ToolRegistrar } from "../toolception-adapters/ToolCollector.js";
+import type { ToolRegistrar } from "../types/index.js";
 
 /**
  * Register all Form 13F-related tools with the MCP server

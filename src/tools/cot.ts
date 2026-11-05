@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { COTClient } from "../api/cot/COTClient.js";
-import type { ToolRegistrar } from "../toolception-adapters/ToolCollector.js";
+import type { ToolRegistrar } from "../types/index.js";
 
 /**
  * Register all COT-related tools with the MCP server

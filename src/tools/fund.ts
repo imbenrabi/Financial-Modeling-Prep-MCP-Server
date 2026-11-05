@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { FundClient } from "../api/fund/FundClient.js";
-import type { ToolRegistrar } from "../toolception-adapters/ToolCollector.js";
+import type { ToolRegistrar } from "../types/index.js";
 
 /**
  * Register all fund-related tools with the MCP server

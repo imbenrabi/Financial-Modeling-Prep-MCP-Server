@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { InsiderTradesClient } from "../api/insider-trades/InsiderTradesClient.js";
-import type { ToolRegistrar } from "../toolception-adapters/ToolCollector.js";
+import type { ToolRegistrar } from "../types/index.js";
 
 /**
  * Register all insider trades-related tools with the MCP server

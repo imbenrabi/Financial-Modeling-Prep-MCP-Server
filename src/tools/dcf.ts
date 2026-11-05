@@ -1,6 +1,6 @@
 import { z } from "zod";
 import { DCFClient } from "../api/dcf/DCFClient.js";
-import type { ToolRegistrar } from "../toolception-adapters/ToolCollector.js";
+import type { ToolRegistrar } from "../types/index.js";
 
 /**
  * Register all DCF-related tools with the MCP server
