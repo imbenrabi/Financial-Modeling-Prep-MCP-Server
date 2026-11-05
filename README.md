@@ -3,6 +3,8 @@
 [![npm version](https://img.shields.io/npm/v/financial-modeling-prep-mcp-server.svg)](https://www.npmjs.com/package/financial-modeling-prep-mcp-server)
 [![license](https://img.shields.io/npm/l/financial-modeling-prep-mcp-server.svg)](LICENSE)
 [![Listed on LightNow](https://lightnow.ai/badge/io.github.imbenrabi/financial-modeling-prep-mcp-server?variant=listed)](https://lightnow.ai/servers/io.github.imbenrabi/financial-modeling-prep-mcp-server)
+[![mcptry](https://mcptry.com/badge/io.github.imbenrabi/financial-modeling-prep-mcp-server)](https://mcptry.com/servers/io.github.imbenrabi/financial-modeling-prep-mcp-server)
+[![Financial Modeling Prep MCP on mcprush](https://mcprush.com/badge/financial-modeling-prep-mcp/score.svg)](https://mcprush.com/to/financial-modeling-prep-mcp?ref=badge)
 
 A Model Context Protocol (MCP) server for the [Financial Modeling Prep](https://financialmodelingprep.com/) API, exposing 267 financial data tools to AI assistants.
 
@@ -83,7 +85,7 @@ Connect to the server over streamable HTTP:
 
 - **Claude.ai / Claude Desktop** — add as a remote connector (Settings > Connectors)
 - **Custom clients** — POST to `/mcp`: send `initialize` first, then the `mcp-session-id` it returns on every later request
-- **MCP registries** — Glama.ai and the official MCP Registry
+- **MCP registries** — see [Registries](#registries) for where this server is listed
 
 See [docs/USAGE.md](docs/USAGE.md) for client-specific setup, session headers, and request examples.
 
@@ -101,8 +103,11 @@ This server is listed on multiple MCP registries for easy discovery:
 
 - [MCP Registry](https://registry.modelcontextprotocol.io/servers/io.github.imbenrabi/financial-modeling-prep-mcp-server)
 - [Glama.ai](https://glama.ai/mcp/servers/imbenrabi/Financial-Modeling-Prep-MCP-Server)
+- [LightNow](https://lightnow.ai/servers/io.github.imbenrabi/financial-modeling-prep-mcp-server)
+- [mcptry](https://mcptry.com/servers/io.github.imbenrabi/financial-modeling-prep-mcp-server)
+- [mcprush](https://mcprush.com/to/financial-modeling-prep-mcp?ref=badge)
 
-See [docs/REGISTRIES.md](docs/REGISTRIES.md) for registry-specific setup instructions.
+See [docs/REGISTRIES.md](docs/REGISTRIES.md) for the details of each listing.
 
 ## Contributing
 
