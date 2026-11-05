@@ -37,9 +37,9 @@ Options:
   --help, -h                        Show this help message
 
 Server Modes:
-  Dynamic Mode     Starts with 3 meta-tools, load toolsets on-demand
+  Dynamic Mode     Starts with 5 meta-tools, load toolsets on-demand
   Static Mode      Pre-loads specific toolsets (use --fmp-tool-sets)
-  Legacy Mode      Loads all 267 tools (default)
+  All Tools Mode   Loads all 267 tools (default)
 
 Available Tool Sets:
 `);
@@ -52,7 +52,7 @@ Available Tool Sets:
 
   console.log(`
 Examples:
-  npm start                                    # Legacy mode (all tools)
+  npm start                                    # All tools mode (default)
   npm start -- --port 4000                    # Custom port
   npm start -- --dynamic-tool-discovery       # Dynamic mode
   npm start -- --fmp-tool-sets search,company # Static mode with specific tools
@@ -65,10 +65,15 @@ Environment Variables:
   FMP_TOOL_SETS           Comma-separated list of toolsets for static mode
 
 Configuration Precedence:
+  Server mode and tool sets are fixed at startup:
   1. CLI Arguments (highest priority)
   2. Environment Variables
-  3. Session Configuration (lowest priority)
+  3. Defaults
+  Session configuration cannot change them.
 
-Note: Server-level configurations override ALL session-level configurations.
+  FMP access token:
+  1. Session configuration (?config= on the /mcp URL), for that session only
+  2. CLI argument (--fmp-token)
+  3. Environment variable (FMP_ACCESS_TOKEN)
 `);
 }

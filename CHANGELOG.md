@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Fixed
+- `--help` said server configuration beats session configuration for every setting. It now lists the mode and tool set order (CLI, environment, defaults) and the token order (session `?config=`, then `--fmp-token`, then `FMP_ACCESS_TOKEN`), and says dynamic mode starts with 5 meta-tools, not 3
+- Docs: the tool count is 267 (was "250+"), the Docker Compose healthcheck uses `wget` because the Alpine image has no `curl`, the publishing guides ask for Node.js 25.3.0, and the registry listings are corrected. `.github/copilot-instructions.md` described a long-gone Smithery-era layout and now points to `CLAUDE.md` and `AGENTS.md`
+
 ### Changed
 - Moved to MCP TypeScript SDK v2 and Zod 4, through `toolception` `^0.9.0`. `@modelcontextprotocol/sdk` is replaced by `@modelcontextprotocol/server` (and `@modelcontextprotocol/client` for tests and `verify:toolception`), and `zod` goes from `^3.25.76` to `^4.6.7`. Each client still gets its own server and its own enabled/disabled toolsets; a new smoke test runs two clients against `DYNAMIC_TOOL_DISCOVERY` to keep it that way
 - Calling a tool the client's server no longer lists, such as one from a toolset that client disabled, is answered with a JSON-RPC error ("Tool ... not found") instead of a result with `isError: true`. This comes from SDK v2

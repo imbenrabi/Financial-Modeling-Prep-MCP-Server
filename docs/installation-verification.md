@@ -263,7 +263,7 @@ INSTALLATION_TIMEOUT=180000 npm run verify:installation
 1. **Build artifacts missing**: Run `npm run build` first
 2. **Port conflicts**: Tests use different ports (8085, 8086, 8087, 8088) to avoid conflicts
 3. **Permission issues**: Ensure proper file permissions for the dist/ directory
-4. **Node.js version**: Ensure Node.js >= 20.0.0 is installed
+4. **Node.js version**: Ensure Node.js >= 25.3.0 is installed
 
 ## Maintenance
 

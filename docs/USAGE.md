@@ -21,6 +21,8 @@ auto-{sha256(ip + "|" + userAgent).slice(0,16)}
 
 Fingerprint uses the client IP (or `x-forwarded-for`) and `User-Agent`. The `Accept` header is excluded to avoid drift across requests.
 
+The fingerprint is used for a session's `initialize` request. Every later request that carries that session's `mcp-session-id` reuses the same ID, so a client behind a proxy whose IP changes between requests keeps its session. If you can, send your own stable `mcp-client-id` instead of relying on the fingerprint.
+
 ## Connecting from Claude
 
 Add the server as a **remote connector** in Claude.ai or Claude Desktop:
@@ -108,4 +110,6 @@ When `DYNAMIC_TOOL_DISCOVERY=true`, only five meta-tools are exposed initially:
 - `describe_toolset` — Describe a toolset with its definition, active status, and tools
 - `list_tools` — List currently registered tool names
 
-Enable a toolset before calling its tools.
+Enable a toolset before calling its tools. Calling a tool that is not currently listed, such as one from a toolset you have not enabled or have disabled, returns a JSON-RPC error (`Tool ... not found`), not a tool result.
+
+Toolset state is kept per client: enabling or disabling a toolset in one client (one `mcp-client-id`) does not change the tools another client sees.

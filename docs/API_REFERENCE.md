@@ -1,6 +1,6 @@
 # FMP MCP Server — API Reference
 
-> For the complete tool catalog with all 250+ tools and return types, see [FMP_API_Tools_Documentation.md](../FMP_API_Tools_Documentation.md).
+> For the complete tool catalog with all 267 tools and return types, see [FMP_API_Tools_Documentation.md](../FMP_API_Tools_Documentation.md).
 
 | Category | Tool Set Key | Example Tools |
 |----------|-------------|---------------|
@@ -31,4 +31,4 @@
 | Indexes | `indexes` | `getAllIndexQuotes`, `getNasdaqConstituents`, `getDowJonesConstituents`, `getHistoricalIndexFullChart` |
 | ESG | `esg` | `getESGDisclosures`, `getESGRatings`, `getESGBenchmarks` |
 
-> **Dynamic Mode:** In `DYNAMIC_TOOL_DISCOVERY` mode, only 5 meta-tools are available initially. Additional tool sets are loaded on demand based on user queries.
+> **Dynamic Mode:** In `DYNAMIC_TOOL_DISCOVERY` mode, only 5 meta-tools are available initially. Additional tool sets are loaded on demand when the client enables them with `enable_toolset`.
